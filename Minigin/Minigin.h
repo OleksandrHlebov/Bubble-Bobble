@@ -15,5 +15,9 @@ namespace dae
 		Minigin(Minigin&& other) = delete;
 		Minigin& operator=(const Minigin& other) = delete;
 		Minigin& operator=(Minigin&& other) = delete;
+
+	private:
+		inline static const int		MS_PER_FRAME		{ 16 };
+		inline static const float	FIXED_UPDATE_TIME	{ 1 / 30.f };
 	};
 }
