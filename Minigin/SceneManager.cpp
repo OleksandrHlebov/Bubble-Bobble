@@ -17,12 +17,18 @@ void dae::SceneManager::FixedUpdate(float deltaTime)
 	}
 }
 
-void dae::SceneManager::Render()
+void dae::SceneManager::Render() const
 {
 	for (const auto& scene : m_scenes)
 	{
 		scene->Render();
 	}
+}
+
+void dae::SceneManager::RemovePendingDelete()
+{
+	for (const auto& scene : m_scenes)
+		scene->RemovePendingDelete();
 }
 
 dae::Scene& dae::SceneManager::CreateScene(const std::string& name)
