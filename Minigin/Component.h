@@ -11,9 +11,9 @@ public:
 	Component& operator=(const Component&) = delete;
 	Component& operator=(Component&&) noexcept = delete;
 	
-	virtual void Update(float deltaTime) = 0;
-	virtual void FixedUpdate(float deltaTime) = 0;
-	virtual void Render(float x, float y) const = 0;
+	virtual void Update(float deltaTime);
+	virtual void FixedUpdate(float deltaTime);
+	virtual void Render(float x, float y) const;
 
 	void Delete();
 	bool PendingDelete() const;

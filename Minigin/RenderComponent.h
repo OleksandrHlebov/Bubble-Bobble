@@ -17,15 +17,12 @@ namespace dae
 		RenderComponent& operator=(const RenderComponent&) = delete;
 		RenderComponent& operator=(RenderComponent&&) noexcept = delete;
 
-		void Update(float deltaTime) override;
-
-		void FixedUpdate(float deltaTime) override;
-
 		void Render(float x, float y) const override;
 
 		void SetTexture(const std::string& filename);
+		void SetTexture(std::shared_ptr<Texture2D> textureSPtr);
 
 	private:
-		std::shared_ptr<dae::Texture2D> m_TextureSPtr;
+		std::shared_ptr<dae::Texture2D> m_TextureSPtr{};
 	};
 }

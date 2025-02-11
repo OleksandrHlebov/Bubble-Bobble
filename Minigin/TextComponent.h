@@ -1,7 +1,8 @@
 #pragma once
-#include "Component.h"
 #include <string>
 #include <memory>
+#include <SDL_pixels.h>
+#include "RenderComponent.h"
 
 namespace dae
 {
@@ -30,11 +31,9 @@ namespace dae
 
 		void Render(float x, float y) const override;
 
-		void FixedUpdate(float deltaTime) override;
-
 	private:
-		std::shared_ptr<Texture2D>  m_TextureSPtr;
-		std::shared_ptr<Font>		m_FontSPtr;
+		std::shared_ptr<RenderComponent>	m_RenderComponentSPtr;
+		std::shared_ptr<Font>				m_FontSPtr;
 
 		std::string	m_Text;
 		SDL_Color	m_Color{ 255, 255, 255, 255 };

@@ -5,14 +5,6 @@
 
 using namespace dae;
 
-void RenderComponent::Update(float)
-{
-}
-
-void RenderComponent::FixedUpdate(float)
-{
-}
-
 void RenderComponent::Render(float x, float y) const
 {
 	Renderer::GetInstance().RenderTexture(*m_TextureSPtr, x, y);
@@ -21,4 +13,9 @@ void RenderComponent::Render(float x, float y) const
 void RenderComponent::SetTexture(const std::string& filename)
 {
 	m_TextureSPtr = ResourceManager::GetInstance().LoadTexture(filename);
+}
+
+void RenderComponent::SetTexture(std::shared_ptr<Texture2D> textureSPtr)
+{
+	m_TextureSPtr = textureSPtr;
 }
