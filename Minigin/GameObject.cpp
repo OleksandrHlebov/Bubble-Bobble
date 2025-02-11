@@ -9,6 +9,7 @@ dae::GameObject::~GameObject() = default;
 void dae::GameObject::Update(float deltaTime)
 {
 	for (auto& comp : m_Components) comp->Update(deltaTime);
+	RemovePendingDelete();
 }
 
 void dae::GameObject::FixedUpdate(float deltaTime)

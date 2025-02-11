@@ -34,12 +34,6 @@ void dae::Scene::Update(float deltaTime)
 	}
 }
 
-void Scene::RemovePendingDelete()
-{
-	for (auto& object : m_objects)
-		object->RemovePendingDelete();
-}
-
 void Scene::FixedUpdate(float deltaTime)
 {
 	for (auto& object : m_objects)

@@ -25,12 +25,6 @@ void dae::SceneManager::Render() const
 	}
 }
 
-void dae::SceneManager::RemovePendingDelete()
-{
-	for (const auto& scene : m_scenes)
-		scene->RemovePendingDelete();
-}
-
 dae::Scene& dae::SceneManager::CreateScene(const std::string& name)
 {
 	const auto& scene = std::shared_ptr<Scene>(new Scene(name));

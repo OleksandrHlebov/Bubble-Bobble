@@ -22,10 +22,9 @@ namespace dae
 		void Update(float deltaTime);
 		void FixedUpdate(float deltaTime);
 		void Render() const;
-		void RemovePendingDelete();
 
 		void SetPosition(float x, float y);
-		
+
 		bool AddComponent(std::shared_ptr<Component> compUPtr);
 
 		template<typename ComponentType>
@@ -55,6 +54,8 @@ namespace dae
 		}
 
 	private:
+		void RemovePendingDelete();
+
 		std::shared_ptr<Transform> m_TransformSPtr{ std::make_shared<Transform>() };
 		std::unordered_set<std::shared_ptr<Component>> m_Components;
 	};
