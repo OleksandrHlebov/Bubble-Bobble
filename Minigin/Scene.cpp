@@ -1,5 +1,6 @@
 #include "Scene.h"
 #include "GameObject.h"
+#include "Render2DComponent.h"
 
 #include <algorithm>
 

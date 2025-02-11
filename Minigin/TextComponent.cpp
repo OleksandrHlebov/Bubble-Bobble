@@ -8,7 +8,7 @@
 using namespace dae;
 
 TextComponent::TextComponent(std::shared_ptr<Font> font) :
-	m_RenderComponentSPtr{ std::make_shared<RenderComponent>() },
+	m_RenderComponentSPtr{ std::make_shared<Render2DComponent>() },
 	m_FontSPtr{ font }
 {
 	SetText(" ");

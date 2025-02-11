@@ -2,7 +2,7 @@
 #include <string>
 #include <memory>
 #include <SDL_pixels.h>
-#include "RenderComponent.h"
+#include "Render2DComponent.h"
 
 namespace dae
 {
@@ -32,7 +32,7 @@ namespace dae
 		void Render(float x, float y) const override;
 
 	private:
-		std::shared_ptr<RenderComponent>	m_RenderComponentSPtr;
+		std::shared_ptr<Render2DComponent>	m_RenderComponentSPtr;
 		std::shared_ptr<Font>				m_FontSPtr;
 
 		std::string	m_Text;
