@@ -8,12 +8,11 @@ namespace dae
 {
 	class Texture2D;
 
-	// todo: this should become final.
 	class GameObject final
 	{
 	public:
 		GameObject() = default;
-		virtual ~GameObject();
+		~GameObject() = default;
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
 		GameObject& operator=(const GameObject& other) = delete;
@@ -25,7 +24,12 @@ namespace dae
 
 		void SetPosition(float x, float y);
 
-		bool AddComponent(std::unique_ptr<Component> compUPtr);
+		template<typename ComponentType, typename... Args>
+		ComponentType* AddComponent(Args&&... args)
+		{
+			auto resultPair = m_Components.insert(std::make_unique<ComponentType>(std::forward<Args>(args)...));
+			return static_cast<ComponentType*>((*resultPair.first).get());
+		}
 
 		template<typename ComponentType>
 		bool DeleteComponent()

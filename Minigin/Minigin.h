@@ -17,7 +17,7 @@ namespace dae
 		Minigin& operator=(Minigin&& other) = delete;
 
 	private:
-		inline static const int		TARGET_FRAMERATE		{ 540 };
+		inline static const int		TARGET_FRAMERATE		{ 144 };
 		inline static const float	FIXED_UPDATE_TIME		{ 1 / 30.f };
 		inline static const float	RESOURCES_UNLOAD_TIME	{ 60.f };
 	};

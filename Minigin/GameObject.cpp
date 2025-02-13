@@ -4,8 +4,6 @@
 #include "ResourceManager.h"
 #include "Renderer.h"
 
-dae::GameObject::~GameObject() = default;
-
 void dae::GameObject::Update(float deltaTime)
 {
 	for (auto& comp : m_Components) comp->Update(deltaTime);
@@ -31,10 +29,4 @@ void dae::GameObject::RemovePendingDelete()
 void dae::GameObject::SetPosition(float x, float y)
 {
 	m_TransformSPtr->SetPosition(x, y, 0.0f);
-}
-
-bool dae::GameObject::AddComponent(std::unique_ptr<Component> compUPtr)
-{
-	auto resultPair = m_Components.insert(std::move(compUPtr));
-	return resultPair.second;
 }
