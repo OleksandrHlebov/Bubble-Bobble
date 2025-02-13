@@ -20,9 +20,9 @@ namespace dae
 		void Render(float x, float y) const override;
 
 		void SetTexture(const std::string& filename);
-		void SetTexture(std::shared_ptr<Texture2D> textureSPtr);
+		void SetTexture(std::shared_ptr<Texture2D> texture);
 
 	private:
-		std::shared_ptr<dae::Texture2D> m_TextureSPtr{};
+		std::shared_ptr<Texture2D> m_TextureSPtr{};
 	};
 }

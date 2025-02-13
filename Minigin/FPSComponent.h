@@ -20,7 +20,7 @@ namespace dae
 		void Render(float x, float y) const override;
 
 	private:
-		std::shared_ptr<TextComponent> m_TextComponentSPtr;
+		TextComponent m_TextComponent;
 
 		float	m_Timer{};
 		int		m_FrameCount{};

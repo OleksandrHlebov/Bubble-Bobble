@@ -1,23 +1,28 @@
 #pragma once
+#include <string>
+#include <typeinfo>
 
-class Component
+namespace dae
 {
-public:
-	Component() = default;
-	virtual ~Component() = 0;
+	class Component
+	{
+	public:
+		Component() = default;
+		virtual ~Component() = 0;
 
-	Component(const Component&) = delete;
-	Component(Component&&) noexcept = delete;
-	Component& operator=(const Component&) = delete;
-	Component& operator=(Component&&) noexcept = delete;
-	
-	virtual void Update(float deltaTime);
-	virtual void FixedUpdate(float deltaTime);
-	virtual void Render(float x, float y) const;
+		Component(const Component&) = delete;
+		Component(Component&&) noexcept = delete;
+		Component& operator=(const Component&) = delete;
+		Component& operator=(Component&&) noexcept = delete;
 
-	void Delete();
-	bool PendingDelete() const;
+		virtual void Update(float deltaTime);
+		virtual void FixedUpdate(float deltaTime);
+		virtual void Render(float x, float y) const;
 
-private:
-	bool m_PendingDelete{ false };
-};
+		void Delete();
+		bool PendingDelete() const;
+
+	private:	
+		bool m_PendingDelete{ false };
+	};
+}

@@ -33,8 +33,8 @@ void dae::GameObject::SetPosition(float x, float y)
 	m_TransformSPtr->SetPosition(x, y, 0.0f);
 }
 
-bool dae::GameObject::AddComponent(std::shared_ptr<Component> compUPtr)
+bool dae::GameObject::AddComponent(std::unique_ptr<Component> compUPtr)
 {
-	auto resultPair = m_Components.insert(compUPtr);
+	auto resultPair = m_Components.insert(std::move(compUPtr));
 	return resultPair.second;
 }

@@ -5,7 +5,7 @@
 using namespace dae;
 
 FPSComponent::FPSComponent(std::shared_ptr<Font> font) :
-	m_TextComponentSPtr{ std::make_shared<TextComponent>(font) }
+	m_TextComponent{ font }
 {}
 
 void FPSComponent::Update(float deltaTime)
@@ -22,13 +22,13 @@ void FPSComponent::Update(float deltaTime)
 		buffer << "FPS: ";
 		buffer << std::fixed << std::setprecision(1) << fps;
 
-		m_TextComponentSPtr->SetText(buffer.str());
-		m_TextComponentSPtr->Update(deltaTime);
+		m_TextComponent.SetText(buffer.str());
+		m_TextComponent.Update(deltaTime);
 	}
 }
 
 void FPSComponent::Render(float x, float y) const
 {
-	m_TextComponentSPtr->Render(x, y);
+	m_TextComponent.Render(x, y);
 }
 

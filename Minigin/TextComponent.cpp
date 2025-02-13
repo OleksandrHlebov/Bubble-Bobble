@@ -8,7 +8,7 @@
 using namespace dae;
 
 TextComponent::TextComponent(std::shared_ptr<Font> font) :
-	m_RenderComponentSPtr{ std::make_shared<Render2DComponent>() },
+	m_RenderComponent{ },
 	m_FontSPtr{ font }
 {
 	SetText(" ");
@@ -52,12 +52,22 @@ void TextComponent::Update(float)
 			throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
 		}
 		SDL_FreeSurface(surf);
-		m_RenderComponentSPtr->SetTexture(std::make_shared<Texture2D>(texture));
+		m_RenderComponent.SetTexture(std::make_shared<Texture2D>(texture));
 		m_NeedsUpdate = false;
 	}
 }
 
 void TextComponent::Render(float x, float y) const
 {
-	m_RenderComponentSPtr->Render(x, y);
+	m_RenderComponent.Render(x, y);
+}
+
+void TextComponent::SetFont(std::shared_ptr<Font> font)
+{
+	m_FontSPtr = font;
+}
+
+std::shared_ptr<dae::Font> TextComponent::GetFont()
+{
+	return m_FontSPtr;
 }

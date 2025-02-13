@@ -27,13 +27,19 @@ namespace dae
 		void SetText(const std::string& text);
 		std::string GetText() const;
 
+		void SetFont(std::shared_ptr<Font> font);
+		std::shared_ptr<Font> GetFont();
+
 		void Update(float deltaTime) override;
 
 		void Render(float x, float y) const override;
 
 	private:
-		std::shared_ptr<Render2DComponent>	m_RenderComponentSPtr;
-		std::shared_ptr<Font>				m_FontSPtr;
+		// font can be shared between multiple objects and it's not supposed to be deleted while in use
+		// hence the use of shared_ptr
+		std::shared_ptr<Font> m_FontSPtr;
+
+		Render2DComponent m_RenderComponent;
 
 		std::string	m_Text;
 		SDL_Color	m_Color{ 255, 255, 255, 255 };

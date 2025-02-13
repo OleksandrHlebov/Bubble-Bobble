@@ -1,5 +1,4 @@
 #include "Render2DComponent.h"
-#include "Texture2D.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
 
@@ -15,7 +14,7 @@ void Render2DComponent::SetTexture(const std::string& filename)
 	m_TextureSPtr = ResourceManager::GetInstance().LoadTexture(filename);
 }
 
-void Render2DComponent::SetTexture(std::shared_ptr<Texture2D> textureSPtr)
+void Render2DComponent::SetTexture(std::shared_ptr<Texture2D> texture)
 {
-	m_TextureSPtr = textureSPtr;
+	m_TextureSPtr = texture;
 }

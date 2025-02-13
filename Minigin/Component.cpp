@@ -1,4 +1,7 @@
 #include "Component.h"
+#include <typeinfo>
+
+using namespace dae;
 
 Component::~Component() {}
 

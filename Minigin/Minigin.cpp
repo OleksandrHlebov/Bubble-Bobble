@@ -1,4 +1,5 @@
 #include <stdexcept>
+#include <cmath>
 #define WIN32_LEAN_AND_MEAN 
 #include <windows.h>
 #include <SDL.h>
@@ -10,6 +11,8 @@
 #include "Renderer.h"
 #include "ResourceManager.h"
 #include <thread>
+#include <cinttypes>
+#include <iostream>
 
 SDL_Window* g_window{};
 
@@ -83,16 +86,27 @@ void dae::Minigin::Run(const std::function<void()>& load)
 	auto& renderer = Renderer::GetInstance();
 	auto& sceneManager = SceneManager::GetInstance();
 	auto& input = InputManager::GetInstance();
+	auto& resourceManager = ResourceManager::GetInstance();
+
+	const float frametime{ 1.f / (TARGET_FRAMERATE) };
 
 	bool doContinue = true;
-	auto lastTime = std::chrono::high_resolution_clock::now();
+	auto lastTime = std::chrono::steady_clock::now();
 	float lag{};
+	float unloadResorcesTimer{};
 	while (doContinue)
 	{
-		const auto currentTime = std::chrono::high_resolution_clock::now();
+		const auto currentTime = std::chrono::steady_clock::now();
 		const float deltaTime = std::chrono::duration<float>(currentTime - lastTime).count();
+
+		// much more accurate than using std::this_thread::sleep_for()
+		// provides consistent framerate cap
+		if (deltaTime < frametime)
+			continue;
+
 		lastTime = currentTime;
 		lag += deltaTime;
+		unloadResorcesTimer += deltaTime;
 
 		doContinue = input.ProcessInput();
 		while (lag >= FIXED_UPDATE_TIME)
@@ -102,9 +116,11 @@ void dae::Minigin::Run(const std::function<void()>& load)
 		}
 		sceneManager.Update(deltaTime);
 		renderer.Render();
-
-		const auto sleepTime = currentTime + std::chrono::milliseconds(MS_PER_FRAME) - std::chrono::high_resolution_clock::now();
-
-		std::this_thread::sleep_for(sleepTime);
+		
+		if (unloadResorcesTimer >= RESOURCES_UNLOAD_TIME)
+		{
+			resourceManager.UnloadUnusedResources();
+			unloadResorcesTimer = 0.f;
+		}
 	}
 }

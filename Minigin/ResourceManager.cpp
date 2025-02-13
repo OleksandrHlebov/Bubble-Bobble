@@ -1,4 +1,5 @@
 #include <stdexcept>
+#include <iostream>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include "ResourceManager.h"
@@ -54,4 +55,5 @@ void dae::ResourceManager::UnloadUnusedResources()
 		else
 			++it;
 	}
+	std::cout << "unloaded unused resources\n";
 }
