@@ -9,7 +9,8 @@ unsigned int Scene::m_idCounter = 0;
 
 Scene::Scene(const std::string& name) : m_name(name) {}
 
-Scene::~Scene() = default;
+Scene::~Scene() 
+{}
 
 void Scene::RemoveAllGameObjects()
 {
@@ -24,8 +25,10 @@ dae::GameObject* Scene::CreateGameObject()
 
 void Scene::Remove(GameObject* objectPtr)
 {
-	m_objects.erase(std::find_if(m_objects.begin(), m_objects.end(), [objectPtr](const auto& object) 
-													{ return objectPtr == object.get(); }));
+	auto object = std::find_if(m_objects.begin(), m_objects.end(), [objectPtr](const auto& object) 
+															{ return objectPtr == object.get(); });
+	if (object != m_objects.end())
+		(*object)->Delete();
 }
 
 void dae::Scene::Update(float deltaTime)
@@ -34,6 +37,12 @@ void dae::Scene::Update(float deltaTime)
 	{
 		object->Update(deltaTime);
 	}
+	ClearPendingDelete();
+}
+
+void Scene::ClearPendingDelete()
+{
+	std::erase_if(m_objects, [](const auto& object) { return object->IsPendingDelete(); });
 }
 
 void Scene::FixedUpdate(float deltaTime)

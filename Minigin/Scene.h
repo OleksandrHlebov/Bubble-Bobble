@@ -1,13 +1,14 @@
 #pragma once
-#include "SceneManager.h"
 #include "GameObject.h"
+#include "SceneManager.h"
 
 namespace dae
 {
 	class Scene final
 	{
-		friend Scene& SceneManager::CreateScene(const std::string& name);
 	public:
+		explicit Scene(const std::string& name);
+
 		GameObject* CreateGameObject();
 		void Remove(GameObject* objectPtr);
 		void RemoveAllGameObjects();
@@ -23,7 +24,8 @@ namespace dae
 		Scene& operator=(Scene&& other) = delete;
 
 	private: 
-		explicit Scene(const std::string& name);
+
+		void ClearPendingDelete();
 
 		std::string m_name;
 		std::vector<std::unique_ptr<GameObject>> m_objects{};

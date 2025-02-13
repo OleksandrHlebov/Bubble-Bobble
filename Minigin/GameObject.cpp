@@ -7,7 +7,7 @@
 void dae::GameObject::Update(float deltaTime)
 {
 	for (auto& comp : m_Components) comp->Update(deltaTime);
-	RemovePendingDelete();
+	ClearPendingDelete();
 }
 
 void dae::GameObject::FixedUpdate(float deltaTime)
@@ -21,9 +21,9 @@ void dae::GameObject::Render() const
 	for (auto& comp : m_Components) comp->Render(pos.x, pos.y);
 }
 
-void dae::GameObject::RemovePendingDelete()
+void dae::GameObject::ClearPendingDelete()
 {
-	std::erase_if(m_Components, [](const auto& component) { return component->PendingDelete(); });
+	std::erase_if(m_Components, [](const auto& component) { return component->IsPendingDelete(); });
 }
 
 void dae::GameObject::SetPosition(float x, float y)

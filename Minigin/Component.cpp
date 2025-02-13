@@ -19,7 +19,7 @@ void Component::Delete()
 	m_PendingDelete = true;
 }
 
-bool Component::PendingDelete() const
+bool Component::IsPendingDelete() const
 {
 	return m_PendingDelete;
 }

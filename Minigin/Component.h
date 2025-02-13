@@ -20,7 +20,7 @@ namespace dae
 		virtual void Render(float x, float y) const;
 
 		void Delete();
-		bool PendingDelete() const;
+		bool IsPendingDelete() const;
 
 	private:	
 		bool m_PendingDelete{ false };

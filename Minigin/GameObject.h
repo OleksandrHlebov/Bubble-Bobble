@@ -21,6 +21,8 @@ namespace dae
 		void Update(float deltaTime);
 		void FixedUpdate(float deltaTime);
 		void Render() const;
+		void Delete() { m_PendingDelete = true; }
+		bool IsPendingDelete() { return m_PendingDelete; }
 
 		void SetPosition(float x, float y);
 
@@ -56,10 +58,11 @@ namespace dae
 		}
 
 	private:
-		void RemovePendingDelete();
+		void ClearPendingDelete();
 
 		std::unique_ptr<Transform> m_TransformSPtr{ std::make_unique<Transform>() };
 		std::unordered_set<std::unique_ptr<Component>> m_Components;
-	};
 
+		bool m_PendingDelete{};
+	};
 }

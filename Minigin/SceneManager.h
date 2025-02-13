@@ -10,15 +10,17 @@ namespace dae
 	class SceneManager final : public Singleton<SceneManager>
 	{
 	public:
-		Scene& CreateScene(const std::string& name);
+		~SceneManager();
+
+		Scene* CreateScene(const std::string& name);
 
 		void Update(float deltaTime);
 		void FixedUpdate(float deltaTime);
 		void Render() const;
 
 	private:
+		SceneManager();
 		friend class Singleton<SceneManager>;
-		SceneManager() = default;
-		std::vector<std::shared_ptr<Scene>> m_scenes;
+		std::vector<std::unique_ptr<Scene>> m_scenes;
 	};
 }
