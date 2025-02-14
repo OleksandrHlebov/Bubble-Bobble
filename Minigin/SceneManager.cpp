@@ -25,11 +25,9 @@ void dae::SceneManager::Render() const
 	}
 }
 
-dae::SceneManager::SceneManager()
-{}
+dae::SceneManager::SceneManager() = default;
 
-dae::SceneManager::~SceneManager()
-{}
+dae::SceneManager::~SceneManager() = default;
 
 dae::Scene* dae::SceneManager::CreateScene(const std::string& name)
 {
