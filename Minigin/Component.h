@@ -7,7 +7,6 @@ namespace dae
 	class Component
 	{
 	public:
-		Component() = default;
 		virtual ~Component() = 0;
 
 		Component(const Component&) = delete;
@@ -21,6 +20,9 @@ namespace dae
 
 		void Delete();
 		bool IsPendingDelete() const;
+
+	protected:
+		Component() = default;
 
 	private:	
 		bool m_PendingDelete{ false };

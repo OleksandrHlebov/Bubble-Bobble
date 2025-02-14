@@ -17,7 +17,7 @@ void dae::GameObject::FixedUpdate(float deltaTime)
 
 void dae::GameObject::Render() const
 {
-	const auto& pos = m_TransformSPtr->GetPosition();
+	const auto& pos = m_Transform.GetPosition();
 	for (auto& comp : m_Components) comp->Render(pos.x, pos.y);
 }
 
@@ -28,5 +28,5 @@ void dae::GameObject::ClearPendingDelete()
 
 void dae::GameObject::SetPosition(float x, float y)
 {
-	m_TransformSPtr->SetPosition(x, y, 0.0f);
+	m_Transform.SetPosition(x, y, 0.0f);
 }

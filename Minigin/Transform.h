@@ -7,7 +7,13 @@ namespace dae
 	class Transform final : public Component
 	{
 	public:
+		Transform() = default;
 		~Transform() = default;
+
+		Transform(const Transform&) 				= delete;
+		Transform(Transform&&) noexcept 			= delete;
+		Transform& operator=(const Transform&) 	 	= delete;
+		Transform& operator=(Transform&&) noexcept 	= delete;
 
 		const glm::vec3& GetPosition() const { return m_position; }
 		void SetPosition(float x, float y, float z);

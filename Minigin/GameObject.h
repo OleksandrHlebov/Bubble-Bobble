@@ -1,13 +1,12 @@
 #pragma once
 #include <memory>
-#include "Transform.h"
 #include "Component.h"
+#include "Transform.h"
 #include <unordered_set>
 
 namespace dae
 {
 	class Texture2D;
-
 	class GameObject final
 	{
 	public:
@@ -38,12 +37,12 @@ namespace dae
 		{
 			auto comp = std::find_if(m_Components.begin(), m_Components.end(), [](const std::unique_ptr<Component>& compUPtr) 
 																{ return dynamic_cast<ComponentType*>(compUPtr.get()) != nullptr; });
-			m_Components.erase(comp);
+			(*comp)->Delete();
 			return false;
 		}
 
 		template<typename ComponentType>
-		ComponentType* GetComponent() const
+		const ComponentType* GetComponent() const
 		{
 			auto comp = std::find_if(m_Components.begin(), m_Components.end(), [](const std::unique_ptr<Component>& compUPtr) 
 																{ return dynamic_cast<ComponentType*>(compUPtr.get()) != nullptr; });
@@ -52,15 +51,15 @@ namespace dae
 			return (nullptr);
 		}
 		template<>
-		Transform* GetComponent<Transform>() const
+		const Transform* GetComponent<Transform>() const
 		{
-			return m_TransformSPtr.get();
+			return &m_Transform;
 		}
 
 	private:
 		void ClearPendingDelete();
 
-		std::unique_ptr<Transform> m_TransformSPtr{ std::make_unique<Transform>() };
+		Transform m_Transform;
 		std::unordered_set<std::unique_ptr<Component>> m_Components;
 
 		bool m_PendingDelete{};

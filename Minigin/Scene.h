@@ -1,6 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include "SceneManager.h"
+#include <memory>
 
 namespace dae
 {
@@ -8,6 +9,11 @@ namespace dae
 	{
 	public:
 		explicit Scene(const std::string& name);
+		~Scene();
+		Scene(const Scene& other) = delete;
+		Scene(Scene&& other) noexcept = delete;
+		Scene& operator=(const Scene& other) = delete;
+		Scene& operator=(Scene&& other) noexcept = delete;
 
 		GameObject* CreateGameObject();
 		void Remove(GameObject* objectPtr);
@@ -17,14 +23,7 @@ namespace dae
 		void FixedUpdate(float deltaTime);
 		void Render() const;
 
-		~Scene();
-		Scene(const Scene& other) = delete;
-		Scene(Scene&& other) = delete;
-		Scene& operator=(const Scene& other) = delete;
-		Scene& operator=(Scene&& other) = delete;
-
 	private: 
-
 		void ClearPendingDelete();
 
 		std::string m_name;
