@@ -30,7 +30,7 @@ Component::Component(GameObject* owner) :
 
 }
 
-const dae::GameObject* Component::GetOwner() const
+dae::GameObject* dae::Component::GetOwner()
 {
 	return m_OwnerPtr;
 }

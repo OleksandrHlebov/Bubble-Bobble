@@ -22,13 +22,13 @@ namespace dae
 		void Delete();
 		bool IsPendingDelete() const;
 
-		const GameObject* GetOwner() const;
+		GameObject* GetOwner();
 
 	protected:
 		Component(GameObject* owner);
 
 	private:	
-		const GameObject* m_OwnerPtr;
+		GameObject* m_OwnerPtr;
 
 		bool m_PendingDelete{ false };
 	};

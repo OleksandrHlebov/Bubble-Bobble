@@ -19,11 +19,24 @@ namespace dae
 
 		void Update(float deltaTime);
 		void FixedUpdate(float deltaTime);
-		void Render() const;
+		void Render();
 		void Delete() { m_PendingDelete = true; }
 		bool IsPendingDelete() { return m_PendingDelete; }
 
-		void SetPosition(float x, float y);
+		void SetParent(GameObject* parent, bool keepWorldPosition = false);
+		void AddChild(GameObject* child);
+		void RemoveChild(GameObject* child);
+
+		bool HasAsParent(GameObject* object);
+		bool IsChildOf(GameObject* object);
+
+		GameObject* GetParent() { return m_ParentPtr; };
+
+		void SetLocalPosition(float x, float y);
+		void SetLocalPosition(const glm::vec3& pos);
+
+		const glm::vec3& GetWorldPosition() { return m_Transform.GetWorldPosition(); };
+		const glm::vec3& GetLocalPosition() { return m_Transform.GetLocalPosition(); };
 
 		template<typename ComponentType, typename... Args>
 		ComponentType* AddComponent(Args&&... args)
@@ -58,6 +71,9 @@ namespace dae
 
 	private:
 		void ClearPendingDelete();
+
+		GameObject* m_ParentPtr{ nullptr };
+		std::unordered_set<GameObject*> m_Children;
 
 		Transform m_Transform{ this };
 		std::unordered_set<std::unique_ptr<Component>> m_Components;

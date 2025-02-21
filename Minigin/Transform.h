@@ -15,8 +15,12 @@ namespace dae
 		Transform& operator=(const Transform&) 	 	= delete;
 		Transform& operator=(Transform&&) noexcept 	= delete;
 
-		const glm::vec3& GetPosition() const { return m_position; }
-		void SetPosition(float x, float y, float z);
+		const glm::vec3& GetLocalPosition() const { return m_LocalPosition; }
+		void SetLocalPosition(float x, float y, float z);
+		void SetLocalPosition(const glm::vec3& pos);
+		void SetPositionDirty();
+
+		const glm::vec3& GetWorldPosition() { UpdateWorldPosition(); return m_WorldPosition; };
 
 		void Update(float deltaTime) override;
 
@@ -25,6 +29,11 @@ namespace dae
 		void Render(float x, float y) const override;
 
 	private:
-		glm::vec3 m_position;
+		void UpdateWorldPosition();
+
+		glm::vec3 m_LocalPosition;
+		glm::vec3 m_WorldPosition;
+
+		bool m_IsPositionDirty{ true };
 	};
 }

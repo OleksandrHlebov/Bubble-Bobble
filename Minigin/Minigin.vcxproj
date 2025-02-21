@@ -111,6 +111,7 @@ xcopy "$(SolutionDir)Data" "$(OutputPath)Data\" /R /Y</Command>
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Minigin.h" />
+    <ClInclude Include="Orbit.h" />
     <ClInclude Include="Render2DComponent.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ResourceManager.h" />
@@ -129,6 +130,7 @@ xcopy "$(SolutionDir)Data" "$(OutputPath)Data\" /R /Y</Command>
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Minigin.cpp" />
+    <ClCompile Include="Orbit.cpp" />
     <ClCompile Include="Render2DComponent.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ResourceManager.cpp" />

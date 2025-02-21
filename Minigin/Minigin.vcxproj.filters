@@ -63,6 +63,9 @@
     <ClInclude Include="Transform.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="Orbit.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ResourceManager.cpp">
@@ -108,6 +111,9 @@
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="Transform.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Orbit.cpp">
       <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>
