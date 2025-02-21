@@ -11,7 +11,7 @@ namespace dae
 	class TextComponent final : public Component
 	{
 	public:
-		TextComponent(std::shared_ptr<Font> font);
+		TextComponent(std::shared_ptr<Font> font, GameObject* owner);
 		 
 		 TextComponent() = delete;
 		~TextComponent() = default;

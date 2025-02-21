@@ -7,7 +7,7 @@ namespace dae
 	class Transform final : public Component
 	{
 	public:
-		Transform() = default;
+		Transform(GameObject* owner);
 		~Transform() = default;
 
 		Transform(const Transform&) 				= delete;

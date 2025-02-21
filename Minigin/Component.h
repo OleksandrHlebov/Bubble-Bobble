@@ -4,6 +4,7 @@
 
 namespace dae
 {
+	class GameObject;
 	class Component
 	{
 	public:
@@ -21,10 +22,14 @@ namespace dae
 		void Delete();
 		bool IsPendingDelete() const;
 
+		const GameObject* GetOwner() const;
+
 	protected:
-		Component() = default;
+		Component(GameObject* owner);
 
 	private:	
+		const GameObject* m_OwnerPtr;
+
 		bool m_PendingDelete{ false };
 	};
 }

@@ -23,3 +23,14 @@ bool Component::IsPendingDelete() const
 {
 	return m_PendingDelete;
 }
+
+Component::Component(GameObject* owner) :
+	m_OwnerPtr{ owner }
+{
+
+}
+
+const dae::GameObject* Component::GetOwner() const
+{
+	return m_OwnerPtr;
+}

@@ -7,7 +7,7 @@ namespace dae
 	class FPSComponent final : public Component
 	{
 	public:
-		FPSComponent(std::shared_ptr<Font> font);
+		FPSComponent(GameObject* owner);
 		~FPSComponent() = default;
 
 		FPSComponent(const FPSComponent&) = delete;
@@ -20,7 +20,7 @@ namespace dae
 		void Render(float x, float y) const override;
 
 	private:
-		TextComponent m_TextComponent;
+		TextComponent* m_TextComponentPtr;
 
 		float	m_Timer{};
 		int		m_FrameCount{};

@@ -18,3 +18,9 @@ void Render2DComponent::SetTexture(std::shared_ptr<Texture2D> texture)
 {
 	m_TextureSPtr = texture;
 }
+
+Render2DComponent::Render2DComponent(GameObject* owner) :
+	Component(owner)
+{
+
+}

@@ -1,11 +1,13 @@
 #include "FPSComponent.h"
 #include <sstream>
 #include <iomanip>
+#include "GameObject.h"
 
 using namespace dae;
 
-FPSComponent::FPSComponent(std::shared_ptr<Font> font) :
-	m_TextComponent{ font }
+FPSComponent::FPSComponent(GameObject* owner) :
+	Component(owner),
+	m_TextComponentPtr{ owner->GetComponent<TextComponent>() }
 {}
 
 void FPSComponent::Update(float deltaTime)
@@ -22,13 +24,13 @@ void FPSComponent::Update(float deltaTime)
 		buffer << "FPS: ";
 		buffer << std::fixed << std::setprecision(1) << fps;
 
-		m_TextComponent.SetText(buffer.str());
-		m_TextComponent.Update(deltaTime);
+		m_TextComponentPtr->SetText(buffer.str());
+		m_TextComponentPtr->Update(deltaTime);
 	}
 }
 
 void FPSComponent::Render(float x, float y) const
 {
-	m_TextComponent.Render(x, y);
+	m_TextComponentPtr->Render(x, y);
 }
 

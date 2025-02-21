@@ -9,7 +9,7 @@ namespace dae
 	class Render2DComponent final : public Component
 	{
 	public:
-		Render2DComponent() = default;
+		Render2DComponent(GameObject* owner);
 		~Render2DComponent() = default;
 
 		Render2DComponent(const Render2DComponent&) = delete;

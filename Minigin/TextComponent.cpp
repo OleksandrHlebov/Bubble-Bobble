@@ -7,8 +7,9 @@
 
 using namespace dae;
 
-TextComponent::TextComponent(std::shared_ptr<Font> font) :
-	m_RenderComponent{ },
+TextComponent::TextComponent(std::shared_ptr<Font> font, GameObject* owner) :
+	Component(owner),
+	m_RenderComponent{ owner },
 	m_FontSPtr{ font }
 {
 	SetText(" ");

@@ -28,7 +28,7 @@ namespace dae
 		template<typename ComponentType, typename... Args>
 		ComponentType* AddComponent(Args&&... args)
 		{
-			auto resultPair = m_Components.insert(std::make_unique<ComponentType>(std::forward<Args>(args)...));
+			auto resultPair = m_Components.insert(std::make_unique<ComponentType>(std::forward<Args>(args)..., this));
 			return static_cast<ComponentType*>((*resultPair.first).get());
 		}
 
@@ -42,7 +42,7 @@ namespace dae
 		}
 
 		template<typename ComponentType>
-		const ComponentType* GetComponent() const
+		ComponentType* GetComponent()
 		{
 			auto comp = std::find_if(m_Components.begin(), m_Components.end(), [](const std::unique_ptr<Component>& compUPtr) 
 																{ return dynamic_cast<ComponentType*>(compUPtr.get()) != nullptr; });
@@ -51,7 +51,7 @@ namespace dae
 			return (nullptr);
 		}
 		template<>
-		const Transform* GetComponent<Transform>() const
+		Transform* GetComponent<Transform>()
 		{
 			return &m_Transform;
 		}
@@ -59,7 +59,7 @@ namespace dae
 	private:
 		void ClearPendingDelete();
 
-		Transform m_Transform;
+		Transform m_Transform{ this };
 		std::unordered_set<std::unique_ptr<Component>> m_Components;
 
 		bool m_PendingDelete{};
