@@ -13,6 +13,7 @@
 #include <thread>
 #include <cinttypes>
 #include <iostream>
+#include <cfloat>
 
 SDL_Window* g_window{};
 
@@ -66,9 +67,13 @@ dae::Minigin::Minigin(const std::string &dataPath)
 		throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
 	}
 
+
 	Renderer::GetInstance().Init(g_window);
 
 	ResourceManager::GetInstance().Init(dataPath);
+
+	if (SDL_RenderSetVSync(SDL_GetRenderer(g_window), VSYNC_ON))
+		std::cout << "vsync failed";
 }
 
 dae::Minigin::~Minigin()
@@ -88,8 +93,6 @@ void dae::Minigin::Run(const std::function<void()>& load)
 	auto& input = InputManager::GetInstance();
 	auto& resourceManager = ResourceManager::GetInstance();
 
-	const float frametime{ 1.f / (TARGET_FRAMERATE) };
-
 	bool doContinue = true;
 	auto lastTime = std::chrono::steady_clock::now();
 	float lag{};
@@ -98,11 +101,6 @@ void dae::Minigin::Run(const std::function<void()>& load)
 	{
 		const auto currentTime = std::chrono::steady_clock::now();
 		const float deltaTime = std::chrono::duration<float>(currentTime - lastTime).count();
-
-		// much more accurate than using std::this_thread::sleep_for()
-		// provides consistent framerate cap
-		if (deltaTime < frametime)
-			continue;
 
 		lastTime = currentTime;
 		lag += deltaTime;
@@ -122,5 +120,9 @@ void dae::Minigin::Run(const std::function<void()>& load)
 			resourceManager.UnloadUnusedResources();
 			unloadResorcesTimer = 0.f;
 		}
+
+		std::chrono::nanoseconds newDeltaTime{ currentTime - std::chrono::steady_clock::now() };
+
+		std::this_thread::sleep_for(newDeltaTime + std::chrono::milliseconds(MS_PER_FRAME));
 	}
 }
