@@ -20,7 +20,8 @@ namespace dae
 		void SetLocalPosition(const glm::vec3& pos);
 		void SetPositionDirty();
 
-		const glm::vec3& GetWorldPosition() { UpdateWorldPosition(); return m_WorldPosition; };
+		const glm::vec3& GetWorldPosition();
+		bool IsPositionDirty();
 
 		void Update(float deltaTime) override;
 

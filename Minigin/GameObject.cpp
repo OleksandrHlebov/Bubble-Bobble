@@ -84,10 +84,18 @@ bool dae::GameObject::IsChildOf(GameObject* object)
 
 void dae::GameObject::SetLocalPosition(float x, float y)
 {
-	m_Transform.SetLocalPosition(x, y, 0.0f);
+	SetLocalPosition({ x, y, .0f });
+}
+
+const glm::vec3& dae::GameObject::GetWorldPosition()
+{
+	return m_Transform.GetWorldPosition();
 }
 
 void dae::GameObject::SetLocalPosition(const glm::vec3& pos)
 {
 	m_Transform.SetLocalPosition(pos);
+
+	for (auto& child : m_Children)
+		child->GetComponent<Transform>()->SetPositionDirty();
 }

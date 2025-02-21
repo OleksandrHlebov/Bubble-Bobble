@@ -24,7 +24,7 @@ namespace dae
 		glm::vec3 m_Position{};
 
 		float m_Radius{ 30 };
-		float m_Speed{ 5 };
+		float m_Speed{ 10 };
 		float m_Angle{};
 	};
 }

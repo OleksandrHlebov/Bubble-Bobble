@@ -22,6 +22,7 @@ namespace dae
 		void Render();
 		void Delete() { m_PendingDelete = true; }
 		bool IsPendingDelete() { return m_PendingDelete; }
+		bool IsPositionDirty();
 
 		void SetParent(GameObject* parent, bool keepWorldPosition = false);
 		void AddChild(GameObject* child);
@@ -35,7 +36,7 @@ namespace dae
 		void SetLocalPosition(float x, float y);
 		void SetLocalPosition(const glm::vec3& pos);
 
-		const glm::vec3& GetWorldPosition() { return m_Transform.GetWorldPosition(); };
+		const glm::vec3& GetWorldPosition();;
 		const glm::vec3& GetLocalPosition() { return m_Transform.GetLocalPosition(); };
 
 		template<typename ComponentType, typename... Args>

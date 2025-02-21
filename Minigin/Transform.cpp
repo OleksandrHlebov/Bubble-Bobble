@@ -17,6 +17,17 @@ void dae::Transform::SetPositionDirty()
 	m_IsPositionDirty = true;
 }
 
+const glm::vec3& dae::Transform::GetWorldPosition()
+{
+	UpdateWorldPosition();
+	return m_WorldPosition;
+}
+
+bool dae::Transform::IsPositionDirty()
+{
+	return m_IsPositionDirty;
+}
+
 void dae::Transform::SetLocalPosition(const glm::vec3& pos)
 {
 	m_LocalPosition = pos;
