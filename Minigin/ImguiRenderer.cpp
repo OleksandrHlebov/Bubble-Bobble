@@ -103,5 +103,19 @@ void ImguiRenderer::DrawExercise2()
 		config.frame_size = ImVec2(200.f, 100.f);
 		ImGui::Plot("##PLOT03", config);
 	}
+	if (!m_Ex2Results.empty() && !m_Ex2ResultsAlt.empty())
+	{
+		ImGui::PlotConfig config{};
+		config.scale.min = 0;
+		config.scale.max = std::max(*std::max_element(m_Ex2ResultsAlt.begin(), m_Ex2ResultsAlt.end()),
+									*std::max_element(m_Ex2Results.begin()	 , m_Ex2Results.end()));
+		const float* list[2]{ m_Ex2Results.data(), m_Ex2ResultsAlt.data() };
+		config.values.ys_count = 2;
+		config.values.ys_list = list;
+		config.values.count = (int)m_Ex2ResultsAlt.size();
+		config.frame_size = ImVec2(200.f, 100.f);
+		ImGui::Text("Combined graph");
+		ImGui::Plot("Combined graph##PLOT04", config);
+	}
 	ImGui::End();
 }

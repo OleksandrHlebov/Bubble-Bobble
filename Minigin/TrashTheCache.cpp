@@ -26,17 +26,20 @@ void ttc::TestInts(int sampleCount, std::vector<float>& output)
 			std::chrono::nanoseconds delta = (completed - startTime);
 			std::cout << stepsize << " took " << delta.count() << std::endl;
 			currentSampleVector.emplace_back(std::chrono::duration<float>(delta.count()).count());
-			startTime = completed;
+			startTime = std::chrono::steady_clock::now();
 		}
 		++stepIndex;
 	}
 
 	for (std::vector<float>& sample : results)
 	{
-		auto max = std::max_element(sample.begin(), sample.end());
-		sample.erase(max);
-		auto min = std::min_element(sample.begin(), sample.end());
-		sample.erase(min);
+		if (sampleCount > 2)
+		{
+			auto max = std::max_element(sample.begin(), sample.end());
+			sample.erase(max);
+			auto min = std::min_element(sample.begin(), sample.end());
+			sample.erase(min);
+		}
 		const float avg = std::accumulate(sample.begin(), sample.end(), .0f) / sample.size();
 		output.emplace_back(avg);
 	}
@@ -83,17 +86,20 @@ void ttc::TestObjects(int sampleCount, std::vector<float>& output)
 			std::chrono::nanoseconds delta = (completed - startTime);
 			std::cout << stepsize << " took " << delta.count() << std::endl;
 			currentSampleVector.emplace_back(std::chrono::duration<float>(delta.count()).count());
-			startTime = completed;
+			startTime = std::chrono::steady_clock::now();
 		}
 		++stepIndex;
 	}
 
 	for (std::vector<float>& sample : results)
 	{
-		auto max = std::max_element(sample.begin(), sample.end());
-		sample.erase(max);
-		auto min = std::min_element(sample.begin(), sample.end());
-		sample.erase(min);
+		if (sampleCount > 2)
+		{
+			auto max = std::max_element(sample.begin(), sample.end());
+			sample.erase(max);
+			auto min = std::min_element(sample.begin(), sample.end());
+			sample.erase(min);
+		}
 		const float avg = std::accumulate(sample.begin(), sample.end(), .0f) / sample.size();
 		output.emplace_back(avg);
 	}
@@ -130,17 +136,20 @@ void ttc::TestObjectsAlt(int sampleCount, std::vector<float>& output)
 			std::chrono::nanoseconds delta = (completed - startTime);
 			std::cout << stepsize << " took " << delta.count() << std::endl;
 			currentSampleVector.emplace_back(std::chrono::duration<float>(delta.count()).count());
-			startTime = completed;
+			startTime = std::chrono::steady_clock::now();
 		}
 		++stepIndex;
 	}
 
 	for (std::vector<float>& sample : results)
 	{
-		auto max = std::max_element(sample.begin(), sample.end());
-		sample.erase(max);
-		auto min = std::min_element(sample.begin(), sample.end());
-		sample.erase(min);
+		if (sampleCount > 2)
+		{
+			auto max = std::max_element(sample.begin(), sample.end());
+			sample.erase(max);
+			auto min = std::min_element(sample.begin(), sample.end());
+			sample.erase(min);
+		}
 		const float avg = std::accumulate(sample.begin(), sample.end(), .0f) / sample.size();
 		output.emplace_back(avg);
 	}
