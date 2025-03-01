@@ -1,5 +1,6 @@
 #include <SDL.h>
 #include "InputManager.h"
+#include "ImguiRenderer.h"
 
 bool dae::InputManager::ProcessInput()
 {
@@ -15,6 +16,8 @@ bool dae::InputManager::ProcessInput()
 			
 		}
 		// etc...
+
+		ImguiRenderer::GetInstance().ProcessEvents(e);
 	}
 
 	return true;
