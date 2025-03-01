@@ -3,34 +3,35 @@
 #include <vector>
 #include "Singleton.h"
 
-using namespace dae;
-
 struct SDL_Window;
 
-class ImguiRenderer final : public Singleton<ImguiRenderer>
+namespace dae
 {
-public:
-	ImguiRenderer() = default;
-	~ImguiRenderer();
-	
-	ImguiRenderer(const ImguiRenderer&) 				= delete;
-	ImguiRenderer(ImguiRenderer&&) noexcept 			= delete;
-	ImguiRenderer& operator=(const ImguiRenderer&) 	 	= delete;
-	ImguiRenderer& operator=(ImguiRenderer&&) noexcept 	= delete;
+	class ImguiRenderer final : public Singleton<ImguiRenderer>
+	{
+	public:
+		ImguiRenderer() = default;
+		~ImguiRenderer();
 
-	void Init(SDL_Window* window);
-	void Render();
-	void ProcessEvents(SDL_Event& e);
+		ImguiRenderer(const ImguiRenderer&) = delete;
+		ImguiRenderer(ImguiRenderer&&) noexcept = delete;
+		ImguiRenderer& operator=(const ImguiRenderer&) = delete;
+		ImguiRenderer& operator=(ImguiRenderer&&) noexcept = delete;
 
-private:
-	void InternalRender();
-	void DrawExercise1();
-	void DrawExercise2();
+		void Init(SDL_Window* window);
+		void Render();
+		void ProcessEvents(SDL_Event& e);
 
-	std::vector<float> m_Ex1Results;
-	std::vector<float> m_Ex2Results;
-	std::vector<float> m_Ex2ResultsAlt;
+	private:
+		void InternalRender();
+		void DrawExercise1();
+		void DrawExercise2();
 
-	int m_Ex1Samples{ 10 };
-	int m_Ex2Samples{ 10 };
-};
+		std::vector<float> m_Ex1Results;
+		std::vector<float> m_Ex2Results;
+		std::vector<float> m_Ex2ResultsAlt;
+
+		int m_Ex1Samples{ 10 };
+		int m_Ex2Samples{ 10 };
+	};
+}

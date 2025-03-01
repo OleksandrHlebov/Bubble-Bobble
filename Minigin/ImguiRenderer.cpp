@@ -8,14 +8,15 @@
 #include "backends\imgui_impl_sdl2.h"
 #include "backends\imgui_impl_opengl3.h"
 #include "TrashTheCache.h"
-ImguiRenderer::~ImguiRenderer()
+
+dae::ImguiRenderer::~ImguiRenderer()
 {
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
 }
 
-void ImguiRenderer::Init(SDL_Window* window)
+void dae::ImguiRenderer::Init(SDL_Window* window)
 {
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -23,7 +24,7 @@ void ImguiRenderer::Init(SDL_Window* window)
 	ImGui_ImplOpenGL3_Init();
 }
 
-void ImguiRenderer::Render()
+void dae::ImguiRenderer::Render()
 {
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame();
@@ -34,19 +35,19 @@ void ImguiRenderer::Render()
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
-void ImguiRenderer::ProcessEvents(SDL_Event& e)
+void dae::ImguiRenderer::ProcessEvents(SDL_Event& e)
 {
 	ImGui_ImplSDL2_ProcessEvent(&e);
 }
 
-void ImguiRenderer::InternalRender()
+void dae::ImguiRenderer::InternalRender()
 {
 	DrawExercise1();
 
 	DrawExercise2();
 }
 
-void ImguiRenderer::DrawExercise1()
+void dae::ImguiRenderer::DrawExercise1()
 {
 	ImGui::SetNextWindowSize(ImVec2{ 300., 300. }, ImGuiCond_Once);
 	ImGui::SetNextWindowPos(ImVec2{ .0f, .0f }, ImGuiCond_Once);
@@ -70,7 +71,7 @@ void ImguiRenderer::DrawExercise1()
 	ImGui::End();
 }
 
-void ImguiRenderer::DrawExercise2()
+void dae::ImguiRenderer::DrawExercise2()
 {
 	ImGui::SetNextWindowSize(ImVec2{ 300., 300. }, ImGuiCond_Once);
 	ImGui::SetNextWindowPos(ImVec2{ 325., .0f }, ImGuiCond_Once);
