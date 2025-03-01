@@ -59,6 +59,7 @@ void ImguiRenderer::DrawExercise1()
 	if (!m_Ex1Results.empty())
 	{
 		ImGui::PlotConfig config{};
+		config.tooltip.show = true;
 		config.scale.min	= 0;
 		config.scale.max	= *std::max_element(m_Ex1Results.begin(), m_Ex1Results.end());
 		config.values.ys	= m_Ex1Results.data();
@@ -82,6 +83,7 @@ void ImguiRenderer::DrawExercise2()
 	if (!m_Ex2Results.empty())
 	{
 		ImGui::PlotConfig config{};
+		config.tooltip.show = true;
 		config.scale.min	= 0;
 		config.scale.max	= *std::max_element(m_Ex2Results.begin(), m_Ex2Results.end());
 		config.values.ys	= m_Ex2Results.data();
@@ -96,6 +98,7 @@ void ImguiRenderer::DrawExercise2()
 	if (!m_Ex2ResultsAlt.empty())
 	{
 		ImGui::PlotConfig config{};
+		config.tooltip.show = true;
 		config.scale.min = 0;
 		config.scale.max = *std::max_element(m_Ex2ResultsAlt.begin(), m_Ex2ResultsAlt.end());
 		config.values.ys = m_Ex2ResultsAlt.data();
@@ -106,6 +109,7 @@ void ImguiRenderer::DrawExercise2()
 	if (!m_Ex2Results.empty() && !m_Ex2ResultsAlt.empty())
 	{
 		ImGui::PlotConfig config{};
+		config.tooltip.show = true;
 		config.scale.min = 0;
 		config.scale.max = std::max(*std::max_element(m_Ex2ResultsAlt.begin(), m_Ex2ResultsAlt.end()),
 									*std::max_element(m_Ex2Results.begin()	 , m_Ex2Results.end()));
