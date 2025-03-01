@@ -53,6 +53,7 @@ void dae::ImguiRenderer::DrawExercise1()
 	ImGui::SetNextWindowPos(ImVec2{ .0f, .0f }, ImGuiCond_Once);
 	ImGui::Begin("Exercise 1");
 	ImGui::InputInt("Samples##IINT01", &m_Ex1Samples, 1, 100);
+	if (m_Ex1Samples < 1) m_Ex1Samples = 1;
 	if (ImGui::Button("Trash the cache##BUT01"))
 	{
 		ttc::TestInts(m_Ex1Samples, m_Ex1Results);
@@ -77,6 +78,7 @@ void dae::ImguiRenderer::DrawExercise2()
 	ImGui::SetNextWindowPos(ImVec2{ 325., .0f }, ImGuiCond_Once);
 	ImGui::Begin("Exercise 2");
 	ImGui::InputInt("Samples##IINT02", &m_Ex2Samples, 1, 100);
+	if (m_Ex2Samples < 1) m_Ex2Samples = 1;
 	if (ImGui::Button("Trash the cache with GameObject##BUT02"))
 	{
 		ttc::TestObjects(m_Ex2Samples, m_Ex2Results);
