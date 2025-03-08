@@ -19,6 +19,7 @@ namespace dae
 		void Remove(GameObject* objectPtr);
 		void RemoveAllGameObjects();
 
+		void Start();
 		void Update(float deltaTime);
 		void FixedUpdate(float deltaTime);
 		void Render() const;
@@ -31,6 +32,7 @@ namespace dae
 		std::vector<std::unique_ptr<GameObject>> m_objects{};
 
 		static unsigned int m_idCounter; 
+		bool m_IsLoaded{};
 	};
 
 }

@@ -20,6 +20,8 @@ namespace dae
 		void SetLocalPosition(const glm::vec3& pos);
 		void SetPositionDirty();
 
+		void Move(const glm::vec3& delta);
+
 		const glm::vec3& GetWorldPosition();
 		bool IsPositionDirty();
 

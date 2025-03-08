@@ -17,6 +17,7 @@ void Component::Render(float, float) const
 void Component::Delete()
 {
 	m_PendingDelete = true;
+	End();
 }
 
 bool Component::IsPendingDelete() const
@@ -29,6 +30,12 @@ Component::Component(GameObject* owner) :
 {}
 
 void Component::RenderUI()
+{}
+
+void Component::Start()
+{}
+
+void Component::End()
 {}
 
 dae::GameObject* dae::Component::GetOwner()

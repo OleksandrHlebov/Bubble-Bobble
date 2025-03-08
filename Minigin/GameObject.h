@@ -6,21 +6,27 @@
 
 namespace dae
 {
+	class Controller;
 	class Texture2D;
 	class GameObject final
 	{
 	public:
-		GameObject() = default;
-		~GameObject() = default;
+		GameObject();
+		~GameObject();
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
 		GameObject& operator=(const GameObject& other) = delete;
 		GameObject& operator=(GameObject&& other) = delete;
 
+		void Start();
 		void Update(float deltaTime);
 		void FixedUpdate(float deltaTime);
 		void Render();
 		void RenderUI();
+		void End();
+
+		void Possess(Controller* controller);
+
 		void Delete();
 		bool IsPendingDelete() { return m_PendingDelete; }
 		bool IsPositionDirty();
@@ -75,6 +81,8 @@ namespace dae
 	private:
 		void ClearPendingDelete();
 		void RemoveChild(GameObject* child);
+
+		std::unique_ptr<Controller> m_Controller;
 
 		GameObject* m_ParentPtr{ nullptr };
 		std::vector<GameObject*> m_Children;

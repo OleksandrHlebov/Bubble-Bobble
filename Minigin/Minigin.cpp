@@ -92,6 +92,9 @@ void dae::Minigin::Run(const std::function<void()>& load)
 	auto& input = InputManager::GetInstance();
 	auto& resourceManager = ResourceManager::GetInstance();
 
+	input.Init();
+	sceneManager.Start();
+
 	bool doContinue = true;
 	auto lastTime = std::chrono::steady_clock::now();
 	float lag{};
@@ -105,7 +108,7 @@ void dae::Minigin::Run(const std::function<void()>& load)
 		lag += deltaTime;
 		unloadResorcesTimer += deltaTime;
 
-		doContinue = input.ProcessInput();
+		doContinue = input.ProcessInput(deltaTime);
 		while (lag >= FIXED_UPDATE_TIME)
 		{
 			sceneManager.FixedUpdate(FIXED_UPDATE_TIME);

@@ -15,10 +15,12 @@ namespace dae
 		Component& operator=(const Component&) = delete;
 		Component& operator=(Component&&) noexcept = delete;
 
+		virtual void Start();
 		virtual void Update(float deltaTime);
 		virtual void FixedUpdate(float deltaTime);
 		virtual void Render(float x, float y) const;
 		virtual void RenderUI();
+		virtual void End();
 
 		void Delete();
 		bool IsPendingDelete() const;

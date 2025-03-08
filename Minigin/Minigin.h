@@ -17,6 +17,7 @@ namespace dae
 		Minigin& operator=(Minigin&& other) = delete;
 
 	private:
+		inline static const int		PLAYER_COUNT			{ 2 };
 		inline static const int		MS_PER_FRAME			{ 0 };
 		inline static const bool	VSYNC_ON				{ 1 };
 		inline static const float	FIXED_UPDATE_TIME		{ 1 / 30.f };

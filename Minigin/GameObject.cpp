@@ -3,6 +3,18 @@
 #include <algorithm>
 #include "ResourceManager.h"
 #include "Renderer.h"
+#include "Controller.h"
+
+dae::GameObject::GameObject() : m_Controller{ nullptr }
+{}
+
+dae::GameObject::~GameObject()
+{}
+
+void dae::GameObject::Start()
+{
+	for (auto& comp : m_Components) comp->Start();
+}
 
 void dae::GameObject::Update(float deltaTime)
 {
@@ -26,9 +38,20 @@ void dae::GameObject::RenderUI()
 	for (auto& comp : m_Components) comp->RenderUI();
 }
 
+void dae::GameObject::End()
+{
+	for (auto& comp : m_Components) comp->End();
+}
+
+void dae::GameObject::Possess(Controller* controller)
+{
+	m_Controller.reset(controller);
+}
+
 void dae::GameObject::Delete()
 {
 	m_PendingDelete = true;
+	End();
 
 	for (GameObject*& child : m_Children)
 	{

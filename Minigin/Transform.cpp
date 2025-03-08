@@ -18,6 +18,11 @@ void dae::Transform::SetPositionDirty()
 	InvalidatePositionsOfChildren();
 }
 
+void dae::Transform::Move(const glm::vec3& delta)
+{
+	SetLocalPosition(GetLocalPosition() + delta);
+}
+
 const glm::vec3& dae::Transform::GetWorldPosition()
 {
 	UpdateWorldPosition();

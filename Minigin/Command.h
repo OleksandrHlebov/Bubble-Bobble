@@ -1,13 +1,20 @@
 #pragma once
+#include "Singleton.h"
 
-class Command
+namespace dae
 {
-public:
-	Command() = default;
-	virtual ~Command() = 0;
+	class GameObject;
+	class Command
+	{
+	public:
+		virtual ~Command() = 0 {}
 
-	virtual void Execute() = 0;
+		virtual void Execute(GameObject* object, float deltaTime) = 0;
 
-private:
+	protected:
+		Command() = default;
 
-};
+	private:
+
+	};
+}

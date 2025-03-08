@@ -20,6 +20,8 @@ void Scene::RemoveAllGameObjects()
 dae::GameObject* Scene::CreateGameObject()
 {
 	const auto object = m_objects.insert(m_objects.end(), std::make_unique<GameObject>());
+	if (m_IsLoaded)
+		(*object)->Start();
 	return (*object).get();
 }
 
@@ -29,6 +31,15 @@ void Scene::Remove(GameObject* objectPtr)
 															{ return objectPtr == object.get(); });
 	if (object != m_objects.end())
 		(*object)->Delete();
+}
+
+void Scene::Start()
+{
+	for (auto& object : m_objects)
+	{
+		object->Start();
+	}
+	m_IsLoaded = true;
 }
 
 void dae::Scene::Update(float deltaTime)

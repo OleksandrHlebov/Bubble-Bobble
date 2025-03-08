@@ -119,7 +119,12 @@ xcopy "$(SolutionDir)Data" "$(OutputPath)Data\" /R /Y</Command>
     <ClInclude Include="..\3rdParty\plot\imgui_plot.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="Controller.h" />
     <ClInclude Include="InputAction.h" />
+    <ClInclude Include="KeyboardPlayerController.h" />
+    <ClInclude Include="MovementComponent.h" />
+    <ClInclude Include="MovementCommands.h" />
+    <ClInclude Include="GamepadPlayerController.h" />
     <ClInclude Include="TrashTheCache.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FPSComponent.h" />
@@ -148,6 +153,9 @@ xcopy "$(SolutionDir)Data" "$(OutputPath)Data\" /R /Y</Command>
     <ClCompile Include="..\3rdParty\imgui\imgui_widgets.cpp" />
     <ClCompile Include="..\3rdParty\plot\imgui_plot.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="KeyboardPlayerController.cpp" />
+    <ClCompile Include="MovementComponent.cpp" />
+    <ClCompile Include="GamepadPlayerController.cpp" />
     <ClCompile Include="ThrashTheCacheComponent.cpp" />
     <ClCompile Include="TrashTheCache.cpp" />
     <ClCompile Include="Font.cpp" />

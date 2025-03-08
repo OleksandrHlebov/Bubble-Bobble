@@ -12,21 +12,19 @@ void ttc::TestInts(int sampleCount, std::vector<float>& output)
 	std::vector<std::vector<float>> results;
 	results.resize(11);
 
-	auto startTime = std::chrono::steady_clock::now();
-
 	int stepIndex{};
 	for (int stepsize{ 1 }; stepsize <= 1024; stepsize *= 2)
 	{
 		std::vector<float>& currentSampleVector{ results[stepIndex] };
 		for (int sampleIndex{}; sampleIndex < sampleCount; ++sampleIndex)
 		{
+			const auto startTime = std::chrono::steady_clock::now();
 			for (int index{}; index < size; index += stepsize)
 				buffer[index] *= 2;
 			const auto completed = std::chrono::steady_clock::now();
 			std::chrono::nanoseconds delta = (completed - startTime);
 			std::cout << stepsize << " took " << delta.count() << std::endl;
 			currentSampleVector.emplace_back(std::chrono::duration<float>(delta.count()).count());
-			startTime = std::chrono::steady_clock::now();
 		}
 		++stepIndex;
 	}

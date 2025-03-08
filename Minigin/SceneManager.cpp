@@ -42,3 +42,11 @@ dae::Scene* dae::SceneManager::CreateScene(const std::string& name)
 	const auto scene = m_scenes.insert(m_scenes.end(), std::make_unique<Scene>(name));
 	return (*scene).get();
 }
+
+void dae::SceneManager::Start()
+{
+	for (const auto& scene : m_scenes)
+	{
+		scene->Start();
+	}	
+}
