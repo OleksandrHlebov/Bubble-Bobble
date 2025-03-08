@@ -21,12 +21,33 @@ void dae::GameObject::Render()
 	for (auto& comp : m_Components) comp->Render(pos.x, pos.y);
 }
 
+void dae::GameObject::Delete()
+{
+	m_PendingDelete = true;
+
+	for (GameObject*& child : m_Children)
+	{
+		child->Delete();
+	}
+}
+
 void dae::GameObject::ClearPendingDelete()
 {
 	std::erase_if(m_Components, [](const auto& component) { return component->IsPendingDelete(); });
 }
 
-void dae::GameObject::SetParent(GameObject* parent, bool keepWorldPosition)
+void dae::GameObject::RemoveChild(GameObject* child)
+{
+	m_Children.erase(std::remove(m_Children.begin(), m_Children.end(), child));
+}
+
+void dae::GameObject::InvalidatePositionsOfChildren()
+{
+	for (auto& child : m_Children)
+		child->GetComponent<Transform>()->SetPositionDirty();
+}
+
+void dae::GameObject::AttachTo(GameObject* parent, bool keepWorldPosition)
 {
 	if (parent == this || HasAsParent(parent) || IsChildOf(parent))
 		return;
@@ -46,24 +67,7 @@ void dae::GameObject::SetParent(GameObject* parent, bool keepWorldPosition)
 	m_ParentPtr = parent;
 
 	if (m_ParentPtr)
-		parent->m_Children.insert(this);
-}
-
-void dae::GameObject::AddChild(GameObject* child)
-{
-	if (child == nullptr)
-		return;
-
-	if (HasAsParent(child))
-		return;
-
-	child->SetParent(this);
-}
-
-void dae::GameObject::RemoveChild(GameObject* child)
-{
-	if (m_Children.erase(child))
-		child->SetParent(nullptr, true);
+		parent->m_Children.emplace_back(this);
 }
 
 bool dae::GameObject::HasAsParent(GameObject* object)
@@ -95,7 +99,4 @@ const glm::vec3& dae::GameObject::GetWorldPosition()
 void dae::GameObject::SetLocalPosition(const glm::vec3& pos)
 {
 	m_Transform.SetLocalPosition(pos);
-
-	for (auto& child : m_Children)
-		child->GetComponent<Transform>()->SetPositionDirty();
 }

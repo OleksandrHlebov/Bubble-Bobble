@@ -15,6 +15,7 @@ void dae::Transform::SetLocalPosition(const float x, const float y, const float 
 void dae::Transform::SetPositionDirty()
 {
 	m_IsPositionDirty = true;
+	InvalidatePositionsOfChildren();
 }
 
 const glm::vec3& dae::Transform::GetWorldPosition()
@@ -60,4 +61,9 @@ void dae::Transform::UpdateWorldPosition()
 			m_WorldPosition = m_LocalPosition;
 	}
 	m_IsPositionDirty = false;
+}
+
+void dae::Transform::InvalidatePositionsOfChildren()
+{
+	GetOwner()->InvalidatePositionsOfChildren();
 }

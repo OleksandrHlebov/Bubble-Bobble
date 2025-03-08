@@ -20,13 +20,12 @@ namespace dae
 		void Update(float deltaTime);
 		void FixedUpdate(float deltaTime);
 		void Render();
-		void Delete() { m_PendingDelete = true; }
+		void Delete();
 		bool IsPendingDelete() { return m_PendingDelete; }
 		bool IsPositionDirty();
+		void InvalidatePositionsOfChildren();
 
-		void SetParent(GameObject* parent, bool keepWorldPosition = false);
-		void AddChild(GameObject* child);
-		void RemoveChild(GameObject* child);
+		void AttachTo(GameObject* parent, bool keepWorldPosition = false);
 
 		bool HasAsParent(GameObject* object);
 		bool IsChildOf(GameObject* object);
@@ -45,6 +44,8 @@ namespace dae
 			auto resultPair = m_Components.insert(std::make_unique<ComponentType>(std::forward<Args>(args)..., this));
 			return static_cast<ComponentType*>((*resultPair.first).get());
 		}
+
+		std::vector<GameObject*>& GetChildren() { return m_Children; }
 
 		template<typename ComponentType>
 		bool DeleteComponent()
@@ -72,9 +73,10 @@ namespace dae
 
 	private:
 		void ClearPendingDelete();
+		void RemoveChild(GameObject* child);
 
 		GameObject* m_ParentPtr{ nullptr };
-		std::unordered_set<GameObject*> m_Children;
+		std::vector<GameObject*> m_Children;
 
 		Transform m_Transform{ this };
 		std::unordered_set<std::unique_ptr<Component>> m_Components;

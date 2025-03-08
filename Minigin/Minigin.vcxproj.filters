@@ -16,6 +16,12 @@
     <Filter Include="Components">
       <UniqueIdentifier>{5ea51c2b-c700-4945-b81e-fc8a13fcbdb1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\imgui">
+      <UniqueIdentifier>{e97530c6-d5c2-487c-a527-aa6640d973ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\imgui">
+      <UniqueIdentifier>{cae5bf2d-f379-42bd-85b3-d01722f61884}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Singleton.h">
@@ -66,15 +72,6 @@
     <ClInclude Include="Orbit.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="..\3rdParty\imgui\imconfig.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\imgui\imgui.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\imgui\imgui_internal.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\3rdParty\imgui\imstb_rectpack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -84,22 +81,37 @@
     <ClInclude Include="..\3rdParty\imgui\imstb_truetype.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\3rdParty\imgui\backends\imgui_impl_opengl3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\imgui\backends\imgui_impl_opengl3_loader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\imgui\backends\imgui_impl_sdl2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ImguiRenderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="TrashTheCache.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Command.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui\imconfig.h">
+      <Filter>Header Files\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui\imgui.h">
+      <Filter>Header Files\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui\backends\imgui_impl_opengl3.h">
+      <Filter>Header Files\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui\backends\imgui_impl_opengl3_loader.h">
+      <Filter>Header Files\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui\backends\imgui_impl_sdl2.h">
+      <Filter>Header Files\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui\imgui_internal.h">
+      <Filter>Header Files\imgui</Filter>
+    </ClInclude>
     <ClInclude Include="..\3rdParty\plot\imgui_plot.h">
+      <Filter>Header Files\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImguiRenderer.h">
+      <Filter>Header Files\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="InputAction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -152,35 +164,35 @@
     <ClCompile Include="Orbit.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="..\3rdParty\imgui\imgui.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3rdParty\imgui\imgui_demo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3rdParty\imgui\imgui_draw.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3rdParty\imgui\imgui_tables.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3rdParty\imgui\imgui_widgets.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3rdParty\imgui\backends\imgui_impl_opengl3.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3rdParty\imgui\backends\imgui_impl_sdl2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ImguiRenderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="TrashTheCache.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui\imgui.cpp">
+      <Filter>Source Files\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui\imgui_demo.cpp">
+      <Filter>Source Files\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui\imgui_draw.cpp">
+      <Filter>Source Files\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui\backends\imgui_impl_opengl3.cpp">
+      <Filter>Source Files\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui\backends\imgui_impl_sdl2.cpp">
+      <Filter>Source Files\imgui</Filter>
+    </ClCompile>
     <ClCompile Include="..\3rdParty\plot\imgui_plot.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui\imgui_tables.cpp">
+      <Filter>Source Files\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui\imgui_widgets.cpp">
+      <Filter>Source Files\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImguiRenderer.cpp">
+      <Filter>Source Files\imgui</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

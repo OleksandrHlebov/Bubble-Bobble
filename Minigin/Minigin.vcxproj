@@ -67,7 +67,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;xinput.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent />
     <PostBuildEvent>
@@ -96,7 +96,7 @@ xcopy "$(SolutionDir)Data" "$(OutputPath)Data\" /R /Y</Command>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;xinput.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent />
     <PostBuildEvent>
@@ -117,7 +117,9 @@ xcopy "$(SolutionDir)Data" "$(OutputPath)Data\" /R /Y</Command>
     <ClInclude Include="..\3rdParty\imgui\imstb_textedit.h" />
     <ClInclude Include="..\3rdParty\imgui\imstb_truetype.h" />
     <ClInclude Include="..\3rdParty\plot\imgui_plot.h" />
+    <ClInclude Include="Command.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="InputAction.h" />
     <ClInclude Include="TrashTheCache.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FPSComponent.h" />
