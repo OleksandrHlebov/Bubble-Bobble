@@ -21,6 +21,11 @@ void dae::GameObject::Render()
 	for (auto& comp : m_Components) comp->Render(pos.x, pos.y);
 }
 
+void dae::GameObject::RenderUI()
+{
+	for (auto& comp : m_Components) comp->RenderUI();
+}
+
 void dae::GameObject::Delete()
 {
 	m_PendingDelete = true;

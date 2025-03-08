@@ -18,6 +18,7 @@ namespace dae
 		virtual void Update(float deltaTime);
 		virtual void FixedUpdate(float deltaTime);
 		virtual void Render(float x, float y) const;
+		virtual void RenderUI();
 
 		void Delete();
 		bool IsPendingDelete() const;

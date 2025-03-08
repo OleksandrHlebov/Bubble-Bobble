@@ -40,6 +40,14 @@ void dae::Scene::Update(float deltaTime)
 	ClearPendingDelete();
 }
 
+void Scene::RenderUI()
+{
+	for (auto& object : m_objects)
+	{
+		object->RenderUI();
+	}
+}
+
 void Scene::ClearPendingDelete()
 {
 	std::erase_if(m_objects, [](const auto& object) { return object->IsPendingDelete(); });

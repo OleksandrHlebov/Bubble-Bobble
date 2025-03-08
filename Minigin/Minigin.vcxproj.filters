@@ -194,5 +194,13 @@
     <ClCompile Include="ImguiRenderer.cpp">
       <Filter>Source Files\imgui</Filter>
     </ClCompile>
+    <ClCompile Include="ThrashTheCacheComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ThrashTheCacheComponent.h">
+      <Filter>Components</Filter>
+    </None>
   </ItemGroup>
 </Project>

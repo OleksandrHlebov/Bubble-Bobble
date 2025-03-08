@@ -20,6 +20,7 @@ namespace dae
 		void Update(float deltaTime);
 		void FixedUpdate(float deltaTime);
 		void Render();
+		void RenderUI();
 		void Delete();
 		bool IsPendingDelete() { return m_PendingDelete; }
 		bool IsPositionDirty();

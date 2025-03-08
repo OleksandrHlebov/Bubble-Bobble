@@ -26,9 +26,10 @@ bool Component::IsPendingDelete() const
 
 Component::Component(GameObject* owner) :
 	m_OwnerPtr{ owner }
-{
+{}
 
-}
+void Component::RenderUI()
+{}
 
 dae::GameObject* dae::Component::GetOwner()
 {

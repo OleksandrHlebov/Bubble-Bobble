@@ -37,9 +37,10 @@ void dae::Renderer::Render() const
 	SDL_RenderClear(m_renderer);
 
 	SceneManager::GetInstance().Render();
-
+	ImguiRenderer::GetInstance().NewFrame();
+	SceneManager::GetInstance().RenderUI();
 	ImguiRenderer::GetInstance().Render();
-	
+
 	SDL_RenderPresent(m_renderer);
 }
 

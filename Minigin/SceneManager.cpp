@@ -25,6 +25,14 @@ void dae::SceneManager::Render() const
 	}
 }
 
+void dae::SceneManager::RenderUI() const
+{
+	for (const auto& scene : m_scenes)
+	{
+		scene->RenderUI();
+	}
+}
+
 dae::SceneManager::SceneManager() = default;
 
 dae::SceneManager::~SceneManager() = default;
