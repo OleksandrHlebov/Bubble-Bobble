@@ -2,6 +2,8 @@
 #include "Singleton.h"
 #include <memory>
 #include <list>
+#include <vector>
+#include "Gamepad.h"
 #include "InputAction.h"
 
 namespace dae
@@ -17,7 +19,10 @@ namespace dae
 
 		bool ProcessInput(float deltaTime);
 		
-		void AddPlayer();
+		size_t GetGamepadCount();
+		Gamepad* GetGamepadByIndex(uint32_t index);
+
+		void AddGamepad(Gamepad* gamepad);
 
 		template<typename CommandType>
 		InputAction* CreateInputAction(GameObject* object, Keybind keybind, BindTrigger trigger)
@@ -32,6 +37,6 @@ namespace dae
 
 		class InputManagerImplementation;
 		std::unique_ptr<InputManagerImplementation> m_ImplementationPtr;
-
+		std::vector<Gamepad*> m_Gamepads;
 	};
 }

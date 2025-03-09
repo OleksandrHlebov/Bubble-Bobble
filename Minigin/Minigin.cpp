@@ -109,12 +109,12 @@ void dae::Minigin::Run(const std::function<void()>& load)
 		unloadResorcesTimer += deltaTime;
 
 		doContinue = input.ProcessInput(deltaTime);
+		sceneManager.Update(deltaTime);
 		while (lag >= FIXED_UPDATE_TIME)
 		{
 			sceneManager.FixedUpdate(FIXED_UPDATE_TIME);
 			lag -= FIXED_UPDATE_TIME;
 		}
-		sceneManager.Update(deltaTime);
 		renderer.Render();
 		
 		if (unloadResorcesTimer >= RESOURCES_UNLOAD_TIME)

@@ -120,7 +120,9 @@ xcopy "$(SolutionDir)Data" "$(OutputPath)Data\" /R /Y</Command>
     <ClInclude Include="Command.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Controller.h" />
+    <ClInclude Include="Gamepad.h" />
     <ClInclude Include="InputAction.h" />
+    <ClInclude Include="Keybind.h" />
     <ClInclude Include="KeyboardPlayerController.h" />
     <ClInclude Include="MovementComponent.h" />
     <ClInclude Include="MovementCommands.h" />
@@ -142,6 +144,7 @@ xcopy "$(SolutionDir)Data" "$(OutputPath)Data\" /R /Y</Command>
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="Transform.h" />
+    <ClInclude Include="UIValueTweaker.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdParty\imgui\backends\imgui_impl_opengl3.cpp" />
@@ -153,6 +156,8 @@ xcopy "$(SolutionDir)Data" "$(OutputPath)Data\" /R /Y</Command>
     <ClCompile Include="..\3rdParty\imgui\imgui_widgets.cpp" />
     <ClCompile Include="..\3rdParty\plot\imgui_plot.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="Gamepad.cpp" />
+    <ClCompile Include="Keybind.cpp" />
     <ClCompile Include="KeyboardPlayerController.cpp" />
     <ClCompile Include="MovementComponent.cpp" />
     <ClCompile Include="GamepadPlayerController.cpp" />
@@ -174,6 +179,7 @@ xcopy "$(SolutionDir)Data" "$(OutputPath)Data\" /R /Y</Command>
     <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="UIValueTweaker.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ThrashTheCacheComponent.h" />

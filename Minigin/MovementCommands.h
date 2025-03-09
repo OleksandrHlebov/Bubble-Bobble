@@ -17,8 +17,9 @@ namespace dae
 			Up& operator=(const Up&) = delete;
 			Up& operator=(Up&&) noexcept = delete;
 
-			void Execute(GameObject* object, float deltaTime) override
+			void Execute(GameObject* object, float value, float deltaTime) override
 			{
+				(void)value;
 				(void)deltaTime;
 				MovementComponent* movement = object->GetComponent<MovementComponent>();
 				movement->AddMovementInput(glm::vec3(.0f, -1.f, .0f));
@@ -40,8 +41,9 @@ namespace dae
 			Down& operator=(const Down&) = delete;
 			Down& operator=(Down&&) noexcept = delete;
 
-			void Execute(GameObject* object, float deltaTime) override
+			void Execute(GameObject* object, float value, float deltaTime) override
 			{
+				(void)value;
 				(void)deltaTime;
 				MovementComponent* movement = object->GetComponent<MovementComponent>();
 				movement->AddMovementInput(glm::vec3(.0f, 1.f, .0f));
@@ -63,8 +65,9 @@ namespace dae
 			Right& operator=(const Right&) = delete;
 			Right& operator=(Right&&) noexcept = delete;
 
-			void Execute(GameObject* object, float deltaTime) override
+			void Execute(GameObject* object, float value, float deltaTime) override
 			{
+				(void)value;
 				(void)deltaTime;
 				MovementComponent* movement = object->GetComponent<MovementComponent>();
 				movement->AddMovementInput(glm::vec3(1.f, .0f, .0f));
@@ -86,11 +89,59 @@ namespace dae
 			Left& operator=(const Left&) = delete;
 			Left& operator=(Left&&) noexcept = delete;
 
-			void Execute(GameObject* object, float deltaTime) override
+			void Execute(GameObject* object, float value, float deltaTime) override
 			{
+				(void)value;
 				(void)deltaTime;
 				MovementComponent* movement = object->GetComponent<MovementComponent>();
 				movement->AddMovementInput(glm::vec3(-1.f, .0f, .0f));
+			}
+
+		protected:
+
+		private:
+
+		};
+
+		class UpDown final : public Command
+		{
+		public:
+			UpDown() = default;
+			~UpDown() = default;
+
+			UpDown(const UpDown&) = delete;
+			UpDown(UpDown&&) noexcept = delete;
+			UpDown& operator=(const UpDown&) = delete;
+			UpDown& operator=(UpDown&&) noexcept = delete;
+
+			void Execute(GameObject* object, float value, float deltaTime) override
+			{
+				(void)deltaTime;
+				MovementComponent* movement = object->GetComponent<MovementComponent>();
+				movement->AddMovementInput(glm::vec3(.0f, -value, .0f));
+			}
+
+		protected:
+
+		private:
+
+		};
+		class LeftRight final : public Command
+		{
+		public:
+			LeftRight() = default;
+			~LeftRight() = default;
+
+			LeftRight(const LeftRight&) = delete;
+			LeftRight(LeftRight&&) noexcept = delete;
+			LeftRight& operator=(const LeftRight&) = delete;
+			LeftRight& operator=(LeftRight&&) noexcept = delete;
+
+			void Execute(GameObject* object, float value, float deltaTime) override
+			{
+				(void)deltaTime;
+				MovementComponent* movement = object->GetComponent<MovementComponent>();
+				movement->AddMovementInput(glm::vec3(value, .0f, .0f));
 			}
 
 		protected:

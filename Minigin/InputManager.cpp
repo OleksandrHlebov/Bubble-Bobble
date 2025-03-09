@@ -2,9 +2,11 @@
 #include <windows.h>
 #include <Xinput.h>
 #include <iostream>
-#include <vector>
 #include "InputManager.h"
+#include "GamepadPlayerController.h"
 #include "ImguiRenderer.h"
+#include <numeric>
+#include <iostream>
 
 
 class dae::InputManager::InputManagerImplementation final
@@ -22,17 +24,28 @@ public:
 	void Init();
 
 	bool ProcessInput(float deltaTime);
-	void AddPlayer();
 
 	InputAction* CreateInputAction(GameObject* object, Command* command, Keybind keybind, BindTrigger trigger);
 
 private:
+	template<typename ValueType>
+	float ToPercentOfMax(ValueType value)
+	{
+		return static_cast<float>(value) / std::numeric_limits<ValueType>::max();
+	}
+
+	void ExecuteValue(InputAction& inputAction, float currentValue, float previousValue, float deltaTime)
+	{
+		if (previousValue == 0 && currentValue != 0)
+			inputAction.ExecutePressed(deltaTime, currentValue);
+		if (currentValue != 0)
+			inputAction.ExecuteHeld(deltaTime, currentValue);
+		if (previousValue != 0 && currentValue == 0)
+			inputAction.ExecuteReleased(deltaTime, currentValue);
+	}
+
 	std::list<InputAction>& m_InputActions;
 	std::vector<SDL_Scancode> m_HeldKeys;
-
-	XINPUT_STATE m_PreviousState;
-	XINPUT_STATE m_CurrentState;
-	int m_PlayerCount{ };
 };
 
 bool dae::InputManager::InputManagerImplementation::ProcessInput(float deltaTime)
@@ -46,9 +59,9 @@ bool dae::InputManager::InputManagerImplementation::ProcessInput(float deltaTime
 		{
 			for (InputAction& inputAction : m_InputActions)
 			{
-				if (e.key.keysym.scancode == inputAction.GetKeybind().Keyboard)
+				if (e.key.keysym.scancode == inputAction.GetKeybind().KeyboardBinding)
 				{
-					inputAction.ExecutePressed(deltaTime);
+					inputAction.ExecutePressed(deltaTime, 1.f);
 					m_HeldKeys.push_back(e.key.keysym.scancode);
 				}
 			}
@@ -57,9 +70,9 @@ bool dae::InputManager::InputManagerImplementation::ProcessInput(float deltaTime
 		{
 			for (InputAction& inputAction : m_InputActions)
 			{
-				if (e.key.keysym.scancode == inputAction.GetKeybind().Keyboard)
+				if (e.key.keysym.scancode == inputAction.GetKeybind().KeyboardBinding)
 				{
-					inputAction.ExecuteReleased(deltaTime);
+					inputAction.ExecuteReleased(deltaTime, 1.f);
 					m_HeldKeys.erase(std::remove(m_HeldKeys.begin(), m_HeldKeys.end(), e.key.keysym.scancode));
 				}
 			}
@@ -75,18 +88,22 @@ bool dae::InputManager::InputManagerImplementation::ProcessInput(float deltaTime
 	const Uint8* state = SDL_GetKeyboardState(nullptr);
 	for (InputAction& inputAction : m_InputActions)
 	{
-		if (state[inputAction.GetKeybind().Keyboard])
+		if (state[inputAction.GetKeybind().KeyboardBinding])
 		{
-			inputAction.ExecuteHeld(deltaTime);
+			inputAction.ExecuteHeld(deltaTime, 1.f);
 			m_HeldKeys.push_back(e.key.keysym.scancode);
 		}
 	}
 
-	for (int index{}; index < m_PlayerCount; ++index)
+	for (uint32_t index{}; index < GetInstance().GetGamepadCount(); ++index)
 	{
-		CopyMemory(&m_PreviousState, &m_CurrentState, sizeof(XINPUT_STATE));
-		ZeroMemory(&m_CurrentState, sizeof(XINPUT_STATE));
-		DWORD dwResult = XInputGetState(index, &m_CurrentState);
+		Gamepad* gamepad = GetInstance().GetGamepadByIndex(index);
+		XINPUT_STATE* currentState  = (XINPUT_STATE*)gamepad->GetCurrentState();
+		XINPUT_STATE* previousState = (XINPUT_STATE*)gamepad->GetPreviousState();
+
+		CopyMemory(previousState, currentState, sizeof(XINPUT_STATE));
+		ZeroMemory(currentState, sizeof(XINPUT_STATE));
+		DWORD dwResult = XInputGetState(index, currentState);
 
 		if (dwResult != ERROR_SUCCESS)
 		{
@@ -98,20 +115,101 @@ bool dae::InputManager::InputManagerImplementation::ProcessInput(float deltaTime
 			else continue;
 		}
 
-		WORD buttonChanges = m_CurrentState.Gamepad.wButtons ^ m_PreviousState.Gamepad.wButtons;
-		WORD buttonsPressedThisFrame = buttonChanges & m_CurrentState.Gamepad.wButtons;
-		WORD buttonsReleasedThisFrame = buttonChanges & (~m_CurrentState.Gamepad.wButtons);
-		WORD buttonsHeldThisFrame = m_CurrentState.Gamepad.wButtons;
+		WORD buttonChanges = currentState->Gamepad.wButtons ^ previousState->Gamepad.wButtons;
+		WORD buttonsPressedThisFrame = buttonChanges & currentState->Gamepad.wButtons;
+		WORD buttonsReleasedThisFrame = buttonChanges & (~currentState->Gamepad.wButtons);
+		WORD buttonsHeldThisFrame = currentState->Gamepad.wButtons;
 
 		for (InputAction& inputAction : m_InputActions)
 		{
-			WORD keyMask = static_cast<WORD>(inputAction.GetKeybind().Gamepad);
+			Gamepad::Binding binding = inputAction.GetKeybind().GamepadBinding;
+			WORD keyMask = static_cast<WORD>(binding.BoundButtons);
 			if (keyMask & buttonsPressedThisFrame)
-				inputAction.ExecutePressed(deltaTime);
+				inputAction.ExecutePressed(deltaTime, 1.f);
 			if (keyMask & buttonsHeldThisFrame)
-				inputAction.ExecuteHeld(deltaTime);
+				inputAction.ExecuteHeld(deltaTime, 1.f);
 			if (keyMask & buttonsReleasedThisFrame)
-				inputAction.ExecuteReleased(deltaTime);
+				inputAction.ExecuteReleased(deltaTime, 1.f);
+
+			Gamepad::ValueProvider provider = binding.BoundProvider;
+
+			switch (provider)
+			{
+			case Gamepad::ValueProvider::None:
+				break;
+			case Gamepad::ValueProvider::LeftTrigger:
+			{
+				BYTE currentValue = currentState->Gamepad.bLeftTrigger;
+				BYTE previousValue = previousState->Gamepad.bLeftTrigger;
+				float currentPercent = ToPercentOfMax<BYTE>(currentValue);
+				float previousPercent = ToPercentOfMax<BYTE>(previousValue);
+				ExecuteValue(inputAction, currentPercent, previousPercent, deltaTime);
+				break;
+			}
+			case Gamepad::ValueProvider::RightTrigger:
+			{
+				BYTE currentValue = currentState->Gamepad.bRightTrigger;
+				BYTE previousValue = previousState->Gamepad.bRightTrigger;
+				float currentPercent = ToPercentOfMax<BYTE>(currentValue);
+				float previousPercent = ToPercentOfMax<BYTE>(previousValue);
+				ExecuteValue(inputAction, currentPercent, previousPercent, deltaTime);
+				break;
+			}
+			case Gamepad::ValueProvider::LeftThumbX:
+			{
+				SHORT currentValue = currentState->Gamepad.sThumbLX;
+				SHORT previousValue = previousState->Gamepad.sThumbLX;
+				float currentPercent = ToPercentOfMax<SHORT>(currentValue);
+				float previousPercent = ToPercentOfMax<SHORT>(previousValue);
+				if (abs(currentPercent) < gamepad->GetDeadzone())
+					currentPercent = .0f;
+				if (abs(previousPercent) < gamepad->GetDeadzone())
+					previousPercent = .0f;
+				ExecuteValue(inputAction, currentPercent, previousPercent, deltaTime);
+				break;
+			}
+			case Gamepad::ValueProvider::LeftThumbY:
+			{
+				SHORT currentValue = currentState->Gamepad.sThumbLY;
+				SHORT previousValue = previousState->Gamepad.sThumbLY;
+				float currentPercent = ToPercentOfMax<SHORT>(currentValue);
+				float previousPercent = ToPercentOfMax<SHORT>(previousValue);
+				if (abs(currentPercent) < gamepad->GetDeadzone())
+					currentPercent = .0f;
+				if (abs(previousPercent) < gamepad->GetDeadzone())
+					previousPercent = .0f;
+				ExecuteValue(inputAction, currentPercent, previousPercent, deltaTime);
+				break;
+			}
+			case Gamepad::ValueProvider::RightThumbX:
+			{
+				SHORT currentValue = currentState->Gamepad.sThumbRX;
+				SHORT previousValue = previousState->Gamepad.sThumbRX;
+				float currentPercent = ToPercentOfMax<SHORT>(currentValue);
+				float previousPercent = ToPercentOfMax<SHORT>(previousValue);
+				if (abs(currentPercent) < gamepad->GetDeadzone())
+					currentPercent = .0f;
+				if (abs(previousPercent) < gamepad->GetDeadzone())
+					previousPercent = .0f;
+				ExecuteValue(inputAction, currentPercent, previousPercent, deltaTime);
+				break;
+			}
+			case Gamepad::ValueProvider::RightThumbY:
+			{
+				SHORT currentValue = currentState->Gamepad.sThumbRY;
+				SHORT previousValue = previousState->Gamepad.sThumbRY;
+				float currentPercent = ToPercentOfMax<SHORT>(currentValue);
+				float previousPercent = ToPercentOfMax<SHORT>(previousValue);
+				if (abs(currentPercent) < gamepad->GetDeadzone())
+					currentPercent = .0f;
+				if (abs(previousPercent) < gamepad->GetDeadzone())
+					previousPercent = .0f;
+				ExecuteValue(inputAction, currentPercent, previousPercent, deltaTime);
+				break;
+			}
+			default:
+				break;
+			}
 		}
 	}
 
@@ -120,16 +218,18 @@ bool dae::InputManager::InputManagerImplementation::ProcessInput(float deltaTime
 
 void dae::InputManager::InputManagerImplementation::Init()
 {
-	for (int index{}; index < m_PlayerCount; ++index)
+	for (uint32_t index{}; index < GetInstance().GetGamepadCount(); ++index)
 	{
-		CopyMemory(&m_PreviousState, &m_CurrentState, sizeof(XINPUT_STATE));
-		ZeroMemory(&m_CurrentState, sizeof(XINPUT_STATE));
-		DWORD dwResult = XInputGetState(index, &m_CurrentState);
+		Gamepad* gamepad = GetInstance().GetGamepadByIndex(index);
+		CopyMemory(gamepad->GetPreviousState(), gamepad->GetCurrentState(), sizeof(XINPUT_STATE));
+		ZeroMemory(gamepad->GetCurrentState(), sizeof(XINPUT_STATE));
+		DWORD dwResult = XInputGetState(index, (XINPUT_STATE*)gamepad->GetCurrentState());
 		if (dwResult != ERROR_SUCCESS)
 		{
 			if (dwResult == ERROR_DEVICE_NOT_CONNECTED)
 			{
 				std::cerr << "Controller " << index << " not connected\n";
+				continue;
 			}
 			else
 			{
@@ -137,12 +237,8 @@ void dae::InputManager::InputManagerImplementation::Init()
 				throw std::runtime_error("Failed to get xinput state. Code: " + std::to_string(dwResult));
 			}
 		}
+		gamepad->SetConnectionResult(true);
 	}
-}
-
-void dae::InputManager::InputManagerImplementation::AddPlayer()
-{
-	++m_PlayerCount;
 }
 
 dae::InputManager::InputManager() : m_ImplementationPtr{ std::make_unique<InputManagerImplementation>(m_InputActions) }
@@ -161,7 +257,17 @@ bool dae::InputManager::ProcessInput(float deltaTime)
 	return m_ImplementationPtr->ProcessInput(deltaTime);
 }
 
-void dae::InputManager::AddPlayer()
+size_t dae::InputManager::GetGamepadCount()
 {
-	m_ImplementationPtr->AddPlayer();
+	return m_Gamepads.size();
+}
+
+dae::Gamepad* dae::InputManager::GetGamepadByIndex(uint32_t index)
+{
+	return m_Gamepads[index];
+}
+
+void dae::InputManager::AddGamepad(Gamepad* gamepad)
+{
+	m_Gamepads.push_back(gamepad);
 }

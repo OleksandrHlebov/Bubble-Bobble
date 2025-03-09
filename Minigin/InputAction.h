@@ -2,42 +2,11 @@
 #include "Command.h"
 #include "GameObject.h"
 #include <memory>
-#include "SDL_scancode.h"
+#include <any>
+#include "Keybind.h"
 
 namespace dae
 {
-	// own keybind implementation to allow
-	// adjusting and remapping for other os
-	enum class GamepadKey : uint32_t
-	{
-		DPadUp			= 0x0001,
-		DPadDown		= 0x0002,
-		DPadLeft		= 0x0004,
-		DPadRight		= 0x0008,
-		Start			= 0x0010,
-		Back			= 0x0020,
-		LeftThumb		= 0x0040,
-		RightThumb		= 0x0080,
-		LeftShoulder	= 0x0100,
-		RightShoulder	= 0x0200,
-		A				= 0x1000,
-		B				= 0x2000,
-		X				= 0x4000,
-		Y				= 0x8000
-	};
-	
-	struct Keybind
-	{
-		Keybind() = default;
-		Keybind(GamepadKey gamepadKey) : Gamepad{ gamepadKey }
-		{ }
-		Keybind(SDL_Scancode scancode) : Keyboard{ scancode }
-		{}
-
-		GamepadKey	 Gamepad { 0 };
-		SDL_Scancode Keyboard{ SDL_SCANCODE_UNKNOWN };
-	};
-
 	enum class BindTrigger : uint8_t
 	{
 		Pressed,
@@ -87,9 +56,9 @@ namespace dae
 			}
 		}
 
-		void ExecutePressed(float deltaTime)	{ if (m_PressedPtr)	 m_PressedPtr->Execute(m_Object, deltaTime);	}
-		void ExecuteHeld(float deltaTime)		{ if (m_HeldPtr)	 m_HeldPtr->Execute(m_Object, deltaTime);		}
-		void ExecuteReleased(float deltaTime)	{ if (m_ReleasedPtr) m_ReleasedPtr->Execute(m_Object, deltaTime);	}
+		void ExecutePressed(float deltaTime, float value)	{ if (m_PressedPtr)	 m_PressedPtr->Execute(m_Object, value, deltaTime);	}
+		void ExecuteHeld(float deltaTime, float value)		{ if (m_HeldPtr)	 m_HeldPtr->Execute(m_Object, value, deltaTime);			}
+		void ExecuteReleased(float deltaTime, float value)	{ if (m_ReleasedPtr) m_ReleasedPtr->Execute(m_Object, value, deltaTime);		}
 
 		Keybind GetKeybind()
 		{

@@ -20,9 +20,8 @@ namespace dae
 		GamepadPlayerController& operator=(const GamepadPlayerController&)		= delete;
 		GamepadPlayerController& operator=(GamepadPlayerController&&) noexcept	= delete;
 
-		uint32_t GetPlayerIndex() { return m_PlayerIndex; }
-
 		void Start() override;
+		Gamepad* GetGamepad() { return &m_Gamepad; }
 
 	private:
 		InputAction* m_IAMoveUp;
@@ -30,7 +29,9 @@ namespace dae
 		InputAction* m_IAMoveRight;
 		InputAction* m_IAMoveLeft;
 
-		inline static uint32_t m_PlayerCount{};
-		uint32_t m_PlayerIndex;
+		InputAction* m_IAMoveUpDown;
+		InputAction* m_IAMoveRightLeft;
+		Gamepad		 m_Gamepad{};
+
 	};
 }
