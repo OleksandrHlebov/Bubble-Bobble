@@ -157,6 +157,7 @@ xcopy "$(SolutionDir)Data" "$(OutputPath)Data\" /R /Y</Command>
     <ClCompile Include="..\3rdParty\plot\imgui_plot.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Gamepad.cpp" />
+    <ClCompile Include="InputAction.cpp" />
     <ClCompile Include="Keybind.cpp" />
     <ClCompile Include="KeyboardPlayerController.cpp" />
     <ClCompile Include="MovementComponent.cpp" />

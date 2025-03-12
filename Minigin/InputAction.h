@@ -17,9 +17,10 @@ namespace dae
 	class InputAction final
 	{
 	public:
-		InputAction(GameObject* object, Command* command, Keybind keybind, BindTrigger trigger) 
-			: m_Keybind{ keybind }, m_Object{ object }
+		InputAction(Command* command, Keybind keybind, BindTrigger trigger) 
+			: m_Keybind{ keybind }
 		{
+			command->Initialize(this);
 			switch (trigger)
 			{
 			case BindTrigger::Pressed:
@@ -56,20 +57,43 @@ namespace dae
 			}
 		}
 
-		void ExecutePressed(float deltaTime, float value)	{ if (m_PressedPtr)	 m_PressedPtr->Execute(m_Object, value, deltaTime);	}
-		void ExecuteHeld(float deltaTime, float value)		{ if (m_HeldPtr)	 m_HeldPtr->Execute(m_Object, value, deltaTime);			}
-		void ExecuteReleased(float deltaTime, float value)	{ if (m_ReleasedPtr) m_ReleasedPtr->Execute(m_Object, value, deltaTime);		}
-
-		Keybind GetKeybind()
+		void UnBind(BindTrigger trigger)
 		{
-			return m_Keybind;
+			switch (trigger)
+			{
+			case BindTrigger::Pressed:
+				m_PressedPtr.reset(nullptr);
+				break;
+			case BindTrigger::Held:
+				m_HeldPtr.reset(nullptr);
+				break;
+			case BindTrigger::Released:
+				m_ReleasedPtr.reset(nullptr);
+				break;
+			}
 		}
+
+		void ChangeKeybind(Keybind&& keybind)
+		{
+			m_Keybind = std::move(keybind);
+		}
+
+		float GetValue() { return m_Value; }
+
+		float GetDeltaTime() { return m_DeltaTime; }
+
+		void ExecutePressed	(float deltaTime, float value = 1.f);
+		void ExecuteHeld	(float deltaTime, float value = 1.f);
+		void ExecuteReleased(float deltaTime, float value = 1.f);
+
+		Keybind GetKeybind() { return m_Keybind; }
 
 	private:
 		std::unique_ptr<Command> m_PressedPtr	{};
 		std::unique_ptr<Command> m_HeldPtr		{};
 		std::unique_ptr<Command> m_ReleasedPtr	{};
 		Keybind m_Keybind{};
-		GameObject* m_Object;
+		float m_Value{};
+		float m_DeltaTime{};
 	};
 }

@@ -9,10 +9,10 @@ dae::KeyboardPlayerController::~KeyboardPlayerController() {}
 
 void dae::KeyboardPlayerController::Start()
 {
-	m_IAMoveUp		= InputManager::GetInstance().CreateInputAction<Move::Up>(GetControlledObject(), SDL_SCANCODE_W, BindTrigger::Held);
-	m_IAMoveDown	= InputManager::GetInstance().CreateInputAction<Move::Down>(GetControlledObject(), SDL_SCANCODE_S, BindTrigger::Held);
-	m_IAMoveRight	= InputManager::GetInstance().CreateInputAction<Move::Right>(GetControlledObject(), SDL_SCANCODE_D, BindTrigger::Held);
-	m_IAMoveLeft	= InputManager::GetInstance().CreateInputAction<Move::Left>(GetControlledObject(), SDL_SCANCODE_A, BindTrigger::Held);
+	m_IAMoveUp		= InputManager::GetInstance().CreateInputAction<MoveCommand>(SDL_SCANCODE_W, BindTrigger::Held, GetControlledObject(), glm::vec3{  .0f, -1.f, .0f });
+	m_IAMoveLeft	= InputManager::GetInstance().CreateInputAction<MoveCommand>(SDL_SCANCODE_A, BindTrigger::Held, GetControlledObject(), glm::vec3{ -1.f,  .0f, .0f });
+	m_IAMoveDown	= InputManager::GetInstance().CreateInputAction<MoveCommand>(SDL_SCANCODE_S, BindTrigger::Held, GetControlledObject(), glm::vec3{  .0f,  1.f, .0f });
+	m_IAMoveRight	= InputManager::GetInstance().CreateInputAction<MoveCommand>(SDL_SCANCODE_D, BindTrigger::Held, GetControlledObject(), glm::vec3{  1.f,  .0f, .0f });
 }
 
 

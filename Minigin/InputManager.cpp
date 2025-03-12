@@ -61,7 +61,7 @@ bool dae::InputManager::InputManagerImplementation::ProcessInput(float deltaTime
 			{
 				if (e.key.keysym.scancode == inputAction.GetKeybind().KeyboardBinding)
 				{
-					inputAction.ExecutePressed(deltaTime, 1.f);
+					inputAction.ExecutePressed(deltaTime);
 					m_HeldKeys.push_back(e.key.keysym.scancode);
 				}
 			}
@@ -72,7 +72,7 @@ bool dae::InputManager::InputManagerImplementation::ProcessInput(float deltaTime
 			{
 				if (e.key.keysym.scancode == inputAction.GetKeybind().KeyboardBinding)
 				{
-					inputAction.ExecuteReleased(deltaTime, 1.f);
+					inputAction.ExecuteReleased(deltaTime);
 					m_HeldKeys.erase(std::remove(m_HeldKeys.begin(), m_HeldKeys.end(), e.key.keysym.scancode));
 				}
 			}
@@ -90,7 +90,7 @@ bool dae::InputManager::InputManagerImplementation::ProcessInput(float deltaTime
 	{
 		if (state[inputAction.GetKeybind().KeyboardBinding])
 		{
-			inputAction.ExecuteHeld(deltaTime, 1.f);
+			inputAction.ExecuteHeld(deltaTime);
 			m_HeldKeys.push_back(e.key.keysym.scancode);
 		}
 	}
@@ -123,92 +123,99 @@ bool dae::InputManager::InputManagerImplementation::ProcessInput(float deltaTime
 		for (InputAction& inputAction : m_InputActions)
 		{
 			Gamepad::Binding binding = inputAction.GetKeybind().GamepadBinding;
-			WORD keyMask = static_cast<WORD>(binding.BoundButtons);
-			if (keyMask & buttonsPressedThisFrame)
-				inputAction.ExecutePressed(deltaTime, 1.f);
-			if (keyMask & buttonsHeldThisFrame)
-				inputAction.ExecuteHeld(deltaTime, 1.f);
-			if (keyMask & buttonsReleasedThisFrame)
-				inputAction.ExecuteReleased(deltaTime, 1.f);
-
 			Gamepad::ValueProvider provider = binding.BoundProvider;
+			WORD keyMask = static_cast<WORD>(binding.BoundButtons);
 
-			switch (provider)
+			if (provider == Gamepad::ValueProvider::None)
 			{
-			case Gamepad::ValueProvider::None:
-				break;
-			case Gamepad::ValueProvider::LeftTrigger:
-			{
-				BYTE currentValue = currentState->Gamepad.bLeftTrigger;
-				BYTE previousValue = previousState->Gamepad.bLeftTrigger;
-				float currentPercent = ToPercentOfMax<BYTE>(currentValue);
-				float previousPercent = ToPercentOfMax<BYTE>(previousValue);
-				ExecuteValue(inputAction, currentPercent, previousPercent, deltaTime);
-				break;
+				if (keyMask & buttonsPressedThisFrame)
+					inputAction.ExecutePressed(deltaTime);
+				if (keyMask & buttonsHeldThisFrame)
+					inputAction.ExecuteHeld(deltaTime);
+				if (keyMask & buttonsReleasedThisFrame)
+					inputAction.ExecuteReleased(deltaTime);
 			}
-			case Gamepad::ValueProvider::RightTrigger:
+			else
 			{
-				BYTE currentValue = currentState->Gamepad.bRightTrigger;
-				BYTE previousValue = previousState->Gamepad.bRightTrigger;
-				float currentPercent = ToPercentOfMax<BYTE>(currentValue);
-				float previousPercent = ToPercentOfMax<BYTE>(previousValue);
-				ExecuteValue(inputAction, currentPercent, previousPercent, deltaTime);
-				break;
-			}
-			case Gamepad::ValueProvider::LeftThumbX:
-			{
-				SHORT currentValue = currentState->Gamepad.sThumbLX;
-				SHORT previousValue = previousState->Gamepad.sThumbLX;
-				float currentPercent = ToPercentOfMax<SHORT>(currentValue);
-				float previousPercent = ToPercentOfMax<SHORT>(previousValue);
-				if (abs(currentPercent) < gamepad->GetDeadzone())
-					currentPercent = .0f;
-				if (abs(previousPercent) < gamepad->GetDeadzone())
-					previousPercent = .0f;
-				ExecuteValue(inputAction, currentPercent, previousPercent, deltaTime);
-				break;
-			}
-			case Gamepad::ValueProvider::LeftThumbY:
-			{
-				SHORT currentValue = currentState->Gamepad.sThumbLY;
-				SHORT previousValue = previousState->Gamepad.sThumbLY;
-				float currentPercent = ToPercentOfMax<SHORT>(currentValue);
-				float previousPercent = ToPercentOfMax<SHORT>(previousValue);
-				if (abs(currentPercent) < gamepad->GetDeadzone())
-					currentPercent = .0f;
-				if (abs(previousPercent) < gamepad->GetDeadzone())
-					previousPercent = .0f;
-				ExecuteValue(inputAction, currentPercent, previousPercent, deltaTime);
-				break;
-			}
-			case Gamepad::ValueProvider::RightThumbX:
-			{
-				SHORT currentValue = currentState->Gamepad.sThumbRX;
-				SHORT previousValue = previousState->Gamepad.sThumbRX;
-				float currentPercent = ToPercentOfMax<SHORT>(currentValue);
-				float previousPercent = ToPercentOfMax<SHORT>(previousValue);
-				if (abs(currentPercent) < gamepad->GetDeadzone())
-					currentPercent = .0f;
-				if (abs(previousPercent) < gamepad->GetDeadzone())
-					previousPercent = .0f;
-				ExecuteValue(inputAction, currentPercent, previousPercent, deltaTime);
-				break;
-			}
-			case Gamepad::ValueProvider::RightThumbY:
-			{
-				SHORT currentValue = currentState->Gamepad.sThumbRY;
-				SHORT previousValue = previousState->Gamepad.sThumbRY;
-				float currentPercent = ToPercentOfMax<SHORT>(currentValue);
-				float previousPercent = ToPercentOfMax<SHORT>(previousValue);
-				if (abs(currentPercent) < gamepad->GetDeadzone())
-					currentPercent = .0f;
-				if (abs(previousPercent) < gamepad->GetDeadzone())
-					previousPercent = .0f;
-				ExecuteValue(inputAction, currentPercent, previousPercent, deltaTime);
-				break;
-			}
-			default:
-				break;
+				if (keyMask && !(keyMask & buttonsHeldThisFrame))
+					continue;
+				switch (provider)
+				{
+				case Gamepad::ValueProvider::None:
+					break;
+				case Gamepad::ValueProvider::LeftTrigger:
+				{
+					BYTE currentValue = currentState->Gamepad.bLeftTrigger;
+					BYTE previousValue = previousState->Gamepad.bLeftTrigger;
+					float currentPercent = ToPercentOfMax<BYTE>(currentValue);
+					float previousPercent = ToPercentOfMax<BYTE>(previousValue);
+					ExecuteValue(inputAction, currentPercent, previousPercent, deltaTime);
+					break;
+				}
+				case Gamepad::ValueProvider::RightTrigger:
+				{
+					BYTE currentValue = currentState->Gamepad.bRightTrigger;
+					BYTE previousValue = previousState->Gamepad.bRightTrigger;
+					float currentPercent = ToPercentOfMax<BYTE>(currentValue);
+					float previousPercent = ToPercentOfMax<BYTE>(previousValue);
+					ExecuteValue(inputAction, currentPercent, previousPercent, deltaTime);
+					break;
+				}
+				case Gamepad::ValueProvider::LeftThumbX:
+				{
+					SHORT currentValue = currentState->Gamepad.sThumbLX;
+					SHORT previousValue = previousState->Gamepad.sThumbLX;
+					float currentPercent = ToPercentOfMax<SHORT>(currentValue);
+					float previousPercent = ToPercentOfMax<SHORT>(previousValue);
+					if (abs(currentPercent) < gamepad->GetDeadzone())
+						currentPercent = .0f;
+					if (abs(previousPercent) < gamepad->GetDeadzone())
+						previousPercent = .0f;
+					ExecuteValue(inputAction, currentPercent, previousPercent, deltaTime);
+					break;
+				}
+				case Gamepad::ValueProvider::LeftThumbY:
+				{
+					SHORT currentValue = currentState->Gamepad.sThumbLY;
+					SHORT previousValue = previousState->Gamepad.sThumbLY;
+					float currentPercent = ToPercentOfMax<SHORT>(currentValue);
+					float previousPercent = ToPercentOfMax<SHORT>(previousValue);
+					if (abs(currentPercent) < gamepad->GetDeadzone())
+						currentPercent = .0f;
+					if (abs(previousPercent) < gamepad->GetDeadzone())
+						previousPercent = .0f;
+					ExecuteValue(inputAction, currentPercent, previousPercent, deltaTime);
+					break;
+				}
+				case Gamepad::ValueProvider::RightThumbX:
+				{
+					SHORT currentValue = currentState->Gamepad.sThumbRX;
+					SHORT previousValue = previousState->Gamepad.sThumbRX;
+					float currentPercent = ToPercentOfMax<SHORT>(currentValue);
+					float previousPercent = ToPercentOfMax<SHORT>(previousValue);
+					if (abs(currentPercent) < gamepad->GetDeadzone())
+						currentPercent = .0f;
+					if (abs(previousPercent) < gamepad->GetDeadzone())
+						previousPercent = .0f;
+					ExecuteValue(inputAction, currentPercent, previousPercent, deltaTime);
+					break;
+				}
+				case Gamepad::ValueProvider::RightThumbY:
+				{
+					SHORT currentValue = currentState->Gamepad.sThumbRY;
+					SHORT previousValue = previousState->Gamepad.sThumbRY;
+					float currentPercent = ToPercentOfMax<SHORT>(currentValue);
+					float previousPercent = ToPercentOfMax<SHORT>(previousValue);
+					if (abs(currentPercent) < gamepad->GetDeadzone())
+						currentPercent = .0f;
+					if (abs(previousPercent) < gamepad->GetDeadzone())
+						previousPercent = .0f;
+					ExecuteValue(inputAction, currentPercent, previousPercent, deltaTime);
+					break;
+				}
+				default:
+					break;
+				}
 			}
 		}
 	}

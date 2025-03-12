@@ -12,6 +12,7 @@ namespace dae
 	public:
 		enum class Button : uint32_t
 		{
+			None = 0,
 			DPadUp = 0x0001,
 			DPadDown = 0x0002,
 			DPadLeft = 0x0004,
@@ -48,7 +49,12 @@ namespace dae
 			Binding(Button button) : BoundButtons{ static_cast<uint32_t>(button) }
 			{
 			}
-			Binding(ValueProvider provider) : BoundProvider{ provider }
+			// optional required button to be pressed with value provider (Combo: LeftThumbX + X)
+			Binding(ValueProvider provider, Button button = Button::None) : BoundProvider{ provider }, BoundButtons{ static_cast<uint32_t>(button) }
+			{
+			}
+			// needs a value provider having a value and multiple buttons pressed at the same time (Combo: LeftThumbX + X + A)
+			Binding(ValueProvider provider, uint32_t buttons) : BoundProvider{ provider }, BoundButtons{ buttons }
 			{
 			}
 

@@ -25,9 +25,16 @@ namespace dae
 		void AddGamepad(Gamepad* gamepad);
 
 		template<typename CommandType>
-		InputAction* CreateInputAction(GameObject* object, Keybind keybind, BindTrigger trigger)
+		InputAction* CreateInputAction(Keybind keybind, BindTrigger trigger)
 		{
-			auto& action = m_InputActions.emplace_back(object, new CommandType(), keybind, trigger);
+			auto& action = m_InputActions.emplace_back(new CommandType(), keybind, trigger);
+			return &action;
+		}
+
+		template<typename GameObjectCommandType, typename... Args>
+		InputAction* CreateInputAction(Keybind keybind, BindTrigger trigger, GameObject* object, Args&&... constructorParams)
+		{
+			auto& action = m_InputActions.emplace_back(new GameObjectCommandType(object, std::forward<Args>(constructorParams)...), keybind, trigger);
 			return &action;
 		}
 

@@ -14,7 +14,10 @@ namespace dae
 		Keybind(Gamepad::Button gamepadButton) : GamepadBinding{ gamepadButton }
 		{
 		}
-		Keybind(Gamepad::ValueProvider provider) : GamepadBinding{ provider }
+		Keybind(Gamepad::ValueProvider provider, Gamepad::Button button = Gamepad::Button::None) : GamepadBinding{ provider, button }
+		{
+		}
+		Keybind(Gamepad::ValueProvider provider, uint32_t buttons) : GamepadBinding{ provider, buttons }
 		{
 		}
 		Keybind(SDL_Scancode scancode) : KeyboardBinding{ scancode }
