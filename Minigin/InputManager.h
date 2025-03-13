@@ -39,11 +39,26 @@ namespace dae
 		}
 
 	private:
+		template<typename ValueType>
+		float ToPercentOfMax(ValueType value)
+		{
+			return static_cast<float>(value) / std::numeric_limits<ValueType>::max();
+		}
+
+		void ExecuteValue(InputAction& inputAction, float currentValue, float previousValue, float deltaTime)
+		{
+			if (previousValue == 0 && currentValue != 0)
+				inputAction.ExecutePressed(deltaTime, currentValue);
+			if (currentValue != 0)
+				inputAction.ExecuteHeld(deltaTime, currentValue);
+			if (previousValue != 0 && currentValue == 0)
+				inputAction.ExecuteReleased(deltaTime, currentValue);
+		}
+
 		// list to not invalidate references on push back
 		std::list<InputAction> m_InputActions;
 
-		class InputManagerImplementation;
-		std::unique_ptr<InputManagerImplementation> m_ImplementationPtr;
+
 		std::vector<Gamepad*> m_Gamepads;
 	};
 }

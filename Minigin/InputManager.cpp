@@ -8,47 +8,7 @@
 #include <numeric>
 #include <iostream>
 
-
-class dae::InputManager::InputManagerImplementation final
-{
-public:
-	InputManagerImplementation(std::list<InputAction>& actionList) : m_InputActions{ actionList }
-	{ }
-	~InputManagerImplementation() = default;
-
-	InputManagerImplementation(const InputManagerImplementation&) = delete;
-	InputManagerImplementation(InputManagerImplementation&&) noexcept = delete;
-	InputManagerImplementation& operator=(const InputManagerImplementation&) = delete;
-	InputManagerImplementation& operator=(InputManagerImplementation&&) noexcept = delete;
-
-	void Init();
-
-	bool ProcessInput(float deltaTime);
-
-	InputAction* CreateInputAction(GameObject* object, Command* command, Keybind keybind, BindTrigger trigger);
-
-private:
-	template<typename ValueType>
-	float ToPercentOfMax(ValueType value)
-	{
-		return static_cast<float>(value) / std::numeric_limits<ValueType>::max();
-	}
-
-	void ExecuteValue(InputAction& inputAction, float currentValue, float previousValue, float deltaTime)
-	{
-		if (previousValue == 0 && currentValue != 0)
-			inputAction.ExecutePressed(deltaTime, currentValue);
-		if (currentValue != 0)
-			inputAction.ExecuteHeld(deltaTime, currentValue);
-		if (previousValue != 0 && currentValue == 0)
-			inputAction.ExecuteReleased(deltaTime, currentValue);
-	}
-
-	std::list<InputAction>& m_InputActions;
-	std::vector<SDL_Scancode> m_HeldKeys;
-};
-
-bool dae::InputManager::InputManagerImplementation::ProcessInput(float deltaTime)
+bool dae::InputManager::ProcessInput(float deltaTime)
 {
 	SDL_Event e;
 	while (SDL_PollEvent(&e)) {
@@ -62,7 +22,6 @@ bool dae::InputManager::InputManagerImplementation::ProcessInput(float deltaTime
 				if (e.key.keysym.scancode == inputAction.GetKeybind().KeyboardBinding)
 				{
 					inputAction.ExecutePressed(deltaTime);
-					m_HeldKeys.push_back(e.key.keysym.scancode);
 				}
 			}
 		}
@@ -73,7 +32,6 @@ bool dae::InputManager::InputManagerImplementation::ProcessInput(float deltaTime
 				if (e.key.keysym.scancode == inputAction.GetKeybind().KeyboardBinding)
 				{
 					inputAction.ExecuteReleased(deltaTime);
-					m_HeldKeys.erase(std::remove(m_HeldKeys.begin(), m_HeldKeys.end(), e.key.keysym.scancode));
 				}
 			}
 		}
@@ -91,7 +49,6 @@ bool dae::InputManager::InputManagerImplementation::ProcessInput(float deltaTime
 		if (state[inputAction.GetKeybind().KeyboardBinding])
 		{
 			inputAction.ExecuteHeld(deltaTime);
-			m_HeldKeys.push_back(e.key.keysym.scancode);
 		}
 	}
 
@@ -223,7 +180,7 @@ bool dae::InputManager::InputManagerImplementation::ProcessInput(float deltaTime
 	return true;
 }
 
-void dae::InputManager::InputManagerImplementation::Init()
+void dae::InputManager::Init()
 {
 	for (uint32_t index{}; index < GetInstance().GetGamepadCount(); ++index)
 	{
@@ -248,21 +205,11 @@ void dae::InputManager::InputManagerImplementation::Init()
 	}
 }
 
-dae::InputManager::InputManager() : m_ImplementationPtr{ std::make_unique<InputManagerImplementation>(m_InputActions) }
+dae::InputManager::InputManager()
 {}
 
 dae::InputManager::~InputManager()
 {}
-
-void dae::InputManager::Init()
-{
-	m_ImplementationPtr->Init();
-}
-
-bool dae::InputManager::ProcessInput(float deltaTime)
-{
-	return m_ImplementationPtr->ProcessInput(deltaTime);
-}
 
 size_t dae::InputManager::GetGamepadCount()
 {
