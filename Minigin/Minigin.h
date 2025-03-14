@@ -17,6 +17,8 @@ namespace dae
 		Minigin& operator=(Minigin&& other) = delete;
 
 	private:
+		inline static const int		WINDOW_WIDTH			{ 640 };
+		inline static const int		WINDOW_HEIGHT			{ 480 };
 		inline static const int		PLAYER_COUNT			{ 2 };
 		inline static const int		MS_PER_FRAME			{ 0 };
 		inline static const bool	VSYNC_ON				{ 1 };

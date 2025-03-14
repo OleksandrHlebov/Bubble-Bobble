@@ -41,7 +41,7 @@ namespace dae
 
 		Render2DComponent m_RenderComponent;
 
-		std::string	m_Text;
+		std::string	m_Text{};
 		SDL_Color	m_Color{ 255, 255, 255, 255 };
 
 		bool m_NeedsUpdate{ true };

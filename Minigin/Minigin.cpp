@@ -10,6 +10,7 @@
 #include "SceneManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
+#include "EventDispatcher.h"
 #include <thread>
 #include <cinttypes>
 #include <iostream>
@@ -58,8 +59,8 @@ dae::Minigin::Minigin(const std::string &dataPath)
 		"Programming 4 assignment",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
-		640,
-		480,
+		WINDOW_WIDTH,
+		WINDOW_HEIGHT,
 		SDL_WINDOW_OPENGL
 	);
 	if (g_window == nullptr) 
@@ -91,6 +92,7 @@ void dae::Minigin::Run(const std::function<void()>& load)
 	auto& sceneManager = SceneManager::GetInstance();
 	auto& input = InputManager::GetInstance();
 	auto& resourceManager = ResourceManager::GetInstance();
+	auto& eventDispatcher = EventDispatcher::GetInstance();
 
 	input.Init();
 	sceneManager.Start();
@@ -116,7 +118,8 @@ void dae::Minigin::Run(const std::function<void()>& load)
 			lag -= FIXED_UPDATE_TIME;
 		}
 		renderer.Render();
-		
+		eventDispatcher.HandleDispatchedEvents();
+
 		if (unloadResorcesTimer >= RESOURCES_UNLOAD_TIME)
 		{
 			resourceManager.UnloadUnusedResources();

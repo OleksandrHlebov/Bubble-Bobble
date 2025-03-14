@@ -26,5 +26,8 @@ namespace dae
 		InputAction* m_IAMoveDown;
 		InputAction* m_IAMoveRight;
 		InputAction* m_IAMoveLeft;
+
+		InputAction* m_IADamageSelf;
+		InputAction* m_IAPickUp;
 	};
 }

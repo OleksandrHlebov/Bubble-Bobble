@@ -31,6 +31,9 @@ namespace dae
 
 		InputAction* m_IAMoveUpDown;
 		InputAction* m_IAMoveRightLeft;
+		InputAction* m_IADamageSelf;
+		InputAction* m_IAPickUp;
+
 		Gamepad		 m_Gamepad{};
 
 	};
