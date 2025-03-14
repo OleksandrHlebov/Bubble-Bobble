@@ -171,6 +171,12 @@
     <ClInclude Include="PickUpComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="Achievements.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="SteamAchievements.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ResourceManager.cpp">
@@ -292,6 +298,12 @@
     </ClCompile>
     <ClCompile Include="PickUpComponent.cpp">
       <Filter>Components\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Achievements.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SteamAchievements.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

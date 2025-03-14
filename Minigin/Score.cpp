@@ -7,14 +7,14 @@ void dae::Score::TrackGameObject(GameObject* gameObject)
 	m_TrackedGameObject = gameObject;
 }
 
-void dae::Score::HandleScoreChange(const GameEvent* gameEvent)
+void dae::Score::HandleScoreChange(GameEvent* gameEvent)
 {
-	if (auto scoreChange = dynamic_cast<const ScoreChange*>(gameEvent))
+	if (auto scoreChange = dynamic_cast<ScoreChange*>(gameEvent))
 	{
 		if (scoreChange->Instigator == m_TrackedGameObject)
 		{
 			m_Score += scoreChange->Amount;
-			UpdateScore();
+			m_UpdateScore = true;
 		}
 	}
 }
@@ -31,5 +31,16 @@ void dae::Score::UpdateScore()
 	if (TextComponent* textComp = GetOwner()->GetComponent<TextComponent>())
 	{
 		textComp->SetText("SCORE: " + std::to_string(m_Score));
+	}
+}
+
+void dae::Score::Update(float deltaTime)
+{
+	(void)deltaTime;
+	if (m_UpdateScore)
+	{
+		GameEvent::Dispatch<OnScoreChanged>(m_Score);
+		UpdateScore();
+		m_UpdateScore = false;
 	}
 }

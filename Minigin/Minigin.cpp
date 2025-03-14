@@ -15,6 +15,7 @@
 #include <cinttypes>
 #include <iostream>
 #include <cfloat>
+#include "steam_api_common.h"
 
 SDL_Window* g_window{};
 
@@ -119,7 +120,7 @@ void dae::Minigin::Run(const std::function<void()>& load)
 		}
 		renderer.Render();
 		eventDispatcher.HandleDispatchedEvents();
-
+		SteamAPI_RunCallbacks();
 		if (unloadResorcesTimer >= RESOURCES_UNLOAD_TIME)
 		{
 			resourceManager.UnloadUnusedResources();

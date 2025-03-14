@@ -59,22 +59,23 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\3rdParty\imgui;$(SolutionDir)\3rdParty\plot;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\3rdParty\imgui;$(SolutionDir)\3rdParty\plot;$(SolutionDir)\3rdParty\steamworks\public\steam;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;xinput.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\3rdParty\steamworks\redistributable_bin;$(SolutionDir)\3rdParty\steamworks\redistributable_bin\win64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;xinput.lib;steam_api64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent />
     <PostBuildEvent>
       <Command>xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
 xcopy "$(SolutionDir)3rdParty\SDL2\lib\$(PlatformTarget)\SDL2.dll" "$(OutputPath)" /R /Y
 xcopy "$(SolutionDir)3rdParty\SDL2_image\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
-xcopy "$(SolutionDir)Data" "$(OutputPath)Data\" /R /Y</Command>
+xcopy "$(SolutionDir)Data" "$(OutputPath)Data\" /R /Y
+xcopy $(SolutionDir)3rdParty\steamworks\redistributable_bin\win64\*.dll $(OutputPath) /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -86,7 +87,7 @@ xcopy "$(SolutionDir)Data" "$(OutputPath)Data\" /R /Y</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\3rdParty\imgui;$(SolutionDir)\3rdParty\plot;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\3rdParty\imgui;$(SolutionDir)\3rdParty\plot;$(SolutionDir)\3rdParty\steamworks\public\steam;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
@@ -95,15 +96,16 @@ xcopy "$(SolutionDir)Data" "$(OutputPath)Data\" /R /Y</Command>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;xinput.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\3rdParty\steamworks\redistributable_bin;$(SolutionDir)\3rdParty\steamworks\redistributable_bin\win64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;xinput.lib;steam_api64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent />
     <PostBuildEvent>
       <Command>xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
 xcopy "$(SolutionDir)3rdParty\SDL2\lib\$(PlatformTarget)\SDL2.dll" "$(OutputPath)" /R /Y
 xcopy "$(SolutionDir)3rdParty\SDL2_image\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
-xcopy "$(SolutionDir)Data" "$(OutputPath)Data\" /R /Y</Command>
+xcopy "$(SolutionDir)Data" "$(OutputPath)Data\" /R /Y
+xcopy $(SolutionDir)3rdParty\steamworks\redistributable_bin\win64\*.dll $(OutputPath) /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -117,6 +119,7 @@ xcopy "$(SolutionDir)Data" "$(OutputPath)Data\" /R /Y</Command>
     <ClInclude Include="..\3rdParty\imgui\imstb_textedit.h" />
     <ClInclude Include="..\3rdParty\imgui\imstb_truetype.h" />
     <ClInclude Include="..\3rdParty\plot\imgui_plot.h" />
+    <ClInclude Include="Achievements.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Controller.h" />
@@ -135,6 +138,7 @@ xcopy "$(SolutionDir)Data" "$(OutputPath)Data\" /R /Y</Command>
     <ClInclude Include="PickUpCommand.h" />
     <ClInclude Include="PickUpComponent.h" />
     <ClInclude Include="Score.h" />
+    <ClInclude Include="SteamAchievements.h" />
     <ClInclude Include="TrashTheCache.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FPSComponent.h" />
@@ -163,6 +167,7 @@ xcopy "$(SolutionDir)Data" "$(OutputPath)Data\" /R /Y</Command>
     <ClCompile Include="..\3rdParty\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\3rdParty\imgui\imgui_widgets.cpp" />
     <ClCompile Include="..\3rdParty\plot\imgui_plot.cpp" />
+    <ClCompile Include="Achievements.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="DamageCommand.cpp" />
     <ClCompile Include="EventDispatcher.cpp" />
@@ -176,6 +181,7 @@ xcopy "$(SolutionDir)Data" "$(OutputPath)Data\" /R /Y</Command>
     <ClCompile Include="PickUpCommand.cpp" />
     <ClCompile Include="PickUpComponent.cpp" />
     <ClCompile Include="Score.cpp" />
+    <ClCompile Include="SteamAchievements.cpp" />
     <ClCompile Include="ThrashTheCacheComponent.cpp" />
     <ClCompile Include="TrashTheCache.cpp" />
     <ClCompile Include="Font.cpp" />

@@ -14,6 +14,17 @@ namespace dae
 		GameObject* Instigator;
 		int Amount;
 	};
+
+	struct OnScoreChanged final : public GameEvent
+	{
+		OnScoreChanged() = delete;
+		explicit OnScoreChanged(int newScore) : GameEvent("OnScoreChanged"), NewScore{ newScore }
+		{
+		}
+
+		int NewScore;
+	};
+
 	class Score final : public Component
 	{
 	public:
@@ -31,14 +42,16 @@ namespace dae
 
 		void TrackGameObject(GameObject* gameObject);
 
-		void HandleScoreChange(const GameEvent* gameEvent);
+		void HandleScoreChange(GameEvent* gameEvent);
 
 	private:
 		void Start() override;
 		void UpdateScore();
+		void Update(float deltaTime) override;
 
 		GameObject* m_TrackedGameObject;
 
 		int m_Score{};
+		bool m_UpdateScore{ true };
 	};
 }
