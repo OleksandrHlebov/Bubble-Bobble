@@ -4,6 +4,7 @@
 
 namespace dae
 {
+	struct GameEvent;
 	class AchievementComponent final : public Component
 	{
 	public:
@@ -17,6 +18,8 @@ namespace dae
 		AchievementComponent(AchievementComponent&&) noexcept 			= delete;
 		AchievementComponent& operator=(const AchievementComponent&) 	 	= delete;
 		AchievementComponent& operator=(AchievementComponent&&) noexcept 	= delete;
+
+		void HandleScoreChange(GameEvent* gameEvent);
 
 	private:
 		void Start() override;
