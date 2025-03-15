@@ -11,8 +11,8 @@ namespace dae
 		{
 		}
 
-		GameObject* Instigator;
-		int Amount;
+		const GameObject* Instigator;
+		const int Amount;
 	};
 
 	struct OnScoreChanged final : public GameEvent

@@ -21,8 +21,8 @@ namespace dae
 		void TrackHealth(Component* health);
 		void TrackHealth(GameObject* gameObject);
 
-		void HandleHealthChange(const GameEvent* gameEvent);
-		void HandleDeath(const GameEvent* gameEvent);
+		void HandleHealthChange(GameEvent* gameEvent);
+		void HandleDeath(GameEvent* gameEvent);
 
 	private:
 		void Start();
