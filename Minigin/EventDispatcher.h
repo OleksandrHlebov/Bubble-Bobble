@@ -46,10 +46,21 @@ namespace dae
 			m_BoundHandlers[id].emplace_back(handler);
 		}
 
+		void UnBind(const std::string& id, const EventHandler& handler)
+		{
+			std::erase_if(m_BoundHandlers[id], [&handler](EventHandler& boundHandler) 
+				{
+					// https://stackoverflow.com/questions/18039723/c-trying-to-get-function-address-from-a-stdfunction
+					auto name1 = *(long*)(char*)(&handler);
+					auto name2 = *(long*)(char*)(&boundHandler);
+					return name1 == name2;
+				});
+		}
+
 		void HandleDispatchedEvents();
 
 	private:
-		friend struct GameEvent;
+		inline static const int MAX_EVENTS_PER_FRAME{ 16 };
 
 		bool m_BlockDispatcher{ false };
 		std::unordered_map<std::string, std::vector<EventHandler>> m_BoundHandlers;

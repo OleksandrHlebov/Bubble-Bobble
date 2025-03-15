@@ -23,7 +23,7 @@ void dae::HealthDisplay::TrackHealth(GameObject* gameObject)
 	TrackHealth(healthComponent);
 }
 
-void dae::HealthDisplay::HandleHealthChange(const GameEvent* gameEvent)
+void dae::HealthDisplay::HandleHealthChange(GameEvent* gameEvent)
 {
 	if (auto onHealthChanged = dynamic_cast<const Health::OnHealthChanged*>(gameEvent))
 	{
@@ -35,7 +35,7 @@ void dae::HealthDisplay::HandleHealthChange(const GameEvent* gameEvent)
 	}
 }
 
-void dae::HealthDisplay::HandleDeath(const GameEvent* gameEvent)
+void dae::HealthDisplay::HandleDeath(GameEvent* gameEvent)
 {
 	if (auto onDeath = dynamic_cast<const Health::OnDeath*>(gameEvent))
 	{

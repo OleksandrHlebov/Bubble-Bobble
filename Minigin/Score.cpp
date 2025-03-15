@@ -7,7 +7,7 @@ void dae::Score::TrackGameObject(GameObject* gameObject)
 	m_TrackedGameObject = gameObject;
 }
 
-void dae::Score::HandleScoreChange(const GameEvent* gameEvent)
+void dae::Score::HandleScoreChange(GameEvent* gameEvent)
 {
 	if (auto scoreChange = dynamic_cast<const ScoreChange*>(gameEvent))
 	{
@@ -24,6 +24,7 @@ void dae::Score::Start()
 	using namespace std::placeholders;
 	GameEvent::Bind("ScoreChange", std::bind(&Score::HandleScoreChange, this, _1));
 	UpdateScore();
+	EventDispatcher::GetInstance().UnBind("ScoreChange", std::bind(&Score::HandleScoreChange, this, _1));
 }
 
 void dae::Score::UpdateScore()

@@ -11,8 +11,8 @@ namespace dae
 		{
 		}
 
-		GameObject* Instigator;
-		int Amount;
+		const GameObject* Instigator;
+		const int Amount;
 	};
 	class Score final : public Component
 	{
@@ -31,7 +31,7 @@ namespace dae
 
 		void TrackGameObject(GameObject* gameObject);
 
-		void HandleScoreChange(const GameEvent* gameEvent);
+		void HandleScoreChange(GameEvent* gameEvent);
 
 	private:
 		void Start() override;
