@@ -24,7 +24,6 @@ void dae::Score::Start()
 	using namespace std::placeholders;
 	GameEvent::Bind("ScoreChange", std::bind(&Score::HandleScoreChange, this, _1));
 	UpdateScore();
-	EventDispatcher::GetInstance().UnBind("ScoreChange", std::bind(&Score::HandleScoreChange, this, _1));
 }
 
 void dae::Score::UpdateScore()

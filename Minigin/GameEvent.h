@@ -18,6 +18,11 @@ namespace dae
 			EventDispatcher::GetInstance().Bind(id, handler);
 		}
 
+		static void UnBind(const std::string& id, const EventHandler& handler)
+		{
+			EventDispatcher::GetInstance().UnBind(id, handler);
+		}
+
 		const std::string ID;
 
 	protected:
