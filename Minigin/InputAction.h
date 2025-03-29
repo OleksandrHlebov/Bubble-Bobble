@@ -2,8 +2,8 @@
 #include "Command.h"
 #include "GameObject.h"
 #include <memory>
-#include <any>
 #include "Keybind.h"
+#include <map>
 
 namespace dae
 {
@@ -17,23 +17,7 @@ namespace dae
 	class InputAction final
 	{
 	public:
-		InputAction(Command* command, Keybind keybind, BindTrigger trigger) 
-			: m_Keybind{ keybind }
-		{
-			command->Initialize(this);
-			switch (trigger)
-			{
-			case BindTrigger::Pressed:
-				m_PressedPtr.reset(command);
-				break;
-			case BindTrigger::Held:
-				m_HeldPtr.reset(command);
-				break;
-			case BindTrigger::Released:
-				m_ReleasedPtr.reset(command);
-				break;
-			}
-		}
+		InputAction(Command* command, Keybind keybind, BindTrigger trigger);
 		~InputAction() = default;
 
 		InputAction(const InputAction&) = delete;
@@ -41,37 +25,11 @@ namespace dae
 		InputAction& operator=(const InputAction&) = delete;
 		InputAction& operator=(InputAction&&) noexcept = delete;
 
-		void Bind(Command* command, BindTrigger trigger)
-		{
-			switch (trigger)
-			{
-			case BindTrigger::Pressed:
-				m_PressedPtr.reset(command);
-				break;
-			case BindTrigger::Held:
-				m_HeldPtr.reset(command);
-				break;
-			case BindTrigger::Released:
-				m_ReleasedPtr.reset(command);
-				break;
-			}
-		}
+		void Bind(Command* command, BindTrigger trigger);
 
-		void UnBind(BindTrigger trigger)
-		{
-			switch (trigger)
-			{
-			case BindTrigger::Pressed:
-				m_PressedPtr.reset(nullptr);
-				break;
-			case BindTrigger::Held:
-				m_HeldPtr.reset(nullptr);
-				break;
-			case BindTrigger::Released:
-				m_ReleasedPtr.reset(nullptr);
-				break;
-			}
-		}
+		void UnBind(BindTrigger trigger);
+
+		void Delete();
 
 		void ChangeKeybind(Keybind&& keybind)
 		{
@@ -88,7 +46,13 @@ namespace dae
 
 		Keybind GetKeybind() { return m_Keybind; }
 
+		bool operator==(const InputAction* right)
+		{
+			return this == right;
+		}
+
 	private:
+		std::map<BindTrigger,std::unique_ptr<Command>> m_TriggerBinds;
 		std::unique_ptr<Command> m_PressedPtr	{};
 		std::unique_ptr<Command> m_HeldPtr		{};
 		std::unique_ptr<Command> m_ReleasedPtr	{};

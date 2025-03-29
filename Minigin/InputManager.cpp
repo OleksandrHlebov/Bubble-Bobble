@@ -3,7 +3,6 @@
 #include <Xinput.h>
 #include <iostream>
 #include "InputManager.h"
-#include "GamepadPlayerController.h"
 #include "ImguiRenderer.h"
 #include <numeric>
 #include <iostream>
@@ -224,4 +223,9 @@ dae::Gamepad* dae::InputManager::GetGamepadByIndex(uint32_t index)
 void dae::InputManager::AddGamepad(Gamepad* gamepad)
 {
 	m_Gamepads.push_back(gamepad);
+}
+
+void dae::InputManager::RemoveInputAction(InputAction* inputAction)
+{
+	std::erase(m_InputActions, inputAction);
 }

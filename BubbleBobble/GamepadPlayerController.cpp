@@ -4,7 +4,7 @@
 #include "DamageCommand.h"
 #include "PickUpCommand.h"
 
-dae::GamepadPlayerController::GamepadPlayerController(GameObject* owner) : Controller(owner) { InputManager::GetInstance().AddGamepad(&m_Gamepad); }
+dae::GamepadPlayerController::GamepadPlayerController(GameObject* owner) : Controller(owner, true) {  }
 
 dae::GamepadPlayerController::~GamepadPlayerController() {}
 

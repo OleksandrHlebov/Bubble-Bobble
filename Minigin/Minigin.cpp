@@ -1,20 +1,24 @@
-#include <stdexcept>
-#include <cmath>
-#define WIN32_LEAN_AND_MEAN 
-#include <windows.h>
+#pragma region sdl
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
+#pragma endregion sdl
+#pragma region stl
+#include <stdexcept>
+#include <cmath>
+#include <thread>
+#include <cinttypes>
+#include <iostream>
+#include <cfloat>
+#pragma endregion stl
+#pragma region engine
 #include "Minigin.h"
 #include "InputManager.h"
 #include "SceneManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
 #include "EventDispatcher.h"
-#include <thread>
-#include <cinttypes>
-#include <iostream>
-#include <cfloat>
+#pragma endregion engine
 
 SDL_Window* g_window{};
 

@@ -78,9 +78,6 @@
     <ClInclude Include="Transform.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="Orbit.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="..\3rdParty\imgui\imstb_rectpack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -120,23 +117,8 @@
     <ClInclude Include="InputAction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Controller.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GamepadPlayerController.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Command.h">
       <Filter>Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="MovementCommands.h">
-      <Filter>Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="MovementComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="KeyboardPlayerController.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Keybind.h">
       <Filter>Header Files</Filter>
@@ -144,31 +126,13 @@
     <ClInclude Include="Gamepad.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="UIValueTweaker.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="EventDispatcher.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameEvent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Health.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="DamageCommand.h">
-      <Filter>Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="HealthDisplay.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="PickUpCommand.h">
-      <Filter>Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="Score.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="PickUpComponent.h">
+    <ClInclude Include="Controller.h">
       <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
@@ -195,9 +159,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Font.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minigin.cpp">
@@ -233,9 +194,6 @@
     <ClCompile Include="ImguiRenderer.cpp">
       <Filter>Source Files\imgui</Filter>
     </ClCompile>
-    <ClCompile Include="GamepadPlayerController.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Component.cpp">
       <Filter>Components\Source</Filter>
     </ClCompile>
@@ -243,9 +201,6 @@
       <Filter>Components\Source</Filter>
     </ClCompile>
     <ClCompile Include="Render2DComponent.cpp">
-      <Filter>Components\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Orbit.cpp">
       <Filter>Components\Source</Filter>
     </ClCompile>
     <ClCompile Include="TextComponent.cpp">
@@ -257,20 +212,11 @@
     <ClCompile Include="Transform.cpp">
       <Filter>Components\Source</Filter>
     </ClCompile>
-    <ClCompile Include="KeyboardPlayerController.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Keybind.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Gamepad.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="UIValueTweaker.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MovementComponent.cpp">
-      <Filter>Components\Source</Filter>
     </ClCompile>
     <ClCompile Include="InputAction.cpp">
       <Filter>Source Files</Filter>
@@ -278,19 +224,7 @@
     <ClCompile Include="EventDispatcher.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="HealthDisplay.cpp">
-      <Filter>Components\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="DamageCommand.cpp">
-      <Filter>Commands\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="PickUpCommand.cpp">
-      <Filter>Commands\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Score.cpp">
-      <Filter>Components\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="PickUpComponent.cpp">
+    <ClCompile Include="Controller.cpp">
       <Filter>Components\Source</Filter>
     </ClCompile>
   </ItemGroup>

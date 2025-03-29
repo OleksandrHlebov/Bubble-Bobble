@@ -24,6 +24,8 @@ namespace dae
 
 		void AddGamepad(Gamepad* gamepad);
 
+		void RemoveInputAction(InputAction* inputAction);
+
 		template<typename CommandType>
 		InputAction* CreateInputAction(Keybind keybind, BindTrigger trigger)
 		{

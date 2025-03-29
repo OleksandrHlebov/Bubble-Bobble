@@ -21,7 +21,6 @@ namespace dae
 		GamepadPlayerController& operator=(GamepadPlayerController&&) noexcept	= delete;
 
 		void Start() override;
-		Gamepad* GetGamepad() { return &m_Gamepad; }
 
 	private:
 		InputAction* m_IAMoveUp;
@@ -33,8 +32,5 @@ namespace dae
 		InputAction* m_IAMoveRightLeft;
 		InputAction* m_IADamageSelf;
 		InputAction* m_IAPickUp;
-
-		Gamepad		 m_Gamepad{};
-
 	};
 }

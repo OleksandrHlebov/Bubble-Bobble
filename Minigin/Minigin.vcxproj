@@ -18,13 +18,13 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -62,6 +62,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)\3rdParty\imgui;$(SolutionDir)\3rdParty\plot;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -76,6 +77,9 @@ xcopy "$(SolutionDir)3rdParty\SDL2\lib\$(PlatformTarget)\SDL2.dll" "$(OutputPath
 xcopy "$(SolutionDir)3rdParty\SDL2_image\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
 xcopy "$(SolutionDir)Data" "$(OutputPath)Data\" /R /Y</Command>
     </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>xinput.lib</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -89,6 +93,7 @@ xcopy "$(SolutionDir)Data" "$(OutputPath)Data\" /R /Y</Command>
       <AdditionalIncludeDirectories>$(SolutionDir)\3rdParty\imgui;$(SolutionDir)\3rdParty\plot;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -105,6 +110,9 @@ xcopy "$(SolutionDir)3rdParty\SDL2\lib\$(PlatformTarget)\SDL2.dll" "$(OutputPath
 xcopy "$(SolutionDir)3rdParty\SDL2_image\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
 xcopy "$(SolutionDir)Data" "$(OutputPath)Data\" /R /Y</Command>
     </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>xinput.lib</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\3rdParty\imgui\backends\imgui_impl_opengl3.h" />
@@ -120,21 +128,11 @@ xcopy "$(SolutionDir)Data" "$(OutputPath)Data\" /R /Y</Command>
     <ClInclude Include="Command.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Controller.h" />
-    <ClInclude Include="DamageCommand.h" />
     <ClInclude Include="EventDispatcher.h" />
     <ClInclude Include="GameEvent.h" />
     <ClInclude Include="Gamepad.h" />
-    <ClInclude Include="Health.h" />
-    <ClInclude Include="HealthDisplay.h" />
     <ClInclude Include="InputAction.h" />
     <ClInclude Include="Keybind.h" />
-    <ClInclude Include="KeyboardPlayerController.h" />
-    <ClInclude Include="MovementComponent.h" />
-    <ClInclude Include="MovementCommands.h" />
-    <ClInclude Include="GamepadPlayerController.h" />
-    <ClInclude Include="PickUpCommand.h" />
-    <ClInclude Include="PickUpComponent.h" />
-    <ClInclude Include="Score.h" />
     <ClInclude Include="TrashTheCache.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FPSComponent.h" />
@@ -142,7 +140,6 @@ xcopy "$(SolutionDir)Data" "$(OutputPath)Data\" /R /Y</Command>
     <ClInclude Include="ImguiRenderer.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Minigin.h" />
-    <ClInclude Include="Orbit.h" />
     <ClInclude Include="Render2DComponent.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ResourceManager.h" />
@@ -152,7 +149,6 @@ xcopy "$(SolutionDir)Data" "$(OutputPath)Data\" /R /Y</Command>
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="Transform.h" />
-    <ClInclude Include="UIValueTweaker.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdParty\imgui\backends\imgui_impl_opengl3.cpp" />
@@ -164,18 +160,11 @@ xcopy "$(SolutionDir)Data" "$(OutputPath)Data\" /R /Y</Command>
     <ClCompile Include="..\3rdParty\imgui\imgui_widgets.cpp" />
     <ClCompile Include="..\3rdParty\plot\imgui_plot.cpp" />
     <ClCompile Include="Component.cpp" />
-    <ClCompile Include="DamageCommand.cpp" />
+    <ClCompile Include="Controller.cpp" />
     <ClCompile Include="EventDispatcher.cpp" />
     <ClCompile Include="Gamepad.cpp" />
-    <ClCompile Include="HealthDisplay.cpp" />
     <ClCompile Include="InputAction.cpp" />
     <ClCompile Include="Keybind.cpp" />
-    <ClCompile Include="KeyboardPlayerController.cpp" />
-    <ClCompile Include="MovementComponent.cpp" />
-    <ClCompile Include="GamepadPlayerController.cpp" />
-    <ClCompile Include="PickUpCommand.cpp" />
-    <ClCompile Include="PickUpComponent.cpp" />
-    <ClCompile Include="Score.cpp" />
     <ClCompile Include="ThrashTheCacheComponent.cpp" />
     <ClCompile Include="TrashTheCache.cpp" />
     <ClCompile Include="Font.cpp" />
@@ -183,9 +172,7 @@ xcopy "$(SolutionDir)Data" "$(OutputPath)Data\" /R /Y</Command>
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="ImguiRenderer.cpp" />
     <ClCompile Include="InputManager.cpp" />
-    <ClCompile Include="Main.cpp" />
     <ClCompile Include="Minigin.cpp" />
-    <ClCompile Include="Orbit.cpp" />
     <ClCompile Include="Render2DComponent.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
@@ -194,7 +181,6 @@ xcopy "$(SolutionDir)Data" "$(OutputPath)Data\" /R /Y</Command>
     <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="Transform.cpp" />
-    <ClCompile Include="UIValueTweaker.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ThrashTheCacheComponent.h" />

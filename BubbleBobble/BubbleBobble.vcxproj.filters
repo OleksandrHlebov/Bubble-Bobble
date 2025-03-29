@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{3fb7f394-8b30-4923-8726-814d18d32744}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Components">
+      <UniqueIdentifier>{c62e85bb-7f36-476e-a5be-ff06afdc43ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Source">
+      <UniqueIdentifier>{4fac2a0b-3031-4b8a-b9e8-269b2ed0f91f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commands">
+      <UniqueIdentifier>{2b443b0f-a539-4759-8329-8ae53e529683}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commands\Source">
+      <UniqueIdentifier>{edff0fe8-bd6e-4f72-8ace-6f6cf514e70e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="BubbleBobble.cpp">
+      <Filter>Game\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Orbit.cpp">
+      <Filter>Components\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PelletComponent.cpp">
+      <Filter>Components\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PickUpComponent.cpp">
+      <Filter>Components\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MovementComponent.cpp">
+      <Filter>Components\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthDisplay.cpp">
+      <Filter>Components\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Health.cpp">
+      <Filter>Components\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="GamepadPlayerController.cpp">
+      <Filter>Components\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Score.cpp">
+      <Filter>Components\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="UIValueTweaker.cpp">
+      <Filter>Components\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyboardPlayerController.cpp">
+      <Filter>Components\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="DamageCommand.cpp">
+      <Filter>Commands\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MovementCommands.cpp">
+      <Filter>Commands\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PickUpCommand.cpp">
+      <Filter>Commands\Source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GamepadPlayerController.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Health.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthDisplay.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyboardPlayerController.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="MovementComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Orbit.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="PelletComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="PickUpComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Score.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="UIValueTweaker.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DamageCommand.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="MovementCommands.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="PickUpCommand.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

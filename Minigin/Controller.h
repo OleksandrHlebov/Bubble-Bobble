@@ -1,6 +1,7 @@
 #pragma once
 #include "Component.h"
 #include "InputManager.h"
+#include <memory>
 
 namespace dae
 {
@@ -17,10 +18,12 @@ namespace dae
 
 		GameObject* GetControlledObject() { return GetOwner(); }
 
+		Gamepad* GetGamepad() { return m_Gamepad.get(); }
+
 	protected:
-		Controller(GameObject* owner) : Component(owner)
-		{  }
+		Controller(GameObject* owner, bool usesGamepad = false);
 
 	private:
+		std::unique_ptr<Gamepad> m_Gamepad{};
 	};
 }
