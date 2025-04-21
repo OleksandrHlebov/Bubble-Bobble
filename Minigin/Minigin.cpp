@@ -121,8 +121,8 @@ void dae::Minigin::Run(const std::function<void()>& load)
 			sceneManager.FixedUpdate(FIXED_UPDATE_TIME);
 			lag -= FIXED_UPDATE_TIME;
 		}
-		renderer.Render();
 		eventDispatcher.HandleDispatchedEvents();
+		renderer.Render();
 
 		if (unloadResorcesTimer >= RESOURCES_UNLOAD_TIME)
 		{

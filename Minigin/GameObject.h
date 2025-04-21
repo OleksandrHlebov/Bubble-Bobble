@@ -25,8 +25,6 @@ namespace dae
 		void RenderUI();
 		void End();
 
-		void Possess(Controller* controller);
-
 		void Delete();
 		bool IsPendingDelete() { return m_PendingDelete; }
 		bool IsPositionDirty();
@@ -42,13 +40,15 @@ namespace dae
 		void SetLocalPosition(float x, float y);
 		void SetLocalPosition(const glm::vec3& pos);
 
-		const glm::vec3& GetWorldPosition();;
+		const glm::vec3& GetWorldPosition();
 		const glm::vec3& GetLocalPosition() { return m_Transform.GetLocalPosition(); };
 
 		template<typename ComponentType, typename... Args>
 		ComponentType* AddComponent(Args&&... args)
 		{
 			auto resultPair = m_Components.insert(std::make_unique<ComponentType>(std::forward<Args>(args)..., this));
+			if (m_IsInitialised)
+				(*resultPair.first).get()->Start();
 			return static_cast<ComponentType*>((*resultPair.first).get());
 		}
 
@@ -82,8 +82,6 @@ namespace dae
 		void ClearPendingDelete();
 		void RemoveChild(GameObject* child);
 
-		std::unique_ptr<Controller> m_Controller;
-
 		GameObject* m_ParentPtr{ nullptr };
 		std::vector<GameObject*> m_Children;
 
@@ -91,5 +89,6 @@ namespace dae
 		std::unordered_set<std::unique_ptr<Component>> m_Components;
 
 		bool m_PendingDelete{};
+		bool m_IsInitialised{};
 	};
 }

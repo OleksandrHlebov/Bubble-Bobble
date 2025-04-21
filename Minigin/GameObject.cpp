@@ -5,7 +5,7 @@
 #include "Renderer.h"
 #include "Controller.h"
 
-dae::GameObject::GameObject() : m_Controller{ nullptr }
+dae::GameObject::GameObject()
 {}
 
 dae::GameObject::~GameObject()
@@ -41,11 +41,6 @@ void dae::GameObject::RenderUI()
 void dae::GameObject::End()
 {
 	for (auto& comp : m_Components) comp->End();
-}
-
-void dae::GameObject::Possess(Controller* controller)
-{
-	m_Controller.reset(controller);
 }
 
 void dae::GameObject::Delete()

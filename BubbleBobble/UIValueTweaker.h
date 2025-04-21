@@ -18,9 +18,6 @@ namespace dae
 
 		void AddPlayer(GameObject* player);
 
-
-
-
 		void RenderUI() override;
 
 	private:
