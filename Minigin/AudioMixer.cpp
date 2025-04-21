@@ -8,6 +8,7 @@
 #include <functional>
 #include <mutex>
 #include <stack>
+#include <algorithm>
 namespace dae
 {
 	class AudioMixer::AudioMixerImpl final : public Audio
@@ -54,6 +55,7 @@ namespace dae
 												  if (Mix_Playing(channel))
 													  Mix_HaltChannel(channel);
 												  channel = Mix_PlayChannel(channel, chunk, 0);
+												  Mix_Volume(channel, static_cast<int8_t>(sound->GetVolume() * MIX_MAX_VOLUME));
 												  m_SoundChannels[sound->GetID()] = channel;
 											  }
 										  });
@@ -109,12 +111,25 @@ namespace dae
 			Mix_HaltChannel(-1);
 		}
 
+		void SetMasterVolume(float volume) override
+		{
+			volume = std::clamp(volume, .0f, 1.f);
+			Mix_MasterVolume(static_cast<int8_t>(volume * MIX_MAX_VOLUME));
+			m_Volume = volume;
+		}
+
+		float GetMasterVolume() override
+		{
+			return m_Volume;
+		}
+
 		static void FinishedPlayCallback(int channel)
 		{
 			std::unique_lock freeMutex{ m_FreeChunkMutex };
 			if (Mix_Chunk* chunk = Mix_GetChunk(channel))
 				Mix_FreeChunk(chunk);
 		}
+
 
 	private:
 		inline static std::mutex m_FreeChunkMutex{};
@@ -124,6 +139,8 @@ namespace dae
 		std::map<size_t, int> m_SoundChannels{};
 		std::mutex m_ChannelMutex{};
 		std::mutex m_QueueMutex{};
+
+		float m_Volume{ 1.f };
 	};
 
 	AudioMixer::~AudioMixer()
@@ -158,4 +175,15 @@ namespace dae
 	{
 		m_ImplPtr->StopAllSounds();
 	}
+
+	void AudioMixer::SetMasterVolume(float volume)
+	{
+		m_ImplPtr->SetMasterVolume(volume);
+	}
+
+	float AudioMixer::GetMasterVolume()
+	{
+		return m_ImplPtr->GetMasterVolume();
+	}
+
 }

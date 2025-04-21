@@ -31,3 +31,15 @@ void dae::Logger::StopAllSounds()
 	m_Service->StopAllSounds();
 	std::cout << "Stopped all sounds\n";
 }
+
+void dae::Logger::SetMasterVolume(float volume)
+{
+	std::cout << "Set master volume from " << m_Service->GetMasterVolume() <<  " to " << volume << '\n';
+	m_Service->SetMasterVolume(volume);
+}
+
+float dae::Logger::GetMasterVolume()
+{
+	std::cout << "Accessed master volume with value " << m_Service->GetMasterVolume();
+	return m_Service->GetMasterVolume();
+}

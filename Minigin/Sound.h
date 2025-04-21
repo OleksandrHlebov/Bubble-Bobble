@@ -2,6 +2,7 @@
 #include "AudioLocator.h"
 #include <string>
 #include <unordered_map>
+#include <algorithm>
 
 namespace dae
 {
@@ -38,8 +39,12 @@ namespace dae
 
 		size_t GetID() { return m_ID; }
 
+		void SetVolume(float volume) { m_Volume = std::clamp(volume, .0f, 1.f); }
+		float GetVolume() { return m_Volume; }
+
 	private:
 		size_t m_ID;
+		float m_Volume{ 1.f };
 
 		inline static SoundMap m_SoundMap;
 	};

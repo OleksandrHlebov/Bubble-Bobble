@@ -5,6 +5,7 @@
 #include "GameObject.h"
 #include "MovementComponent.h"
 #include "GamepadPlayerController.h"
+#include "AudioLocator.h"
 
 void dae::UIValueTweaker::AddPlayer(GameObject* player)
 {
@@ -28,6 +29,16 @@ void dae::UIValueTweaker::RenderUI()
 	ImGui::SetNextWindowPos(ImVec2{ 375.f, 20.f }, ImGuiCond_Once);
 	ImGui::SetNextWindowSize(ImVec2{ 250.f, 250.f }, ImGuiCond_Once);
 	ImGui::Begin("Value tweaker", NULL, ImGuiWindowFlags_NoResize);
+
+	if (ImGui::CollapsingHeader("Settings", NULL, ImGuiTreeNodeFlags_Framed))
+	{
+		ImGui::PushID("VLM");
+		float volume{ AudioLocator::GetService()->GetMasterVolume() };
+		ImGui::SliderFloat("Volume", &volume, .0f, 1.f, "%.2f");
+		AudioLocator::GetService()->SetMasterVolume(volume);
+		ImGui::PopID();
+	}
+
 	for (int index{}; index < m_Players.size(); ++index)
 	{
 		GameObject* player = m_Players[index];

@@ -13,6 +13,9 @@ namespace dae
 		virtual void Resume(Sound* sound) = 0;
 		virtual void Stop(Sound* sound) = 0;
 		virtual void StopAllSounds() = 0;
+		virtual void SetMasterVolume(float volume) = 0;
+
+		virtual float GetMasterVolume() = 0;
 	};
 
 	class Logger final : public Audio
@@ -34,6 +37,9 @@ namespace dae
 		void Resume(Sound* sound) override;
 		void Stop(Sound* sound) override;
 		void StopAllSounds() override;
+		void SetMasterVolume(float volume) override;
+
+		float GetMasterVolume() override;
 
 	private:
 		Audio* m_Service;
@@ -78,6 +84,15 @@ namespace dae
 			void StopAllSounds() override
 			{
 
+			}
+			void SetMasterVolume(float volume) override
+			{
+				(void)volume;
+			}
+
+			float GetMasterVolume() override
+			{
+				return -1.f;
 			}
 		};
 

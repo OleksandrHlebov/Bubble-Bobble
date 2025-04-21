@@ -25,6 +25,10 @@ namespace dae
 
 		void StopAllSounds() override;
 
+		void SetMasterVolume(float volume) override;
+
+		float GetMasterVolume() override;
+
 	private:
 		class AudioMixerImpl;
 		std::unique_ptr<AudioMixerImpl> m_ImplPtr;
