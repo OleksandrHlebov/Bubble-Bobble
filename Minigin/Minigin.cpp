@@ -18,6 +18,8 @@
 #include "Renderer.h"
 #include "ResourceManager.h"
 #include "EventDispatcher.h"
+#include "AudioLocator.h"
+#include "AudioMixer.h"
 #pragma endregion engine
 
 SDL_Window* g_window{};

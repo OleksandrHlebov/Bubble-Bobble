@@ -4,6 +4,7 @@
 #include <SDL_scancode.h>
 #include "DamageCommand.h"
 #include "PickUpCommand.h"
+#include "JumpCommand.h"
 
 dae::KeyboardPlayerController::KeyboardPlayerController(GameObject* owner) : Controller(owner) {}
 
@@ -18,8 +19,8 @@ void dae::KeyboardPlayerController::Start()
 	m_IAMoveRight	= inputManager.CreateInputAction<MoveCommand>(SDL_SCANCODE_D, BindTrigger::Held, GetControlledObject(), glm::vec3{  1.f,  .0f, .0f });
 	
 	m_IADamageSelf	= inputManager.CreateInputAction<DamageCommand>(SDL_SCANCODE_C, BindTrigger::Pressed, GetControlledObject(), 1);
-	m_IAPickUp		= inputManager.CreateInputAction<PickUpCommand>(SDL_SCANCODE_X, BindTrigger::Pressed, GetControlledObject());
 
+	m_IAJump = inputManager.CreateInputAction<JumpCommand>(SDL_SCANCODE_X, BindTrigger::Released, GetControlledObject());
 }
 
 

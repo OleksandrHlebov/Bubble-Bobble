@@ -3,6 +3,7 @@
 #include "MovementCommands.h"
 #include "DamageCommand.h"
 #include "PickUpCommand.h"
+#include "JumpCommand.h"
 
 dae::GamepadPlayerController::GamepadPlayerController(GameObject* owner) : Controller(owner, true) {  }
 
@@ -22,5 +23,6 @@ void dae::GamepadPlayerController::Start()
 	m_IAMoveUpDown		= inputManager.CreateInputAction<MoveCommand>(Gamepad::ValueProvider::LeftThumbY, BindTrigger::Held, GetControlledObject(), glm::vec3{ .0f, -1.f, .0f });
 
 	m_IADamageSelf  = inputManager.CreateInputAction<DamageCommand>(Gamepad::Button::X, BindTrigger::Pressed, GetControlledObject(), 1);
-	m_IAPickUp		= inputManager.CreateInputAction<PickUpCommand>(Gamepad::Button::A, BindTrigger::Pressed, GetControlledObject());
+
+	m_IAJump = inputManager.CreateInputAction<JumpCommand>(Gamepad::Button::A, BindTrigger::Released, GetControlledObject());
 }

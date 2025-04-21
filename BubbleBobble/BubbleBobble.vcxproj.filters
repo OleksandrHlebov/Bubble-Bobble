@@ -68,6 +68,12 @@
     <ClCompile Include="PickUpCommand.cpp">
       <Filter>Commands\Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\Minigin\TrashTheCache.cpp">
+      <Filter>Components\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioHandler.cpp">
+      <Filter>Game\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GamepadPlayerController.h">
@@ -108,6 +114,15 @@
     </ClInclude>
     <ClInclude Include="PickUpCommand.h">
       <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\TrashTheCache.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="JumpCommand.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioHandler.h">
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,6 +1,7 @@
 #pragma once
 #include "Component.h"
 #include "Transform.h"
+#include "GameEvent.h"
 
 namespace dae
 {
@@ -8,6 +9,13 @@ namespace dae
 	class MovementComponent : public Component
 	{
 	public:
+		struct OnJump final : public GameEvent
+		{
+			OnJump() : GameEvent("OnJump")
+			{
+			}
+		};
+
 		MovementComponent() = delete;
 		MovementComponent(GameObject* owner) : Component(owner) {}
 		~MovementComponent() = default;
@@ -19,12 +27,16 @@ namespace dae
 
 		void AddMovementInput(glm::vec3 inputVector);
 
+		void Jump();
+
 		void Update(float deltaTime) override;
 
 		float Speed{ 10.f };
+		float JumpHeight{ 50.f };
 
 	private:
 		glm::vec3 m_QueriedInput{};
-
+		
+		bool m_ShouldJump{};
 	};
 }

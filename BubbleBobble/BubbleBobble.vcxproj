@@ -88,6 +88,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Minigin\TrashTheCache.cpp" />
+    <ClCompile Include="AudioHandler.cpp" />
     <ClCompile Include="BubbleBobble.cpp" />
     <ClCompile Include="DamageCommand.cpp" />
     <ClCompile Include="GamepadPlayerController.cpp" />
@@ -104,10 +106,13 @@
     <ClCompile Include="UIValueTweaker.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Minigin\TrashTheCache.h" />
+    <ClInclude Include="AudioHandler.h" />
     <ClInclude Include="DamageCommand.h" />
     <ClInclude Include="GamepadPlayerController.h" />
     <ClInclude Include="Health.h" />
     <ClInclude Include="HealthDisplay.h" />
+    <ClInclude Include="JumpCommand.h" />
     <ClInclude Include="KeyboardPlayerController.h" />
     <ClInclude Include="MovementCommands.h" />
     <ClInclude Include="MovementComponent.h" />

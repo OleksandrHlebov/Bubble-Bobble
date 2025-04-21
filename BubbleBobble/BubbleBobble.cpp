@@ -17,6 +17,8 @@
 #include "GameEvent.h"
 #include "Scene.h"
 #include "GameObject.h"
+#include "AudioLocator.h"
+#include "AudioMixer.h"
 #pragma endregion engine
 
 #pragma region Components
@@ -33,12 +35,21 @@
 #include "UIValueTweaker.h"
 #include "HealthDisplay.h"
 #include "Score.h"
+#include "AudioHandler.h"
 #pragma endregion Components
 
 using namespace dae;
 
 void load()
 {
+	static AudioMixer audioService{};
+	Audio* service{ &audioService };
+#ifdef _DEBUG
+	static Logger logger{ service };
+	service = &logger;
+#endif
+	AudioLocator::Provide(service);
+
 	auto scene = SceneManager::GetInstance().CreateScene("Demo");
 
 	auto UI = scene->CreateGameObject();
@@ -85,11 +96,11 @@ void load()
 	manual->SetLocalPosition(glm::vec3{ 20.f, 100.f, .0f });
 	auto player0Controls = scene->CreateGameObject();
 	player0Controls->AttachTo(manual);
-	player0Controls->AddComponent<TextComponent>(font)->SetText("DPad to move Bobblun, X to damage self, A to get score");
+	player0Controls->AddComponent<TextComponent>(font)->SetText("DPad to move Bobblun, X to damage self, A to jump");
 	auto player1Controls = scene->CreateGameObject();
 	player1Controls->SetLocalPosition(glm::vec3{ .0f, 15.f, .0f });
 	player1Controls->AttachTo(manual);
-	player1Controls->AddComponent<TextComponent>(font)->SetText("WASD to move Bubblun, C to damage self, X to get score");
+	player1Controls->AddComponent<TextComponent>(font)->SetText("WASD to move Bubblun, C to damage self, X to jump");
 
 	auto player0 = scene->CreateGameObject();
 	player0->SetLocalPosition(glm::vec3{ 150.f, 250.f, .0f });
@@ -130,6 +141,9 @@ void load()
 	player1Score->AddComponent<Score>()->TrackGameObject(player1);
 
 	valueTweaker->AddPlayer(player1);
+
+	auto audioHandler = scene->CreateGameObject();
+	audioHandler->AddComponent<AudioHandler>();
 
 }
 

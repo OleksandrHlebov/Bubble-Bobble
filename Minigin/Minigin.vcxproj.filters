@@ -78,9 +78,6 @@
     <ClInclude Include="Transform.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="TrashTheCache.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\3rdParty\imgui\imconfig.h">
       <Filter>Header Files\imgui</Filter>
     </ClInclude>
@@ -135,6 +132,15 @@
     <ClInclude Include="..\3rdParty\imgui\imstb_truetype.h">
       <Filter>Header Files\imgui</Filter>
     </ClInclude>
+    <ClInclude Include="AudioLocator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioMixer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ResourceManager.cpp">
@@ -162,9 +168,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minigin.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TrashTheCache.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\3rdParty\imgui\imgui.cpp">
@@ -226,6 +229,12 @@
     </ClCompile>
     <ClCompile Include="Controller.cpp">
       <Filter>Components\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioMixer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioLocator.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
