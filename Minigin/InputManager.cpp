@@ -20,7 +20,7 @@ bool dae::InputManager::ProcessInput(float deltaTime)
 			{
 				if (e.key.keysym.scancode == inputAction.GetKeybind().KeyboardBinding)
 				{
-					inputAction.ExecutePressed(deltaTime);
+					inputAction.Execute(BindTrigger::Pressed, deltaTime);
 				}
 			}
 		}
@@ -30,7 +30,7 @@ bool dae::InputManager::ProcessInput(float deltaTime)
 			{
 				if (e.key.keysym.scancode == inputAction.GetKeybind().KeyboardBinding)
 				{
-					inputAction.ExecuteReleased(deltaTime);
+					inputAction.Execute(BindTrigger::Released, deltaTime);
 				}
 			}
 		}
@@ -47,7 +47,7 @@ bool dae::InputManager::ProcessInput(float deltaTime)
 	{
 		if (state[inputAction.GetKeybind().KeyboardBinding])
 		{
-			inputAction.ExecuteHeld(deltaTime);
+			inputAction.Execute(BindTrigger::Held, deltaTime);
 		}
 	}
 
@@ -85,11 +85,11 @@ bool dae::InputManager::ProcessInput(float deltaTime)
 			if (provider == Gamepad::ValueProvider::None)
 			{
 				if (keyMask & buttonsPressedThisFrame)
-					inputAction.ExecutePressed(deltaTime);
+					inputAction.Execute(BindTrigger::Pressed, deltaTime);
 				if (keyMask & buttonsHeldThisFrame)
-					inputAction.ExecuteHeld(deltaTime);
+					inputAction.Execute(BindTrigger::Held, deltaTime);
 				if (keyMask & buttonsReleasedThisFrame)
-					inputAction.ExecuteReleased(deltaTime);
+					inputAction.Execute(BindTrigger::Released, deltaTime);
 			}
 			else
 			{

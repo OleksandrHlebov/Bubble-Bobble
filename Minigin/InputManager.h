@@ -50,11 +50,11 @@ namespace dae
 		void ExecuteValue(InputAction& inputAction, float currentValue, float previousValue, float deltaTime)
 		{
 			if (previousValue == 0 && currentValue != 0)
-				inputAction.ExecutePressed(deltaTime, currentValue);
+				inputAction.Execute(BindTrigger::Pressed, deltaTime, currentValue);
 			if (currentValue != 0)
-				inputAction.ExecuteHeld(deltaTime, currentValue);
+				inputAction.Execute(BindTrigger::Held, deltaTime, currentValue);
 			if (previousValue != 0 && currentValue == 0)
-				inputAction.ExecuteReleased(deltaTime, currentValue);
+				inputAction.Execute(BindTrigger::Released, deltaTime, currentValue);
 		}
 
 		// list to not invalidate references on push back
