@@ -40,6 +40,6 @@ void dae::Logger::SetMasterVolume(float volume)
 
 float dae::Logger::GetMasterVolume()
 {
-	std::cout << "Accessed master volume with value " << m_Service->GetMasterVolume();
+	std::cout << "Accessed master volume with value " << m_Service->GetMasterVolume() << '\n';
 	return m_Service->GetMasterVolume();
 }
