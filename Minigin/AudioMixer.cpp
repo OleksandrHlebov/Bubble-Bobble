@@ -28,63 +28,66 @@ namespace dae
 										  {
 											  while (!stopToken.stop_requested())
 											  {
-												  Sound* sound{ nullptr };
-												  std::unique_lock queueLock{ m_QueueMutex };
-
-												  m_SoundAvailable.wait(queueLock, [&]() { return !m_SoundQueue.empty() || stopToken.stop_requested(); });
-
-
-												  while (!m_SoundQueue.empty())
 												  {
-													  if (stopToken.stop_requested())
-														  return;
+													  Sound* sound{ nullptr };
+													  std::unique_lock queueLock{ m_QueueMutex };
 
-													  sound = m_SoundQueue.front();
-													  m_SoundQueue.pop();
+													  m_SoundAvailable.wait(queueLock, [&]() { return !m_SoundQueue.empty() || stopToken.stop_requested(); });
 
-													  std::unique_lock channelGuard{ m_ChannelMutex };
-													  int channel = -1;
-													  Mix_Chunk* chunk{ nullptr };
-													  // if sound was played before it already has a channel assigned to it
-													  if (m_SoundChannels.find(sound->GetID()) != m_SoundChannels.end())
+													  while (!m_SoundQueue.empty())
 													  {
-														  channel = m_SoundChannels[sound->GetID()];
-														  // chunk might still be in memory from before
-														  // if sound was requested to play again while it is still playing
-														  if (m_ChannelChunks[channel])
-															  chunk = m_ChannelChunks[channel];
-													  }
-													  // if chunk was not found in cache
-													  // then load it
-													  if (!chunk)
-													  {
-														  chunk = Mix_LoadWAV(("Data/" + sound->GetPath()).c_str());
+														  if (stopToken.stop_requested())
+															  return;
 
+														  sound = m_SoundQueue.front();
+														  m_SoundQueue.pop();
+														  queueLock.unlock();
+
+														  std::unique_lock channelGuard{ m_ChannelMutex };
+														  int channel = -1;
+														  Mix_Chunk* chunk{ nullptr };
+														  // if sound was played before it already has a channel assigned to it
+														  if (m_SoundChannels.find(sound->GetID()) != m_SoundChannels.end())
+														  {
+															  channel = m_SoundChannels[sound->GetID()];
+															  // chunk might still be in memory from before
+															  // if sound was requested to play again while it is still playing
+															  if (m_ChannelChunks[channel])
+																  chunk = m_ChannelChunks[channel];
+														  }
+														  // if chunk was not found in cache
+														  // then load it
 														  if (!chunk)
 														  {
-															  std::cerr << "failed to load audio file " + sound->GetPath();
-															  return;
+															  chunk = Mix_LoadWAV(("Data/" + sound->GetPath()).c_str());
+
+															  if (!chunk)
+															  {
+																  std::cerr << "failed to load audio file " + sound->GetPath();
+																  return;
+															  }
 														  }
+														  channel = Mix_PlayChannel(channel, chunk, 0);
+														  Mix_Volume(channel, static_cast<int8_t>(sound->GetVolume() * MIX_MAX_VOLUME));
+														  // link sound and assigned to it channel
+														  m_SoundChannels[sound->GetID()] = channel;
+														  // cache chunk for cleanup
+														  m_ChannelChunks[channel] = chunk;
+														  queueLock.lock();
 													  }
-													  channel = Mix_PlayChannel(channel, chunk, 0);
-													  Mix_Volume(channel, static_cast<int8_t>(sound->GetVolume() * MIX_MAX_VOLUME));
-													  // link sound and assigned to it channel
-													  m_SoundChannels[sound->GetID()] = channel;
-													  // cache chunk for cleanup
-													  m_ChannelChunks[channel] = chunk;
+												  }
 
-													  std::unique_lock freeLock{ m_FreeChunkMutex };
-													  while (!m_ChannelsToFree.empty())
-													  {
-														  int channelToFree{ *m_ChannelsToFree.begin() };
-														  m_ChannelsToFree.erase(channelToFree);
+												  std::unique_lock freeLock{ m_FreeChunkMutex };
+												  while (!m_ChannelsToFree.empty())
+												  {
+													  int channelToFree{ *m_ChannelsToFree.begin() };
+													  m_ChannelsToFree.erase(channelToFree);
 
-														  if (Mix_Playing(channelToFree))
-															  continue;
+													  if (Mix_Playing(channelToFree))
+														  continue;
 
-														  Mix_FreeChunk(m_ChannelChunks[channelToFree]);
-														  m_ChannelChunks.erase(channelToFree);
-													  }
+													  Mix_FreeChunk(m_ChannelChunks[channelToFree]);
+													  m_ChannelChunks.erase(channelToFree);
 												  }
 											  }
 										  });

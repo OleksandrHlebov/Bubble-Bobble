@@ -11,7 +11,7 @@ namespace dae
 	public:
 		using SoundMap = std::unordered_map<size_t, std::string>;
 
-		Sound(const std::string& filepath) : m_ID{ std::hash<const char*>{}(filepath.c_str()) }
+		Sound(const std::string& filepath) : m_ID{ std::hash<std::string>{}(filepath) }
 		{
 			m_SoundMap[m_ID] = filepath;
 		}
