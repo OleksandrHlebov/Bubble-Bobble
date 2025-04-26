@@ -18,8 +18,10 @@ namespace dae
 		AudioHandler& operator=(AudioHandler&&) noexcept = delete;
 
 		void HandleJumpingSound(GameEvent* event);
+		void HandleDamagedSound(GameEvent* event);
 
 	private:
 		Sound m_JumpSFX{ "SFX/jump.wav" };
+		Sound m_Damaged{ "SFX/damaged.wav" };
 	};
 }
