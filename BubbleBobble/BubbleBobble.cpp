@@ -96,11 +96,11 @@ void load()
 	manual->SetLocalPosition(glm::vec3{ 20.f, 100.f, .0f });
 	auto player0Controls = scene->CreateGameObject();
 	player0Controls->AttachTo(manual);
-	player0Controls->AddComponent<TextComponent>(font)->SetText("DPad to move Bobblun, X to damage self, A to jump");
+	player0Controls->AddComponent<TextComponent>(font)->SetText("DPad to move Bobblun, X to damage self, A to jump (both produce sound)");
 	auto player1Controls = scene->CreateGameObject();
 	player1Controls->SetLocalPosition(glm::vec3{ .0f, 15.f, .0f });
 	player1Controls->AttachTo(manual);
-	player1Controls->AddComponent<TextComponent>(font)->SetText("WASD to move Bubblun, C to damage self, X to jump");
+	player1Controls->AddComponent<TextComponent>(font)->SetText("WASD to move Bubblun, C to damage self, X to jump (both produce sound)");
 
 	auto player0 = scene->CreateGameObject();
 	player0->SetLocalPosition(glm::vec3{ 150.f, 250.f, .0f });
