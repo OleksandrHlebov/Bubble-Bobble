@@ -29,8 +29,7 @@ void dae::GameObject::FixedUpdate(float deltaTime)
 
 void dae::GameObject::Render()
 {
-	const auto& pos = GetWorldPosition();
-	for (auto& comp : m_Components) comp->Render(pos.x, pos.y);
+	for (auto& comp : m_Components) comp->Render();
 }
 
 void dae::GameObject::RenderUI()

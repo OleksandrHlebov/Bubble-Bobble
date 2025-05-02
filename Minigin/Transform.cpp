@@ -48,7 +48,7 @@ void dae::Transform::FixedUpdate(float)
 {
 }
 
-void dae::Transform::Render(float, float) const
+void dae::Transform::Render() const
 {
 }
 

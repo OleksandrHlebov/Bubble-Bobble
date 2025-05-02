@@ -93,6 +93,7 @@
     <ClCompile Include="BubbleBobble.cpp" />
     <ClCompile Include="DamageCommand.cpp" />
     <ClCompile Include="GamepadPlayerController.cpp" />
+    <ClCompile Include="GridComponent.cpp" />
     <ClCompile Include="Health.cpp" />
     <ClCompile Include="HealthDisplay.cpp" />
     <ClCompile Include="KeyboardPlayerController.cpp" />
@@ -110,6 +111,7 @@
     <ClInclude Include="AudioHandler.h" />
     <ClInclude Include="DamageCommand.h" />
     <ClInclude Include="GamepadPlayerController.h" />
+    <ClInclude Include="GridComponent.h" />
     <ClInclude Include="Health.h" />
     <ClInclude Include="HealthDisplay.h" />
     <ClInclude Include="JumpCommand.h" />

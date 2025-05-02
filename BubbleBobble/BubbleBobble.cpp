@@ -67,10 +67,12 @@ void load()
 	auto go = scene->CreateGameObject();
 	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 	auto textComponent = go->AddComponent<TextComponent>(font);
+	go->AddComponent<Render2DComponent>();
 	textComponent->SetText("Programming 4 Assignment");
 	go->SetLocalPosition(80, 16);
 
 	go = scene->CreateGameObject();
+	go->AddComponent<Render2DComponent>();
 	go->AddComponent<TextComponent>(font);
 	go->AddComponent<FPSComponent>();
 	go->SetLocalPosition(0, 64);
@@ -96,15 +98,17 @@ void load()
 	manual->SetLocalPosition(glm::vec3{ 20.f, 100.f, .0f });
 	auto player0Controls = scene->CreateGameObject();
 	player0Controls->AttachTo(manual);
+	player0Controls->AddComponent<Render2DComponent>();
 	player0Controls->AddComponent<TextComponent>(font)->SetText("DPad to move Bobblun, X to damage self, A to jump (both produce sound)");
 	auto player1Controls = scene->CreateGameObject();
 	player1Controls->SetLocalPosition(glm::vec3{ .0f, 15.f, .0f });
 	player1Controls->AttachTo(manual);
+	player1Controls->AddComponent<Render2DComponent>();
 	player1Controls->AddComponent<TextComponent>(font)->SetText("WASD to move Bubblun, C to damage self, X to jump (both produce sound)");
 
 	auto player0 = scene->CreateGameObject();
 	player0->SetLocalPosition(glm::vec3{ 150.f, 250.f, .0f });
-	player0->AddComponent<Render2DComponent>()->SetTexture("Bubblun.png");
+	player0->AddComponent<Render2DComponent>()->SetTexture("Textures/Bub_walking.png");
 	player0->AddComponent<KeyboardPlayerController>();
 	player0->AddComponent<MovementComponent>()->Speed = 50.f;
 	player0->AddComponent<Health>();
@@ -112,11 +116,13 @@ void load()
 	player0UI->SetLocalPosition(glm::vec3(20.f, 200.f, .0f));
 	auto player0HealthDisplay = scene->CreateGameObject();
 	player0HealthDisplay->AttachTo(player0UI);
+	player0HealthDisplay->AddComponent<Render2DComponent>();
 	player0HealthDisplay->AddComponent<TextComponent>(font);
 	player0HealthDisplay->AddComponent<HealthDisplay>()->TrackHealth(player0);
 	auto player0Score = scene->CreateGameObject();
 	player0Score->AttachTo(player0UI);
 	player0Score->SetLocalPosition(glm::vec3(.0f, 15.f, .0f));
+	player0Score->AddComponent<Render2DComponent>();
 	player0Score->AddComponent<TextComponent>(font);
 	player0Score->AddComponent<Score>()->TrackGameObject(player0);
 
@@ -132,11 +138,13 @@ void load()
 	player1UI->SetLocalPosition(glm::vec3(20.f, 230.f, .0f));
 	auto player1HealthDisplay = scene->CreateGameObject();
 	player1HealthDisplay->AttachTo(player1UI);
+	player1HealthDisplay->AddComponent<Render2DComponent>();
 	player1HealthDisplay->AddComponent<TextComponent>(font);
 	player1HealthDisplay->AddComponent<HealthDisplay>()->TrackHealth(player1);
 	auto player1Score = scene->CreateGameObject();
 	player1Score->AttachTo(player1UI);
 	player1Score->SetLocalPosition(glm::vec3(.0f, 15.f, .0f));
+	player1Score->AddComponent<Render2DComponent>();
 	player1Score->AddComponent<TextComponent>(font);
 	player1Score->AddComponent<Score>()->TrackGameObject(player1);
 

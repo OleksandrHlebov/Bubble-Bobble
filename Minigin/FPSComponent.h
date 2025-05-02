@@ -17,7 +17,7 @@ namespace dae
 
 		void Update(float deltaTime) override;
 
-		void Render(float x, float y) const override;
+		void Render() const override;
 
 	private:
 		TextComponent* m_TextComponentPtr;

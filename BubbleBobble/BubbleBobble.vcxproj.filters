@@ -74,6 +74,9 @@
     <ClCompile Include="AudioHandler.cpp">
       <Filter>Components\Source</Filter>
     </ClCompile>
+    <ClCompile Include="GridComponent.cpp">
+      <Filter>Components\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GamepadPlayerController.h">
@@ -122,6 +125,9 @@
       <Filter>Commands</Filter>
     </ClInclude>
     <ClInclude Include="AudioHandler.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GridComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>

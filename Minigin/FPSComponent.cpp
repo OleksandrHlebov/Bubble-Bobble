@@ -29,8 +29,8 @@ void FPSComponent::Update(float deltaTime)
 	}
 }
 
-void FPSComponent::Render(float x, float y) const
+void dae::FPSComponent::Render() const
 {
-	m_TextComponentPtr->Render(x, y);
+	m_TextComponentPtr->Render();
 }
 

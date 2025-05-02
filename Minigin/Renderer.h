@@ -1,5 +1,6 @@
 #pragma once
 #include <SDL.h>
+#include <glm.hpp>
 #include "Singleton.h"
 
 namespace dae
@@ -8,6 +9,12 @@ namespace dae
 	/**
 	 * Simple RAII wrapper for the SDL renderer
 	 */
+	struct RenderParams
+	{
+		glm::vec3 position;
+		glm::vec3 scale;
+		SDL_Rect src;
+	};
 	class Renderer final : public Singleton<Renderer>
 	{
 		SDL_Renderer* m_renderer{};
@@ -18,8 +25,7 @@ namespace dae
 		void Render() const;
 		void Destroy();
 
-		void RenderTexture(const Texture2D& texture, float x, float y) const;
-		void RenderTexture(const Texture2D& texture, float x, float y, float width, float height) const;
+		void RenderTexture(const Texture2D& texture, const RenderParams& params) const;
 
 		SDL_Renderer* GetSDLRenderer() const;
 

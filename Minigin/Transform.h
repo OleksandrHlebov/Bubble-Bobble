@@ -15,6 +15,10 @@ namespace dae
 		Transform& operator=(const Transform&) 	 	= delete;
 		Transform& operator=(Transform&&) noexcept 	= delete;
 
+		const glm::vec3& GetScale() { return m_Scale; }
+		void SetScale(const glm::vec3& scale) { m_Scale = scale; }
+		void SetScale(float x, float y, float z) { SetScale(glm::vec3{ x, y, z }); }
+
 		const glm::vec3& GetLocalPosition() const { return m_LocalPosition; }
 		void SetLocalPosition(float x, float y, float z);
 		void SetLocalPosition(const glm::vec3& pos);
@@ -29,13 +33,15 @@ namespace dae
 
 		void FixedUpdate(float deltaTime) override;
 
-		void Render(float x, float y) const override;
+		void Render() const override;
 
 	private:
 		void UpdateWorldPosition();
 		void InvalidatePositionsOfChildren();
 
 		glm::vec3 m_LocalPosition;
+		glm::vec3 m_Scale{ 1.f, 1.f, 1.f };
+
 		glm::vec3 m_WorldPosition;
 
 		bool m_IsPositionDirty{ true };

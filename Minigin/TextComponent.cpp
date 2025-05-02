@@ -4,16 +4,15 @@
 #include "Renderer.h"
 #include "Font.h"
 #include "Texture2D.h"
+#include "GameObject.h"
 
 using namespace dae;
 
 TextComponent::TextComponent(std::shared_ptr<Font> font, GameObject* owner) :
 	Component(owner),
-	m_RenderComponent{ owner },
 	m_FontSPtr{ font }
 {
 	SetText(" ");
-	Update(.0f);
 }
 
 void TextComponent::SetText(const std::string& text)
@@ -53,14 +52,19 @@ void TextComponent::Update(float)
 			throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
 		}
 		SDL_FreeSurface(surf);
-		m_RenderComponent.SetTexture(std::make_shared<Texture2D>(texture));
+		m_RenderComponentPtr->SetTexture(std::make_shared<Texture2D>(texture));
 		m_NeedsUpdate = false;
 	}
 }
 
-void TextComponent::Render(float x, float y) const
+void TextComponent::Start()
 {
-	m_RenderComponent.Render(x, y);
+	m_RenderComponentPtr = GetOwner()->GetComponent<Render2DComponent>();
+}
+
+void dae::TextComponent::Render() const
+{
+
 }
 
 void TextComponent::SetFont(std::shared_ptr<Font> font)

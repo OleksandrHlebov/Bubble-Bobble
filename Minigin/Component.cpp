@@ -11,7 +11,7 @@ void Component::Update(float)
 void Component::FixedUpdate(float)
 {}
 
-void Component::Render(float, float) const
+void dae::Component::Render() const
 {}
 
 void Component::Delete()

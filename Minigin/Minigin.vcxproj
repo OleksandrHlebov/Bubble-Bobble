@@ -125,11 +125,14 @@ xcopy "$(SolutionDir)Data" "$(OutputPath)Data\" /R /Y</Command>
     <ClInclude Include="..\3rdParty\imgui\imstb_textedit.h" />
     <ClInclude Include="..\3rdParty\imgui\imstb_truetype.h" />
     <ClInclude Include="..\3rdParty\plot\imgui_plot.h" />
+    <ClInclude Include="Animation.h" />
+    <ClInclude Include="Animation2DComponent.h" />
     <ClInclude Include="AudioLocator.h" />
     <ClInclude Include="AudioMixer.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Controller.h" />
+    <ClInclude Include="Datatypes.h" />
     <ClInclude Include="EventDispatcher.h" />
     <ClInclude Include="GameEvent.h" />
     <ClInclude Include="Gamepad.h" />
@@ -161,6 +164,8 @@ xcopy "$(SolutionDir)Data" "$(OutputPath)Data\" /R /Y</Command>
     <ClCompile Include="..\3rdParty\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\3rdParty\imgui\imgui_widgets.cpp" />
     <ClCompile Include="..\3rdParty\plot\imgui_plot.cpp" />
+    <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="Animation2DComponent.cpp" />
     <ClCompile Include="AudioLocator.cpp" />
     <ClCompile Include="AudioMixer.cpp" />
     <ClCompile Include="Component.cpp" />

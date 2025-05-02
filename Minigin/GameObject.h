@@ -39,9 +39,12 @@ namespace dae
 
 		void SetLocalPosition(float x, float y);
 		void SetLocalPosition(const glm::vec3& pos);
+		void SetScale(const glm::vec3& scale) { m_Transform.SetScale(scale); }
+		void SetScale(float x, float y, float z) { m_Transform.SetScale(x, y, z); }
 
 		const glm::vec3& GetWorldPosition();
-		const glm::vec3& GetLocalPosition() { return m_Transform.GetLocalPosition(); };
+		const glm::vec3& GetLocalPosition() { return m_Transform.GetLocalPosition(); }
+		const glm::vec3& GetScale() { return m_Transform.GetScale(); }
 
 		template<typename ComponentType, typename... Args>
 		ComponentType* AddComponent(Args&&... args)

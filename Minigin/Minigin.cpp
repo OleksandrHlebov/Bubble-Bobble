@@ -76,6 +76,8 @@ dae::Minigin::Minigin(const std::string &dataPath)
 
 	Renderer::GetInstance().Init(g_window);
 
+	SDL_RenderSetLogicalSize(Renderer::GetInstance().GetSDLRenderer(), LOGICAL_WINDOW_WIDTH, LOGICAL_WINDOW_HEIGHT);
+
 	ResourceManager::GetInstance().Init(dataPath);
 
 	if (SDL_RenderSetVSync(SDL_GetRenderer(g_window), VSYNC_ON))
