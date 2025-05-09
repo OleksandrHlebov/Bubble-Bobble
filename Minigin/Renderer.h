@@ -26,6 +26,7 @@ namespace dae
 		void Destroy();
 
 		void RenderTexture(const Texture2D& texture, const RenderParams& params) const;
+		void DrawLine(int x1, int y1, int x2, int y2, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 
 		SDL_Renderer* GetSDLRenderer() const;
 
