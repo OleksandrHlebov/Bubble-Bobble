@@ -11,6 +11,9 @@ void Component::Update(float)
 void Component::FixedUpdate(float)
 {}
 
+void Component::LateUpdate(float)
+{}
+
 void dae::Component::Render() const
 {}
 
@@ -39,6 +42,11 @@ void Component::End()
 {}
 
 dae::GameObject* dae::Component::GetOwner()
+{
+	return m_OwnerPtr;
+}
+
+const dae::GameObject* Component::GetOwner() const
 {
 	return m_OwnerPtr;
 }

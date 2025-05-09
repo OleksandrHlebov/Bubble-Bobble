@@ -36,6 +36,7 @@
 #include "HealthDisplay.h"
 #include "Score.h"
 #include "AudioHandler.h"
+#include "Animation2DComponent.H"
 #pragma endregion Components
 
 using namespace dae;
@@ -49,6 +50,7 @@ void load()
 	service = &logger;
 #endif
 	AudioLocator::Provide(service);
+	AudioLocator::GetService()->SetMasterVolume(.4f);
 
 	auto scene = SceneManager::GetInstance().CreateScene("Demo");
 
@@ -79,6 +81,7 @@ void load()
 	player0->SetLocalPosition(glm::vec3{ 50.f, 160.f, .0f });
 	player0->AddComponent<Render2DComponent>()->SetTexture("Textures/Bub_walking.png");
 	player0->AddComponent<KeyboardPlayerController>();
+	player0->AddComponent<Animation2DComponent>(.08f);
 	player0->AddComponent<MovementComponent>()->Speed = 50.f;
 	player0->AddComponent<Health>();
 	auto player0UI = scene->CreateGameObject();
@@ -99,6 +102,7 @@ void load()
 	player1->SetLocalPosition(glm::vec3{ 50.f, 180.f, .0f });
 	player1->AddComponent<Render2DComponent>()->SetTexture("Bobblun.png");
 	player1->AddComponent<GamepadPlayerController>()->GetGamepad()->SetDeadzone(.7f);
+	player1->AddComponent<Animation2DComponent>(.08f);
 	player1->AddComponent<MovementComponent>()->Speed = 100.f;
 	player1->AddComponent<Health>();
 	auto player1UI = scene->CreateGameObject();

@@ -31,12 +31,18 @@ namespace dae
 
 		void Update(float deltaTime) override;
 
-		float Speed{ 10.f };
-		float JumpHeight{ 50.f };
+		void LateUpdate(float deltaTime) override;
+
+		const glm::vec3& GetVelocity() { return m_Velocity; }
+
+		float Speed{ 50.f };
+		float JumpHeight{ 200.f };
 
 	private:
 		glm::vec3 m_QueriedInput{};
+		glm::vec3 m_Velocity{};
 		
 		bool m_ShouldJump{};
+		bool m_IsGrounded{};
 	};
 }

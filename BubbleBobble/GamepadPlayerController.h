@@ -3,6 +3,7 @@
 
 namespace dae
 {
+	class PlayerState;
 	class InputAction;
 	class GameObject;
 	// make 2 separate player controllers for different input
@@ -22,6 +23,10 @@ namespace dae
 
 		void Start() override;
 
+		void Update(float deltaTime) override;
+
+		void End() override;
+
 	private:
 		InputAction* m_IAMoveUp;
 		InputAction* m_IAMoveDown;
@@ -34,5 +39,7 @@ namespace dae
 		InputAction* m_IAPickUp;
 
 		InputAction* m_IAJump;
+
+		std::unique_ptr<PlayerState> m_PlayerState;
 	};
 }

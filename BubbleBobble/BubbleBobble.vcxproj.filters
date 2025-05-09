@@ -77,6 +77,27 @@
     <ClCompile Include="GridComponent.cpp">
       <Filter>Components\Source</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerState.cpp">
+      <Filter>Game\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IdlePlayerState.cpp">
+      <Filter>Game\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WalkingPlayerState.cpp">
+      <Filter>Game\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JumpingPlayerState.cpp">
+      <Filter>Game\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FallingPlayerState.cpp">
+      <Filter>Game\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DyingPlayerState.cpp">
+      <Filter>Game\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BurpPlayerState.cpp">
+      <Filter>Game\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GamepadPlayerController.h">
@@ -130,5 +151,28 @@
     <ClInclude Include="GridComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerState.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="IdlePlayerState.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="WalkingPlayerState.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="FallingPlayerState.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="DyingPlayerState.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="BurpPlayerState.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="JumpingPlayerState.h">
+      <Filter>Game</Filter>
+    </None>
   </ItemGroup>
 </Project>

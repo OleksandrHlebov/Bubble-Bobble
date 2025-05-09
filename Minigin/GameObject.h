@@ -21,6 +21,7 @@ namespace dae
 		void Start();
 		void Update(float deltaTime);
 		void FixedUpdate(float deltaTime);
+		void LateUpdate(float deltaTime);
 		void Render();
 		void RenderUI();
 		void End();
@@ -36,6 +37,8 @@ namespace dae
 		bool IsChildOf(GameObject* object);
 
 		GameObject* GetParent() { return m_ParentPtr; };
+
+		uint32_t GetID() { return m_ID; }
 
 		void SetLocalPosition(float x, float y);
 		void SetLocalPosition(const glm::vec3& pos);
@@ -93,5 +96,8 @@ namespace dae
 
 		bool m_PendingDelete{};
 		bool m_IsInitialised{};
+
+		inline static uint32_t m_InstanceCounter{};
+		uint32_t m_ID{ m_InstanceCounter++ };
 	};
 }

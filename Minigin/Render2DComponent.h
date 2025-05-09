@@ -2,6 +2,7 @@
 #include "Component.h"
 #include <memory>
 #include <string>
+#include <glm.hpp>
 #include "Datatypes.h"
 
 namespace dae
@@ -28,9 +29,14 @@ namespace dae
 
 		void SelectSection(int x, int y, int width, int height);
 
+		void Flip(bool flip) { m_IsFlipped = flip; }
+
+		glm::ivec2 GetDimensions();
+
 	private:
 		Transform* m_TransformPtr{};
 		std::shared_ptr<Texture2D> m_TextureSPtr{};
 		Rect m_Source;
+		bool m_IsFlipped{};
 	};
 }

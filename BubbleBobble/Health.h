@@ -45,7 +45,7 @@ namespace dae
 		void ApplyHealth(int HP)
 		{
 			m_CurrentHealth += HP;
-			m_CurrentHealth %= m_MaxHealthPoints;
+			m_CurrentHealth %= (m_MaxHealthPoints + 1);
 
 			// static game event function
 			GameEvent::Dispatch<OnHealthChanged>(this, HP);;
@@ -60,13 +60,13 @@ namespace dae
 			ResetHP();
 		}
 
-	private:
-		void ResetHP() 
-		{ 
+		void ResetHP()
+		{
 			int delta{ m_MaxHealthPoints - m_CurrentHealth };
 			ApplyHealth(delta);
 		}
 
+	private:
 		int m_MaxHealthPoints{ 3 };
 		int m_CurrentHealth{ m_MaxHealthPoints };
 

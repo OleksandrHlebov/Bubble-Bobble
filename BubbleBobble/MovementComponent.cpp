@@ -1,26 +1,42 @@
 #include "MovementComponent.h"
 #include "GameObject.h"
+#include <algorithm>
 
 void dae::MovementComponent::AddMovementInput(glm::vec3 inputVector)
 {
 	m_QueriedInput += inputVector;
-	if (m_QueriedInput != glm::vec3{ .0f, .0f, .0f })
-		m_QueriedInput = glm::normalize(m_QueriedInput);
 }
 
 void dae::MovementComponent::Jump()
 {
-	GameEvent::Dispatch<OnJump>();
-	m_ShouldJump = true;
+	m_ShouldJump = m_IsGrounded;
 }
 
 void dae::MovementComponent::Update(float deltaTime)
 {
+	const float GRAVITY{ JumpHeight * 2.1f };
+
 	GameObject* owner = GetOwner();
 	Transform* transform = owner->GetComponent<Transform>();
-	transform->Move(m_QueriedInput * Speed * deltaTime);
-	m_QueriedInput = glm::vec3{ .0f, .0f, .0f };
+	// dirty debug way for grounding
+	m_IsGrounded = transform->GetWorldPosition().y >= 200.f; 
 
-	transform->Move(glm::vec3{ .0f, m_ShouldJump * -JumpHeight, .0f });
-	m_ShouldJump = false;
+	float horizontalMovement{ m_QueriedInput.x * Speed };
+
+	m_Velocity.x = horizontalMovement;
+	if (!m_IsGrounded)
+		m_Velocity.y = std::min(m_Velocity.y + GRAVITY * deltaTime, GRAVITY);
+	m_Velocity.y *= !m_IsGrounded;
+	if (m_ShouldJump)
+	{
+		m_Velocity.y = -JumpHeight;
+		GameEvent::Dispatch<OnJump>();
+		m_ShouldJump = false;
+	}
+	transform->Move(m_Velocity * deltaTime);
+}
+
+void dae::MovementComponent::LateUpdate(float)
+{
+	m_QueriedInput = glm::vec3{};
 }

@@ -48,6 +48,11 @@ void dae::Scene::Update(float deltaTime)
 	{
 		object->Update(deltaTime);
 	}
+
+	for (auto& object : m_objects)
+	{
+		object->LateUpdate(deltaTime);
+	}
 	ClearPendingDelete();
 }
 

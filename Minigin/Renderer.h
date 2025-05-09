@@ -14,6 +14,7 @@ namespace dae
 		glm::vec3 position;
 		glm::vec3 scale;
 		SDL_Rect src;
+		SDL_RendererFlip flip;
 	};
 	class Renderer final : public Singleton<Renderer>
 	{

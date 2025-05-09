@@ -59,10 +59,10 @@ void dae::Renderer::RenderTexture(const Texture2D& texture, const RenderParams& 
 	SDL_Rect dst{};
 	dst.x = static_cast<int>(params.position.x);
 	dst.y = static_cast<int>(params.position.y);
-	dst.w = static_cast<int>(params.scale.x) * texSize.x;
-	dst.h = static_cast<int>(params.scale.y) * texSize.y;
+	dst.w = static_cast<int>(params.scale.x) * params.src.w;
+	dst.h = static_cast<int>(params.scale.y) * params.src.h;
 	
-	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), &params.src, &dst);
+	SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), &params.src, &dst, 0, nullptr, params.flip);
 }
 
 void dae::Renderer::DrawLine(int x1, int y1, int x2, int y2, Uint8 r, Uint8 g, Uint8 b, Uint8 a)

@@ -18,6 +18,7 @@ namespace dae
 		virtual void Start();
 		virtual void Update(float deltaTime);
 		virtual void FixedUpdate(float deltaTime);
+		virtual void LateUpdate(float deltaTime);
 		virtual void Render() const;
 		virtual void RenderUI();
 		virtual void End();
@@ -26,6 +27,7 @@ namespace dae
 		bool IsPendingDelete() const;
 
 		GameObject* GetOwner();
+		const GameObject* GetOwner() const;
 
 	protected:
 		Component(GameObject* owner);

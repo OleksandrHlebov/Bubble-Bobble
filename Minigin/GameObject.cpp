@@ -27,6 +27,11 @@ void dae::GameObject::FixedUpdate(float deltaTime)
 	for (auto& comp : m_Components) comp->FixedUpdate(deltaTime);
 }
 
+void dae::GameObject::LateUpdate(float deltaTime)
+{
+	for (auto& comp : m_Components) comp->LateUpdate(deltaTime);
+}
+
 void dae::GameObject::Render()
 {
 	for (auto& comp : m_Components) comp->Render();

@@ -20,10 +20,15 @@ namespace dae
 
 		Gamepad* GetGamepad() { return m_Gamepad.get(); }
 
+		uint32_t GetPlayerIndex() { return m_PlayerIndex; };
+
 	protected:
 		Controller(GameObject* owner, bool usesGamepad = false);
 
 	private:
 		std::unique_ptr<Gamepad> m_Gamepad{};
+
+		inline static uint32_t m_PlayerCount{};
+		uint32_t m_PlayerIndex{ m_PlayerCount++ };
 	};
 }
