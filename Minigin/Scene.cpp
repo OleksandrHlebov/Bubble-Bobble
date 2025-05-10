@@ -19,7 +19,7 @@ void Scene::RemoveAllGameObjects()
 
 dae::GameObject* Scene::CreateGameObject()
 {
-	const auto object = m_objects.insert(m_objects.end(), std::make_unique<GameObject>());
+	const auto object = m_objects.insert(m_objects.end(), std::make_unique<GameObject>(this));
 	if (m_IsLoaded)
 		(*object)->Start();
 	return (*object).get();

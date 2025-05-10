@@ -10,6 +10,7 @@
 #include <cassert>
 #include <exception>
 #include <typeinfo>
+#include <iostream>
 
 namespace dae
 {
@@ -34,11 +35,15 @@ namespace dae
 		template<typename GameEventType, typename... Args>
 		void Dispatch(Args&&... eventArguments)
 		{
+			std::unique_ptr<GameEventType> event = std::make_unique<GameEventType>(eventArguments...);
 			// Game programming patterns suggested rule
 			// to avoid cycles: https://shorturl.at/KgyfA
 			if (m_BlockDispatcher)
+			{
+				std::cout << "Event " << event->ID << " dispatched, while event " << m_EventsToDispatch.front().get()->ID << " was being processed\n";
 				throw bad_dispatch();
-			m_EventsToDispatch.push(std::make_unique<GameEventType>(eventArguments...));
+			}
+			m_EventsToDispatch.push(std::move(event));
 		}
 
 		void Bind(const std::string& id, const EventHandler& handler)

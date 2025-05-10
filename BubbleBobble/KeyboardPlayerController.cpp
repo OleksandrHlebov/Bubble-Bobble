@@ -9,6 +9,8 @@
 #include "IdlePlayerState.h"
 #include "Health.h"
 #include "DyingPlayerState.h"
+#include "BurpPlayerState.h"
+#include "BurpCommand.h"
 
 dae::KeyboardPlayerController::KeyboardPlayerController(GameObject* owner) 
 		: Controller(owner) 
@@ -28,6 +30,7 @@ void dae::KeyboardPlayerController::Start()
 	m_IADamageSelf	= inputManager.CreateInputAction<DamageCommand>(SDL_SCANCODE_C, BindTrigger::Pressed, GetControlledObject(), 1);
 
 	m_IAJump = inputManager.CreateInputAction<JumpCommand>(SDL_SCANCODE_X, BindTrigger::Released, GetControlledObject());
+	m_IABurp = inputManager.CreateInputAction<BurpCommand>(SDL_SCANCODE_Z, BindTrigger::Pressed, GetControlledObject());
 
 	GameEvent::Bind("OnDeath", 
 				[this](GameEvent* event) 
@@ -38,6 +41,15 @@ void dae::KeyboardPlayerController::Start()
 						PlayerState::TransitionState(m_PlayerState, std::make_unique<DyingPlayerState>(this->GetOwner()));
 					}
 				});
+	GameEvent::Bind("OnBurp",
+					[this](GameEvent* event)
+					{
+						OnBurp* onBurp = static_cast<OnBurp*>(event);
+						if (onBurp->Object == this->GetOwner())
+						{
+							PlayerState::TransitionState(m_PlayerState, std::make_unique<BurpPlayerState>(this->GetOwner()));
+						}
+					});
 }
 
 void dae::KeyboardPlayerController::Update(float deltaTime)

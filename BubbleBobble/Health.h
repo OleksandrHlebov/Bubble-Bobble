@@ -65,10 +65,8 @@ namespace dae
 			int delta{ m_MaxHealthPoints - m_CurrentHealth };
 			ApplyHealth(delta);
 		}
-
 	private:
 		int m_MaxHealthPoints{ 3 };
 		int m_CurrentHealth{ m_MaxHealthPoints };
-
 	};
 }

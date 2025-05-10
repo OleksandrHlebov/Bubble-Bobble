@@ -7,6 +7,8 @@
 #include "PlayerState.h"
 #include "Health.h"
 #include "DyingPlayerState.h"
+#include "BurpCommand.h"
+#include "BurpPlayerState.h"
 
 dae::GamepadPlayerController::GamepadPlayerController(GameObject* owner) : Controller(owner, true), m_PlayerState{ std::make_unique<PlayerState>(owner) } {  }
 
@@ -25,8 +27,9 @@ void dae::GamepadPlayerController::Start()
 	m_IAMoveRightLeft	= inputManager.CreateInputAction<MoveCommand>(Gamepad::ValueProvider::LeftThumbX, BindTrigger::Held, GetControlledObject(), glm::vec3{ 1.f,  .0f, .0f });
 	//m_IAMoveUpDown		= inputManager.CreateInputAction<MoveCommand>(Gamepad::ValueProvider::LeftThumbY, BindTrigger::Held, GetControlledObject(), glm::vec3{ .0f, -1.f, .0f });
 
-	m_IADamageSelf  = inputManager.CreateInputAction<DamageCommand>(Gamepad::Button::X, BindTrigger::Pressed, GetControlledObject(), 1);
-
+	m_IADamageSelf  = inputManager.CreateInputAction<DamageCommand>(Gamepad::Button::B, BindTrigger::Pressed, GetControlledObject(), 1);
+	m_IABurp = inputManager.CreateInputAction<BurpCommand>(Gamepad::Button::X, BindTrigger::Pressed, GetControlledObject());
+	
 	m_IAJump = inputManager.CreateInputAction<JumpCommand>(Gamepad::Button::A, BindTrigger::Released, GetControlledObject());
 
 	GameEvent::Bind("OnDeath",
@@ -36,6 +39,15 @@ void dae::GamepadPlayerController::Start()
 						if (onDeath->HealthComponent->GetOwner() == this->GetOwner())
 						{
 							PlayerState::TransitionState(m_PlayerState, std::make_unique<DyingPlayerState>(this->GetOwner()));
+						}
+					});
+	GameEvent::Bind("OnBurp",
+					[this](GameEvent* event)
+					{
+						OnBurp* onBurp = static_cast<OnBurp*>(event);
+						if (onBurp->Object == this->GetOwner())
+						{
+							PlayerState::TransitionState(m_PlayerState, std::make_unique<BurpPlayerState>(this->GetOwner()));
 						}
 					});
 }

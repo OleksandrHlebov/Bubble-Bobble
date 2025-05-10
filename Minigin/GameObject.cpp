@@ -5,7 +5,7 @@
 #include "Renderer.h"
 #include "Controller.h"
 
-dae::GameObject::GameObject()
+dae::GameObject::GameObject(Scene* scene) : m_ScenePtr{ scene }
 {}
 
 dae::GameObject::~GameObject()

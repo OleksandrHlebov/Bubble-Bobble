@@ -28,15 +28,15 @@ namespace dae
 		void End() override;
 
 	private:
-		InputAction* m_IAMoveUp;
-		InputAction* m_IAMoveDown;
+		//InputAction* m_IAMoveUp;
+		//InputAction* m_IAMoveDown;
 		InputAction* m_IAMoveRight;
 		InputAction* m_IAMoveLeft;
 
-		InputAction* m_IAMoveUpDown;
+		//InputAction* m_IAMoveUpDown;
 		InputAction* m_IAMoveRightLeft;
 		InputAction* m_IADamageSelf;
-		InputAction* m_IAPickUp;
+		InputAction* m_IABurp;
 
 		InputAction* m_IAJump;
 

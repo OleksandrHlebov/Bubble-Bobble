@@ -17,11 +17,13 @@ void dae::DyingPlayerState::OnEnter()
 std::unique_ptr<dae::PlayerState> dae::DyingPlayerState::Update(float)
 {
 	if (!m_AnimComponent->IsPlaying())
+	{
+		GetPlayer()->GetComponent<Health>()->ResetHP();
 		return std::make_unique<IdlePlayerState>(GetPlayer());
+	}
 	return nullptr;
 }
 
 void dae::DyingPlayerState::OnExit()
 {
-	GetPlayer()->GetComponent<Health>()->ResetHP();
 }

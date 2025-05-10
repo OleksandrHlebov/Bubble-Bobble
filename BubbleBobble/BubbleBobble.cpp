@@ -65,17 +65,17 @@ void load()
 
 	font = ResourceManager::GetInstance().LoadFont("arcade-legacy.otf", 8);
 
-	//auto manual = scene->CreateGameObject();
-	//manual->SetLocalPosition(glm::vec3{ 20.f, 100.f, .0f });
-	//auto player0Controls = scene->CreateGameObject();
-	//player0Controls->AttachTo(manual);
-	//player0Controls->AddComponent<Render2DComponent>();
-	//player0Controls->AddComponent<TextComponent>(font)->SetText("DPad to move Bobblun, X to damage self, A to jump (both produce sound)");
-	//auto player1Controls = scene->CreateGameObject();
-	//player1Controls->SetLocalPosition(glm::vec3{ .0f, 15.f, .0f });
-	//player1Controls->AttachTo(manual);
-	//player1Controls->AddComponent<Render2DComponent>();
-	//player1Controls->AddComponent<TextComponent>(font)->SetText("WASD to move Bubblun, C to damage self, X to jump (both produce sound)");
+	auto manual = scene->CreateGameObject();
+	manual->SetLocalPosition(glm::vec3{ 4.f, 68.f, .0f });
+	auto player0Controls = scene->CreateGameObject();
+	player0Controls->AttachTo(manual);
+	player0Controls->AddComponent<Render2DComponent>();
+	player0Controls->AddComponent<TextComponent>(font)->SetText("DPad, X burp, A jump, B damage");
+	auto player1Controls = scene->CreateGameObject();
+	player1Controls->SetLocalPosition(glm::vec3{ .0f, 12.f, .0f });
+	player1Controls->AttachTo(manual);
+	player1Controls->AddComponent<Render2DComponent>();
+	player1Controls->AddComponent<TextComponent>(font)->SetText("AD, Z burp, X jump, C damage");
 
 	auto player0 = scene->CreateGameObject();
 	player0->SetLocalPosition(glm::vec3{ 50.f, 160.f, .0f });

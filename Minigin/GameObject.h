@@ -4,14 +4,16 @@
 #include "Transform.h"
 #include <unordered_set>
 
+
 namespace dae
 {
+	class Scene;
 	class Controller;
 	class Texture2D;
 	class GameObject final
 	{
 	public:
-		GameObject();
+		GameObject(Scene* scene);
 		~GameObject();
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
@@ -36,7 +38,8 @@ namespace dae
 		bool HasAsParent(GameObject* object);
 		bool IsChildOf(GameObject* object);
 
-		GameObject* GetParent() { return m_ParentPtr; };
+		GameObject* GetParent() { return m_ParentPtr; }
+		Scene* GetScene() { return m_ScenePtr; }
 
 		uint32_t GetID() { return m_ID; }
 
@@ -88,16 +91,18 @@ namespace dae
 		void ClearPendingDelete();
 		void RemoveChild(GameObject* child);
 
+		Scene* m_ScenePtr;
+
 		GameObject* m_ParentPtr{ nullptr };
 		std::vector<GameObject*> m_Children;
 
 		Transform m_Transform{ this };
 		std::unordered_set<std::unique_ptr<Component>> m_Components;
 
-		bool m_PendingDelete{};
-		bool m_IsInitialised{};
-
 		inline static uint32_t m_InstanceCounter{};
 		uint32_t m_ID{ m_InstanceCounter++ };
+
+		bool m_PendingDelete{};
+		bool m_IsInitialised{};
 	};
 }

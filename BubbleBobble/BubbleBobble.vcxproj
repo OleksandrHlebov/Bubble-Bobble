@@ -91,6 +91,7 @@
     <ClCompile Include="..\Minigin\TrashTheCache.cpp" />
     <ClCompile Include="AudioHandler.cpp" />
     <ClCompile Include="BubbleBobble.cpp" />
+    <ClCompile Include="BurpCommand.cpp" />
     <ClCompile Include="BurpPlayerState.cpp" />
     <ClCompile Include="DamageCommand.cpp" />
     <ClCompile Include="DyingPlayerState.cpp" />
@@ -116,6 +117,7 @@
   <ItemGroup>
     <ClInclude Include="..\Minigin\TrashTheCache.h" />
     <ClInclude Include="AudioHandler.h" />
+    <ClInclude Include="BurpCommand.h" />
     <ClInclude Include="BurpPlayerState.h" />
     <ClInclude Include="DamageCommand.h" />
     <ClInclude Include="DyingPlayerState.h" />
