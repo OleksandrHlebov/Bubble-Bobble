@@ -37,6 +37,7 @@
 #include "Score.h"
 #include "AudioHandler.h"
 #include "Animation2DComponent.H"
+#include "GridComponent.h"
 #pragma endregion Components
 
 using namespace dae;
@@ -53,6 +54,35 @@ void load()
 	AudioLocator::GetService()->SetMasterVolume(.4f);
 
 	auto scene = SceneManager::GetInstance().CreateScene("Demo");
+
+	auto levelGrid = scene->CreateGameObject();
+	GridComponent* grid = levelGrid->AddComponent<GridComponent>(28, 37, glm::ivec2{ Minigin::GetGameWidth(), Minigin::GetGameHeight() });
+	grid->EnableColumn(0);
+	grid->EnableColumn(1);
+	grid->EnableColumn(36);
+	grid->EnableColumn(35);
+
+	grid->DisableRow(0);
+	grid->DisableRow(1);
+	grid->DisableRow(2);
+
+	grid->EnableRow(12);
+	grid->EnableRow(17);
+	grid->EnableRow(22);
+
+	grid->DisableColumn(6);
+	grid->DisableColumn(7);
+	grid->DisableColumn(8);
+
+	grid->DisableColumn(30);
+	grid->DisableColumn(29);
+	grid->DisableColumn(28);
+
+	grid->EnableRow(3);
+	grid->DisableTile(17 + 37 * 3);
+	grid->DisableTile(18 + 37 * 3);
+	grid->DisableTile(19 + 37 * 3);
+	grid->EnableRow(27);
 
 	auto go = scene->CreateGameObject();
 	auto font = ResourceManager::GetInstance().LoadFont("arcade-legacy.otf", 16);

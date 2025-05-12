@@ -38,5 +38,6 @@ namespace dae
 		std::shared_ptr<Texture2D> m_TextureSPtr{};
 		Rect m_Source;
 		bool m_IsFlipped{};
+
 	};
 }

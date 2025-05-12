@@ -4,6 +4,7 @@
 #include "ResourceManager.h"
 #include "Renderer.h"
 #include "Controller.h"
+#include "Scene.h"
 
 dae::GameObject::GameObject(Scene* scene) : m_ScenePtr{ scene }
 {}
@@ -14,6 +15,7 @@ dae::GameObject::~GameObject()
 void dae::GameObject::Start()
 {
 	for (auto& comp : m_Components) comp->Start();
+	m_IsInitialised = true;
 }
 
 void dae::GameObject::Update(float deltaTime)
@@ -116,6 +118,13 @@ bool dae::GameObject::IsChildOf(GameObject* object)
 void dae::GameObject::SetLocalPosition(float x, float y)
 {
 	SetLocalPosition({ x, y, .0f });
+}
+
+void dae::GameObject::SetRenderOrder(RenderOrderTag renderOrder)
+{
+	assert(!m_IsInitialised);
+	m_RenderOrder = renderOrder;
+	GetScene()->ReorderGameObjects();
 }
 
 const glm::vec3& dae::GameObject::GetWorldPosition()

@@ -1,13 +1,17 @@
 #include "GridComponent.h"
 #include <cassert>
 #include "Renderer.h"
+#include "ResourceManager.h"
+#include "GameObject.h"
+#include "Scene.h"
+#include "Render2DComponent.h"
 
 namespace dae
 {
 
-	void GridComponent::Render() const
+	void GridComponent::SetTileTexture(std::shared_ptr<Texture2D> texture)
 	{
-
+		m_Texture = texture;
 	}
 
 	void GridComponent::EnableTile(int index)
@@ -28,6 +32,52 @@ namespace dae
 		assert(colIndex < m_Cols);
 		for (int index{}; index < m_Rows; ++index)
 			m_Tiles[index * m_Cols + colIndex] = true;
+	}
+
+	void GridComponent::Render() const
+	{
+	#ifndef NDEBUG
+		//for (int x{ 1 }; x <= m_Cols; ++x)
+		//	Renderer::GetInstance().DrawLine(x * m_TileSize.x, 0, x * m_TileSize.x, m_Rows * m_TileSize.y, 255, 0, 0, 255);
+		//for (int y{ 1 }; y <= m_Rows; ++y)
+		//	Renderer::GetInstance().DrawLine(0, y * m_TileSize.y, m_Cols * m_TileSize.x, y * m_TileSize.y, 255, 0, 0, 255);
+	#endif
+	}
+
+	void GridComponent::DisableTile(int index)
+	{
+		assert(index < GetTileCount());
+		m_Tiles[index] = false;
+	}
+
+	void GridComponent::DisableRow(int rowIndex)
+	{
+		assert(rowIndex < m_Rows);
+		for (int index{}; index < m_Cols; ++index)
+			m_Tiles[rowIndex * m_Cols + index] = false;
+	}
+
+	void GridComponent::DisableColumn(int colIndex)
+	{
+		assert(colIndex < m_Cols);
+		for (int index{}; index < m_Rows; ++index)
+			m_Tiles[index * m_Cols + colIndex] = false;
+	}
+
+	void GridComponent::Start()
+	{
+		if (!m_Texture)
+			m_Texture = ResourceManager::GetInstance().LoadTexture("Textures/Level/Tile_1.png");
+		for (int index{}; index < m_Tiles.size(); ++index)
+			if (m_Tiles[index])
+			{
+				GameObject* tile = GetOwner()->GetScene()->CreateGameObject();
+				tile->SetRenderOrder(GameObject::RenderOrderTag::Background);
+				tile->AttachTo(GetOwner());
+				tile->SetLocalPosition(static_cast<float>(index % m_Cols * m_TileSize.x), static_cast<float>(index / m_Cols * m_TileSize.y));
+				tile->AddComponent<Render2DComponent>()->SetTexture(m_Texture);
+				//tile->AddComponent<Collision2DComponent>();
+			}
 	}
 
 }

@@ -3,6 +3,7 @@
 #include "Component.h"
 #include "Transform.h"
 #include <unordered_set>
+#include "GameEvent.h"
 
 
 namespace dae
@@ -13,6 +14,12 @@ namespace dae
 	class GameObject final
 	{
 	public:
+		enum class RenderOrderTag
+		{
+			Background,
+			Foreground
+		};
+
 		GameObject(Scene* scene);
 		~GameObject();
 		GameObject(const GameObject& other) = delete;
@@ -48,6 +55,12 @@ namespace dae
 		void SetScale(const glm::vec3& scale) { m_Transform.SetScale(scale); }
 		void SetScale(float x, float y, float z) { m_Transform.SetScale(x, y, z); }
 
+		// supported only on scene load
+		// reordering happens after start is executed
+		void SetRenderOrder(RenderOrderTag renderOrder);
+
+		RenderOrderTag GetRenderOrder() { return m_RenderOrder; }
+
 		const glm::vec3& GetWorldPosition();
 		const glm::vec3& GetLocalPosition() { return m_Transform.GetLocalPosition(); }
 		const glm::vec3& GetScale() { return m_Transform.GetScale(); }
@@ -55,10 +68,10 @@ namespace dae
 		template<typename ComponentType, typename... Args>
 		ComponentType* AddComponent(Args&&... args)
 		{
-			auto resultPair = m_Components.insert(std::make_unique<ComponentType>(std::forward<Args>(args)..., this));
+			auto& result = m_Components.emplace_back(std::make_unique<ComponentType>(std::forward<Args>(args)..., this));
 			if (m_IsInitialised)
-				(*resultPair.first).get()->Start();
-			return static_cast<ComponentType*>((*resultPair.first).get());
+				result->Start();
+			return static_cast<ComponentType*>(result.get());
 		}
 
 		std::vector<GameObject*>& GetChildren() { return m_Children; }
@@ -97,10 +110,11 @@ namespace dae
 		std::vector<GameObject*> m_Children;
 
 		Transform m_Transform{ this };
-		std::unordered_set<std::unique_ptr<Component>> m_Components;
+		std::vector<std::unique_ptr<Component>> m_Components;
 
 		inline static uint32_t m_InstanceCounter{};
 		uint32_t m_ID{ m_InstanceCounter++ };
+		RenderOrderTag m_RenderOrder{ RenderOrderTag::Foreground };
 
 		bool m_PendingDelete{};
 		bool m_IsInitialised{};

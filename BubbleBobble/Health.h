@@ -30,7 +30,7 @@ namespace dae
 		Health(GameObject* owner) : Component(owner) 
 		{
 		}
-		Health(GameObject* owner, int maxHP) : Component(owner), m_MaxHealthPoints{ maxHP }
+		Health(int maxHP, GameObject* owner) : Component(owner), m_MaxHealthPoints{ maxHP }
 		{
 		}
 		~Health() = default;
