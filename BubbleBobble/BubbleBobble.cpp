@@ -25,7 +25,6 @@
 #include "Render2DComponent.h"
 #include "FPSComponent.h"
 #include "TextComponent.h"
-#include "ThrashTheCacheComponent.h"
 #include "Transform.h"
 #include "Orbit.h"
 #include "PlayerController.h"
