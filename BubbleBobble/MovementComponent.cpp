@@ -20,7 +20,12 @@ void dae::MovementComponent::AddMovementInput(glm::vec3 inputVector)
 
 void dae::MovementComponent::Jump()
 {
-	m_ShouldJump = m_IsGrounded;
+	if (m_IsGrounded)
+	{
+		m_Velocity.y = -JumpHeight;
+		GameEvent::Dispatch<OnJump>();
+		m_IsGrounded = false;
+	}
 }
 
 void dae::MovementComponent::Update(float deltaTime)
@@ -36,13 +41,7 @@ void dae::MovementComponent::Update(float deltaTime)
 	const float horizontalMovement{ m_QueriedInput.x * Speed }; // if positive check if moving right is allowed
 
 	m_Velocity.x = horizontalMovement;
-	if (m_ShouldJump)
-	{
-		m_Velocity.y = -JumpHeight;
-		GameEvent::Dispatch<OnJump>();
-		m_ShouldJump = false;
-		m_IsGrounded = false;
-	}
+
 	transform->Move(m_Velocity * deltaTime, true);
 	m_Velocity.y = std::min(m_Velocity.y + GRAVITY * deltaTime, GRAVITY);
 }

@@ -50,7 +50,6 @@ namespace dae
 		inline static const float DownRayLength{ 1.f };
 		inline static const float ResolveThreshold{ .35f };
 
-		bool m_ShouldJump{};
 		bool m_IsGrounded{};
 	};
 }
