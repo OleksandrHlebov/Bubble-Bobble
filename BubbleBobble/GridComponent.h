@@ -38,6 +38,8 @@ namespace dae
 		void DisableRow(int rowIndex);
 		void DisableColumn(int colIndex);
 
+		bool GetIsTileActive(const glm::ivec2& gridPos);
+
 		size_t GetTileCount() { return m_Tiles.size(); }
 
 		void Start() override;

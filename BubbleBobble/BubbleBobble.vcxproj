@@ -96,13 +96,12 @@
     <ClCompile Include="DamageCommand.cpp" />
     <ClCompile Include="DyingPlayerState.cpp" />
     <ClCompile Include="FallingPlayerState.cpp" />
-    <ClCompile Include="GamepadPlayerController.cpp" />
+    <ClCompile Include="PlayerController.cpp" />
     <ClCompile Include="GridComponent.cpp" />
     <ClCompile Include="Health.cpp" />
     <ClCompile Include="HealthDisplay.cpp" />
     <ClCompile Include="IdlePlayerState.cpp" />
     <ClCompile Include="JumpingPlayerState.cpp" />
-    <ClCompile Include="KeyboardPlayerController.cpp" />
     <ClCompile Include="MovementCommands.cpp" />
     <ClCompile Include="MovementComponent.cpp" />
     <ClCompile Include="Orbit.cpp" />
@@ -111,6 +110,7 @@
     <ClCompile Include="PickUpComponent.cpp" />
     <ClCompile Include="PlayerState.cpp" />
     <ClCompile Include="Score.cpp" />
+    <ClCompile Include="TileComponent.cpp" />
     <ClCompile Include="UIValueTweaker.cpp" />
     <ClCompile Include="WalkingPlayerState.cpp" />
   </ItemGroup>
@@ -122,13 +122,12 @@
     <ClInclude Include="DamageCommand.h" />
     <ClInclude Include="DyingPlayerState.h" />
     <ClInclude Include="FallingPlayerState.h" />
-    <ClInclude Include="GamepadPlayerController.h" />
+    <ClInclude Include="PlayerController.h" />
     <ClInclude Include="GridComponent.h" />
     <ClInclude Include="Health.h" />
     <ClInclude Include="HealthDisplay.h" />
     <ClInclude Include="IdlePlayerState.h" />
     <ClInclude Include="JumpCommand.h" />
-    <ClInclude Include="KeyboardPlayerController.h" />
     <ClInclude Include="MovementCommands.h" />
     <ClInclude Include="MovementComponent.h" />
     <ClInclude Include="Orbit.h" />
@@ -136,7 +135,9 @@
     <ClInclude Include="PickUpCommand.h" />
     <ClInclude Include="PickUpComponent.h" />
     <ClInclude Include="PlayerState.h" />
+    <ClInclude Include="RenderPriorities.h" />
     <ClInclude Include="Score.h" />
+    <ClInclude Include="TileComponent.h" />
     <ClInclude Include="UIValueTweaker.h" />
     <ClInclude Include="WalkingPlayerState.h" />
   </ItemGroup>

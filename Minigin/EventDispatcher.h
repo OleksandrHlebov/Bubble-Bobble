@@ -65,7 +65,7 @@ namespace dae
 		void HandleDispatchedEvents();
 
 	private:
-		inline static const int MAX_EVENTS_PER_FRAME{ 16 };
+		inline static const int MAX_EVENTS_PER_FRAME{ 64 };
 
 		bool m_BlockDispatcher{ false };
 		std::unordered_map<std::string, std::vector<EventHandler>> m_BoundHandlers;

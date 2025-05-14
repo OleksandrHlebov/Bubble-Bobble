@@ -9,17 +9,18 @@ namespace dae
 	// make 2 separate player controllers for different input
 	// to avoid making player input mapping system
 	// gamepad player controller can be used for multiple players
-	class GamepadPlayerController : public Controller
+	class PlayerController : public Controller
 	{
 	public:
-		GamepadPlayerController() = delete;
-		GamepadPlayerController(GameObject* owner);
-		virtual ~GamepadPlayerController();
+		PlayerController() = delete;
+		PlayerController(GameObject* owner);
+		PlayerController(bool useGamepad, GameObject* owner);
+		virtual ~PlayerController();
 
-		GamepadPlayerController(const GamepadPlayerController&)					= delete;
-		GamepadPlayerController(GamepadPlayerController&&) noexcept				= delete;
-		GamepadPlayerController& operator=(const GamepadPlayerController&)		= delete;
-		GamepadPlayerController& operator=(GamepadPlayerController&&) noexcept	= delete;
+		PlayerController(const PlayerController&)					= delete;
+		PlayerController(PlayerController&&) noexcept				= delete;
+		PlayerController& operator=(const PlayerController&)		= delete;
+		PlayerController& operator=(PlayerController&&) noexcept	= delete;
 
 		void Start() override;
 
@@ -28,12 +29,9 @@ namespace dae
 		void End() override;
 
 	private:
-		//InputAction* m_IAMoveUp;
-		//InputAction* m_IAMoveDown;
 		InputAction* m_IAMoveRight;
 		InputAction* m_IAMoveLeft;
 
-		//InputAction* m_IAMoveUpDown;
 		InputAction* m_IAMoveRightLeft;
 		InputAction* m_IADamageSelf;
 		InputAction* m_IABurp;

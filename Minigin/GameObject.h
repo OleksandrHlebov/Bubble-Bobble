@@ -14,12 +14,6 @@ namespace dae
 	class GameObject final
 	{
 	public:
-		enum class RenderOrderTag
-		{
-			Background,
-			Foreground
-		};
-
 		GameObject(Scene* scene);
 		~GameObject();
 		GameObject(const GameObject& other) = delete;
@@ -57,9 +51,9 @@ namespace dae
 
 		// supported only on scene load
 		// reordering happens after start is executed
-		void SetRenderOrder(RenderOrderTag renderOrder);
+		void SetRenderPriority(int renderPriority);
 
-		RenderOrderTag GetRenderOrder() { return m_RenderOrder; }
+		int GetRenderPriority() { return m_RenderPriority; }
 
 		const glm::vec3& GetWorldPosition();
 		const glm::vec3& GetLocalPosition() { return m_Transform.GetLocalPosition(); }
@@ -114,7 +108,7 @@ namespace dae
 
 		inline static uint32_t m_InstanceCounter{};
 		uint32_t m_ID{ m_InstanceCounter++ };
-		RenderOrderTag m_RenderOrder{ RenderOrderTag::Foreground };
+		int m_RenderPriority{ 0 };
 
 		bool m_PendingDelete{};
 		bool m_IsInitialised{};

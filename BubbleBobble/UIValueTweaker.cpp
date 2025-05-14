@@ -4,7 +4,7 @@
 #include <sstream>
 #include "GameObject.h"
 #include "MovementComponent.h"
-#include "GamepadPlayerController.h"
+#include "PlayerController.h"
 #include "AudioLocator.h"
 
 void dae::UIValueTweaker::AddPlayer(GameObject* player)
@@ -51,7 +51,7 @@ void dae::UIValueTweaker::RenderUI()
 			ImGui::PushID("SPD" + index);
 			ImGui::SliderFloat("Speed", &movement->Speed, 1.f, 200.f, "%.1f");
 			ImGui::PopID();
-			GamepadPlayerController* playerController = player->GetComponent<GamepadPlayerController>();
+			PlayerController* playerController = player->GetComponent<PlayerController>();
 			if (playerController)
 			{
 				Gamepad* gamepad = playerController->GetGamepad();

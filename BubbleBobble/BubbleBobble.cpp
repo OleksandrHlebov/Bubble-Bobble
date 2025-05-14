@@ -28,16 +28,17 @@
 #include "ThrashTheCacheComponent.h"
 #include "Transform.h"
 #include "Orbit.h"
-#include "GamepadPlayerController.h"
+#include "PlayerController.h"
 #include "Health.h"
 #include "MovementComponent.h"
-#include "KeyboardPlayerController.h"
 #include "UIValueTweaker.h"
 #include "HealthDisplay.h"
 #include "Score.h"
 #include "AudioHandler.h"
 #include "Animation2DComponent.H"
 #include "GridComponent.h"
+#include "Collision2DComponent.h"
+#include "RenderPriorities.h"
 #pragma endregion Components
 
 using namespace dae;
@@ -56,7 +57,9 @@ void load()
 	auto scene = SceneManager::GetInstance().CreateScene("Demo");
 
 	auto levelGrid = scene->CreateGameObject();
+	levelGrid->SetRenderPriority(static_cast<int>(RenderPriority::Background));
 	GridComponent* grid = levelGrid->AddComponent<GridComponent>(28, 37, glm::ivec2{ Minigin::GetGameWidth(), Minigin::GetGameHeight() });
+
 	grid->EnableColumn(0);
 	grid->EnableColumn(1);
 	grid->EnableColumn(36);
@@ -88,6 +91,7 @@ void load()
 	auto font = ResourceManager::GetInstance().LoadFont("arcade-legacy.otf", 16);
 
 	go = scene->CreateGameObject();
+	go->SetRenderPriority(static_cast<int>(RenderPriority::UI));
 	go->AddComponent<Render2DComponent>();
 	go->AddComponent<TextComponent>(font);
 	go->AddComponent<FPSComponent>();
@@ -96,6 +100,7 @@ void load()
 	font = ResourceManager::GetInstance().LoadFont("arcade-legacy.otf", 8);
 
 	auto manual = scene->CreateGameObject();
+	manual->SetRenderPriority(static_cast<int>(RenderPriority::UI));
 	manual->SetLocalPosition(glm::vec3{ 4.f, 68.f, .0f });
 	auto player0Controls = scene->CreateGameObject();
 	player0Controls->AttachTo(manual);
@@ -108,13 +113,18 @@ void load()
 	player1Controls->AddComponent<TextComponent>(font)->SetText("AD, Z burp, X jump, C damage");
 
 	auto player0 = scene->CreateGameObject();
-	player0->SetLocalPosition(glm::vec3{ 50.f, 160.f, .0f });
-	player0->AddComponent<Render2DComponent>()->SetTexture("Textures/Bub_walking.png");
-	player0->AddComponent<KeyboardPlayerController>();
+	player0->SetLocalPosition(glm::vec3{ 30.f, 160.f, .0f });
+	auto player0Render = player0->AddComponent<Render2DComponent>();
+	player0Render->SetTexture("Textures/Bub_walking.png");
+	player0->AddComponent<PlayerController>(false);
 	player0->AddComponent<Animation2DComponent>(.08f);
 	player0->AddComponent<MovementComponent>()->Speed = 50.f;
+	const float framesInTexture{ 4 };
+	const glm::vec2 playerSize{ glm::vec2{ player0Render->GetDimensions() } * glm::vec2(1 / framesInTexture, 1.f) };
+	player0->AddComponent<Collision2DComponent>(true)->SetSize(playerSize);
 	player0->AddComponent<Health>();
 	auto player0UI = scene->CreateGameObject();
+	player0UI->SetRenderPriority(static_cast<int>(RenderPriority::UI));
 	player0UI->SetLocalPosition(glm::vec3(4.f, 20.f, .0f));
 	auto player0HealthDisplay = scene->CreateGameObject();
 	player0HealthDisplay->AttachTo(player0UI);
@@ -131,9 +141,10 @@ void load()
 	auto player1 = scene->CreateGameObject();
 	player1->SetLocalPosition(glm::vec3{ 50.f, 180.f, .0f });
 	player1->AddComponent<Render2DComponent>()->SetTexture("Bobblun.png");
-	player1->AddComponent<GamepadPlayerController>()->GetGamepad()->SetDeadzone(.7f);
+	player1->AddComponent<PlayerController>()->GetGamepad()->SetDeadzone(.7f);
 	player1->AddComponent<Animation2DComponent>(.08f);
 	player1->AddComponent<MovementComponent>()->Speed = 100.f;
+	player1->AddComponent<Collision2DComponent>(true)->SetSize(playerSize);
 	player1->AddComponent<Health>();
 	auto player1UI = scene->CreateGameObject();
 	player1UI->SetLocalPosition(glm::vec3(4.f, 44.f, .0f));

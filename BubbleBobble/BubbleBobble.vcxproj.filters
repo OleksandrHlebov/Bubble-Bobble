@@ -47,16 +47,13 @@
     <ClCompile Include="Health.cpp">
       <Filter>Components\Source</Filter>
     </ClCompile>
-    <ClCompile Include="GamepadPlayerController.cpp">
+    <ClCompile Include="PlayerController.cpp">
       <Filter>Components\Source</Filter>
     </ClCompile>
     <ClCompile Include="Score.cpp">
       <Filter>Components\Source</Filter>
     </ClCompile>
     <ClCompile Include="UIValueTweaker.cpp">
-      <Filter>Components\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="KeyboardPlayerController.cpp">
       <Filter>Components\Source</Filter>
     </ClCompile>
     <ClCompile Include="DamageCommand.cpp">
@@ -101,18 +98,18 @@
     <ClCompile Include="BurpCommand.cpp">
       <Filter>Commands\Source</Filter>
     </ClCompile>
+    <ClCompile Include="TileComponent.cpp">
+      <Filter>Game\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GamepadPlayerController.h">
+    <ClInclude Include="PlayerController.h">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="Health.h">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="HealthDisplay.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="KeyboardPlayerController.h">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="MovementComponent.h">
@@ -174,6 +171,12 @@
     </ClInclude>
     <ClInclude Include="BurpCommand.h">
       <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderPriorities.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="TileComponent.h">
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

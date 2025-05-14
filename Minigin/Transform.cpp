@@ -1,5 +1,7 @@
 #include "Transform.h"
 #include "GameObject.h"
+#include <iostream>
+#include "Collision2DComponent.h"
 
 dae::Transform::Transform(GameObject* owner) :
 	Component(owner)
@@ -18,9 +20,17 @@ void dae::Transform::SetPositionDirty()
 	InvalidatePositionsOfChildren();
 }
 
-void dae::Transform::Move(const glm::vec3& delta)
+void dae::Transform::Move(const glm::vec3& delta, bool sweep)
 {
-	SetLocalPosition(GetLocalPosition() + delta);
+	if (delta != glm::vec3{})
+	{
+		SetLocalPosition(GetLocalPosition() + delta);
+		if (sweep)
+			if (Collision2DComponent* collision = GetOwner()->GetComponent<Collision2DComponent>())
+				collision->ProcessOverlaps();
+			else
+				std::cerr << "transform sweep requested on object with no collider\n";
+	}
 }
 
 const glm::vec3& dae::Transform::GetWorldPosition()

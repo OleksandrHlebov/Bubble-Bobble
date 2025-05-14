@@ -96,7 +96,10 @@ void dae::GameObject::AttachTo(GameObject* parent, bool keepWorldPosition)
 	m_ParentPtr = parent;
 
 	if (m_ParentPtr)
+	{
 		parent->m_Children.emplace_back(this);
+		m_RenderPriority = parent->m_RenderPriority;
+	}
 }
 
 bool dae::GameObject::HasAsParent(GameObject* object)
@@ -120,10 +123,10 @@ void dae::GameObject::SetLocalPosition(float x, float y)
 	SetLocalPosition({ x, y, .0f });
 }
 
-void dae::GameObject::SetRenderOrder(RenderOrderTag renderOrder)
+void dae::GameObject::SetRenderPriority(int renderPriority)
 {
 	assert(!m_IsInitialised);
-	m_RenderOrder = renderOrder;
+	m_RenderPriority = renderPriority;
 	GetScene()->ReorderGameObjects();
 }
 

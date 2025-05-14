@@ -3,6 +3,7 @@
 #include "GameObject.h"
 
 #include <algorithm>
+#include "Collision2DComponent.h"
 
 using namespace dae;
 
@@ -80,12 +81,20 @@ void dae::Scene::Update(float deltaTime)
 	ClearPendingDelete();
 }
 
+void Scene::AddCollider(Collision2DComponent* collider)
+{
+	if (collider->IsDynamic())
+		m_DynamicColliders.emplace_back(collider);
+	else
+		m_StaticColliders.emplace_back(collider);
+}
+
 void Scene::ReorderGameObjects_Internal()
 {
 	std::sort(m_Objects.begin(), m_Objects.end(),
 			  [](auto& left, auto& right)
 			  {
-				  return static_cast<int>(left->GetRenderOrder()) < static_cast<int>(right->GetRenderOrder());
+				  return left->GetRenderPriority() < right->GetRenderPriority();
 			  });
 }
 

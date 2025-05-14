@@ -24,7 +24,7 @@ namespace dae
 		void SetLocalPosition(const glm::vec3& pos);
 		void SetPositionDirty();
 
-		void Move(const glm::vec3& delta);
+		void Move(const glm::vec3& delta, bool sweep = false);
 
 		const glm::vec3& GetWorldPosition();
 		bool IsPositionDirty();

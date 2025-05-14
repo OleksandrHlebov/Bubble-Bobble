@@ -5,6 +5,10 @@
 #include "GameObject.h"
 #include "Scene.h"
 #include "Render2DComponent.h"
+#include "Collision2DComponent.h"
+#include "Texture2D.h"
+#include "RenderPriorities.h"
+#include "TileComponent.h"
 
 namespace dae
 {
@@ -64,6 +68,13 @@ namespace dae
 			m_Tiles[index * m_Cols + colIndex] = false;
 	}
 
+	bool GridComponent::GetIsTileActive(const glm::ivec2& gridPos)
+	{
+		const int transformed1DIndex{ gridPos.x + gridPos.y * m_Cols };
+		assert(transformed1DIndex < GetTileCount());
+		return m_Tiles[transformed1DIndex];
+	}
+
 	void GridComponent::Start()
 	{
 		if (!m_Texture)
@@ -72,11 +83,11 @@ namespace dae
 			if (m_Tiles[index])
 			{
 				GameObject* tile = GetOwner()->GetScene()->CreateGameObject();
-				tile->SetRenderOrder(GameObject::RenderOrderTag::Background);
 				tile->AttachTo(GetOwner());
 				tile->SetLocalPosition(static_cast<float>(index % m_Cols * m_TileSize.x), static_cast<float>(index / m_Cols * m_TileSize.y));
+				tile->AddComponent<TileComponent>(glm::ivec2{ index % m_Cols, index / m_Cols });
 				tile->AddComponent<Render2DComponent>()->SetTexture(m_Texture);
-				//tile->AddComponent<Collision2DComponent>();
+				tile->AddComponent<Collision2DComponent>(false)->SetSize(m_Texture->GetSize());
 			}
 	}
 
