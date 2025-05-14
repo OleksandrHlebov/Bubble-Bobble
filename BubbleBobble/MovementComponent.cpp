@@ -36,14 +36,12 @@ void dae::MovementComponent::Update(float deltaTime)
 
 	GameObject* owner = GetOwner();
 	Transform* transform = owner->GetComponent<Transform>();
-	// dirty debug way for grounding
-
 	const float horizontalMovement{ m_QueriedInput.x * Speed }; // if positive check if moving right is allowed
 
 	m_Velocity.x = horizontalMovement;
+	m_Velocity.y = std::min(m_Velocity.y + GRAVITY * deltaTime, GRAVITY);
 
 	transform->Move(m_Velocity * deltaTime, true);
-	m_Velocity.y = std::min(m_Velocity.y + GRAVITY * deltaTime, GRAVITY);
 }
 
 void dae::MovementComponent::LateUpdate(float)

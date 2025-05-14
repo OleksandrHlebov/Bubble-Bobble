@@ -65,9 +65,6 @@
     <ClCompile Include="PickUpCommand.cpp">
       <Filter>Commands\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\Minigin\TrashTheCache.cpp">
-      <Filter>Components\Source</Filter>
-    </ClCompile>
     <ClCompile Include="AudioHandler.cpp">
       <Filter>Components\Source</Filter>
     </ClCompile>
@@ -139,9 +136,6 @@
     <ClInclude Include="PickUpCommand.h">
       <Filter>Commands</Filter>
     </ClInclude>
-    <ClInclude Include="..\Minigin\TrashTheCache.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="JumpCommand.h">
       <Filter>Commands</Filter>
     </ClInclude>
@@ -178,6 +172,7 @@
     <ClInclude Include="TileComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="BurpComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="JumpingPlayerState.h">

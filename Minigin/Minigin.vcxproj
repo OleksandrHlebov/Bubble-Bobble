@@ -174,7 +174,6 @@ xcopy "$(SolutionDir)Data" "$(OutputPath)Data\" /R /Y</Command>
     <ClCompile Include="Gamepad.cpp" />
     <ClCompile Include="InputAction.cpp" />
     <ClCompile Include="Keybind.cpp" />
-    <ClCompile Include="ThrashTheCacheComponent.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="FPSComponent.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -189,9 +188,6 @@ xcopy "$(SolutionDir)Data" "$(OutputPath)Data\" /R /Y</Command>
     <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="Transform.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ThrashTheCacheComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

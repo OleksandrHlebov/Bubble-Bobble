@@ -215,9 +215,6 @@
     <ClCompile Include="TextComponent.cpp">
       <Filter>Components\Source</Filter>
     </ClCompile>
-    <ClCompile Include="ThrashTheCacheComponent.cpp">
-      <Filter>Components\Source</Filter>
-    </ClCompile>
     <ClCompile Include="Transform.cpp">
       <Filter>Components\Source</Filter>
     </ClCompile>
@@ -251,10 +248,5 @@
     <ClCompile Include="Collision2DComponent.cpp">
       <Filter>Components\Source</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ThrashTheCacheComponent.h">
-      <Filter>Components</Filter>
-    </None>
   </ItemGroup>
 </Project>

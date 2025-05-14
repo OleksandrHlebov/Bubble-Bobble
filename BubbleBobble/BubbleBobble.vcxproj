@@ -88,7 +88,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Minigin\TrashTheCache.cpp" />
     <ClCompile Include="AudioHandler.cpp" />
     <ClCompile Include="BubbleBobble.cpp" />
     <ClCompile Include="BurpCommand.cpp" />
@@ -115,9 +114,9 @@
     <ClCompile Include="WalkingPlayerState.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Minigin\TrashTheCache.h" />
     <ClInclude Include="AudioHandler.h" />
     <ClInclude Include="BurpCommand.h" />
+    <ClInclude Include="BurpComponent.h" />
     <ClInclude Include="BurpPlayerState.h" />
     <ClInclude Include="DamageCommand.h" />
     <ClInclude Include="DyingPlayerState.h" />
