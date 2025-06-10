@@ -3,7 +3,7 @@
 #include "GameObject.h"
 #include <iostream>
 
-void dae::DamageCommand::Execute()
+void dae::DamageCommand::Execute(float)
 {
 	Health* healthComp = GetGameObject()->GetComponent<Health>();
 	if (healthComp)

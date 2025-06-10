@@ -1,6 +1,6 @@
 #include "BurpCommand.h"
 
-void dae::BurpCommand::Execute()
+void dae::BurpCommand::Execute(float)
 {
 	// spawn bubble
 	//auto bubble = GetGameObject()->GetScene()->CreateGameObject();

@@ -15,7 +15,7 @@ namespace dae
 		DamageCommand& operator=(const DamageCommand&) 	 	= delete;
 		DamageCommand& operator=(DamageCommand&&) noexcept 	= delete;
 
-		void Execute() override;
+		void Execute(float deltaTime) override;
 
 	private:
 		int m_Damage;

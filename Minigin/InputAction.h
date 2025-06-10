@@ -36,11 +36,7 @@ namespace dae
 			m_Keybind = std::move(keybind);
 		}
 
-		float GetValue() { return m_Value; }
-
-		float GetDeltaTime() { return m_DeltaTime; }
-
-		void Execute(BindTrigger trigger, float deltaTime, float value = 1.f);
+		void Execute(BindTrigger trigger, float deltaTime);
 
 		Keybind GetKeybind() { return m_Keybind; }
 
@@ -52,7 +48,6 @@ namespace dae
 	private:
 		std::map<BindTrigger,std::unique_ptr<Command>> m_TriggerBinds;
 		Keybind m_Keybind{};
-		float m_Value{};
-		float m_DeltaTime{};
+
 	};
 }

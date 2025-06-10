@@ -18,13 +18,13 @@ namespace dae
 		JumpCommand& operator=(const JumpCommand&) 	 	= delete;
 		JumpCommand& operator=(JumpCommand&&) noexcept 	= delete;
 
-		void Execute() override
+		void Execute(float) override
 		{
 			MovementComponent* movement = GetGameObject()->GetComponent<MovementComponent>();
 			movement->Jump();
 		}
 
 	private:
-		Sound tempSound{ "SFX/jump.wav" };
+
 	};
 }

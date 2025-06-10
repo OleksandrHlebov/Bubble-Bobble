@@ -20,11 +20,10 @@ namespace dae
 		MoveCommand& operator=(const MoveCommand&) = delete;
 		MoveCommand& operator=(MoveCommand&&) noexcept = delete;
 
-		void Execute() override
+		void Execute(float) override
 		{
 			MovementComponent* movement = GetGameObject()->GetComponent<MovementComponent>();
-			InputAction* inputAction = GetInputAction();
-			movement->AddMovementInput(m_Direction * inputAction->GetValue());
+			movement->AddMovementInput(m_Direction);
 		}
 
 	protected:

@@ -25,7 +25,7 @@ namespace dae
 		BurpCommand& operator=(const BurpCommand&) 	 	= delete;
 		BurpCommand& operator=(BurpCommand&&) noexcept 	= delete;
 
-		void Execute() override;
+		void Execute(float deltaTime) override;
 
 	};
 }

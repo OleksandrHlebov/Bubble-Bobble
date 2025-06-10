@@ -12,19 +12,13 @@ namespace dae
 	public:
 		virtual ~Command() = 0 {}
 
-		virtual void Execute() = 0;
-
-		void Initialize(InputAction* inputAction) { m_InputAction = inputAction; }
+		virtual void Execute(float deltaTime) = 0;
 
 	protected:
 		Command() = default;
-		Command(InputAction* inputAction) : m_InputAction{ inputAction }
-		{
-		}
-		InputAction* GetInputAction() { return m_InputAction; }
 
 	private:
-		InputAction* m_InputAction;
+
 	};
 
 	class GameObjectCommand : public Command
@@ -33,7 +27,7 @@ namespace dae
 		GameObjectCommand() = delete;
 		virtual ~GameObjectCommand() = 0 {}
 
-		virtual void Execute() = 0;
+		virtual void Execute(float deltaTime) = 0;
 
 		GameObject* GetGameObject() { return m_GameObjectPtr; }
 
