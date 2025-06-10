@@ -48,9 +48,8 @@ dae::Gamepad::Gamepad() : m_ImplementationPtr{ std::make_unique<GamepadImplement
 {
 }
 
-dae::Gamepad::Gamepad(bool ignoreImplementationPtr)
+dae::Gamepad::Gamepad(bool)
 {
-	(void)ignoreImplementationPtr;
 }
 
 dae::Gamepad::~Gamepad()

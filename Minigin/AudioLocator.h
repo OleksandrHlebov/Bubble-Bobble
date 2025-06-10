@@ -57,7 +57,7 @@ namespace dae
 		AudioLocator& operator=(AudioLocator&&) noexcept = delete;
 
 		static Audio* GetService() { return m_Service; }
-		static void		Provide(Audio* service) { m_Service = service; }
+		static void		Provide(Audio* service) { m_Service = (service) ? service : &m_NullService; }
 
 	private:
 		class NullAudio final : public Audio
@@ -65,29 +65,24 @@ namespace dae
 		public:
 			NullAudio() = default;
 			~NullAudio() = default;
-			void Play(Sound* sound) override
+			void Play(Sound*) override
 			{
-				(void)sound;
 			}
-			void Pause(Sound* sound) override
+			void Pause(Sound*) override
 			{
-				(void)sound;
 			}
-			void Resume(Sound* sound) override
+			void Resume(Sound*) override
 			{
-				(void)sound;
 			}
-			void Stop(Sound* sound) override
+			void Stop(Sound*) override
 			{
-				(void)sound;
 			}
 			void StopAllSounds() override
 			{
 
 			}
-			void SetMasterVolume(float volume) override
+			void SetMasterVolume(float) override
 			{
-				(void)volume;
 			}
 
 			float GetMasterVolume() override

@@ -11,9 +11,8 @@ dae::AudioHandler::AudioHandler(GameObject* owner) : Component(owner)
 	GameEvent::Bind("OnHealthChanged", std::bind(&AudioHandler::HandleDamagedSound, this, _1));
 }
 
-void dae::AudioHandler::HandleJumpingSound(GameEvent* event)
+void dae::AudioHandler::HandleJumpingSound(GameEvent*)
 {
-	(void)event;
 	m_JumpSFX.Play();
 }
 
