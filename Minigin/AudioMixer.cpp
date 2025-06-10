@@ -95,6 +95,9 @@ namespace dae
 		}
 		~AudioMixerImpl()
 		{
+			Mix_ChannelFinished(nullptr);
+			Mix_HaltChannel(-1);
+
 			for (std::jthread& thread : m_ThreadPool)
 				thread.request_stop();
 

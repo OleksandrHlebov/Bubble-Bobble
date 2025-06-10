@@ -60,10 +60,7 @@ namespace dae
 		static Audio* GetService() { return m_Service.get(); }
 		static void		Provide(std::unique_ptr<Audio>&& service) 
 		{ 
-			if (service)
-				m_Service = std::move(service);
-			else
-				m_Service.reset(&m_NullService); 
+			m_Service = (service) ? std::move(service) : std::make_unique<NullAudio>();
 		}
 
 	private:
@@ -98,7 +95,6 @@ namespace dae
 			}
 		};
 
-		inline static NullAudio m_NullService{};
-		inline static std::unique_ptr<Audio> m_Service{ &m_NullService };
+		inline static std::unique_ptr<Audio> m_Service{ std::make_unique<NullAudio>() };
 	};
 }
