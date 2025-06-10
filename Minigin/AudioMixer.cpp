@@ -78,13 +78,18 @@ namespace dae
 												  }
 
 												  std::unique_lock freeLock{ m_FreeChunkMutex };
-												  while (!m_ChannelsToFree.empty())
+												  if (stopToken.stop_requested())
+													  return;
+												  std::set<int> channelsToFree{ m_ChannelsToFree };
+												  while (!channelsToFree.empty() && !stopToken.stop_requested())
 												  {
-													  int channelToFree{ *m_ChannelsToFree.begin() };
-													  m_ChannelsToFree.erase(channelToFree);
+													  int channelToFree{ *channelsToFree.begin() };
+													  channelsToFree.erase(channelToFree);
 
 													  if (Mix_Playing(channelToFree))
 														  continue;
+
+													  m_ChannelsToFree.erase(channelToFree);
 
 													  Mix_FreeChunk(m_ChannelChunks[channelToFree]);
 													  m_ChannelChunks.erase(channelToFree);

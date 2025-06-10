@@ -112,10 +112,10 @@ std::vector<std::pair<dae::Collision2DComponent*, glm::vec2>> Scene::TraceSegmen
 
 std::pair<bool, glm::vec2> Scene::SegmentIntersectsRect(const glm::vec2& begin, const glm::vec2& end, const glm::vec2& minAABB, const glm::vec2& maxAABB)
 {
-	const glm::vec2 topLeft{ minAABB.x, minAABB.y };
-	const glm::vec2 bottomLeft{ minAABB.x, maxAABB.y };
-	const glm::vec2 topRight{ maxAABB.x, minAABB.y };
-	const glm::vec2 bottomRight{ maxAABB.x, maxAABB.y };
+	const glm::vec2 topLeft		{ minAABB.x, minAABB.y };
+	const glm::vec2 bottomLeft	{ minAABB.x, maxAABB.y };
+	const glm::vec2 topRight	{ maxAABB.x, minAABB.y };
+	const glm::vec2 bottomRight	{ maxAABB.x, maxAABB.y };
 
 	if (auto [intersects, intersection] = SegmentsIntersect(begin, end, topLeft, bottomLeft); intersects)
 		return { true, std::move(intersection) };
