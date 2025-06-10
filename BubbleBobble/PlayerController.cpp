@@ -2,7 +2,6 @@
 #include "InputManager.h"
 #include "MovementCommands.h"
 #include "DamageCommand.h"
-#include "PickUpCommand.h"
 #include "JumpCommand.h"
 #include "PlayerState.h"
 #include "Health.h"

@@ -5,7 +5,6 @@
 
 namespace dae
 {
-	class GameObject;
 	class MovementComponent : public Component
 	{
 	public:

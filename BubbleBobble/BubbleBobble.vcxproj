@@ -103,14 +103,9 @@
     <ClCompile Include="JumpingPlayerState.cpp" />
     <ClCompile Include="MovementCommands.cpp" />
     <ClCompile Include="MovementComponent.cpp" />
-    <ClCompile Include="Orbit.cpp" />
-    <ClCompile Include="PelletComponent.cpp" />
-    <ClCompile Include="PickUpCommand.cpp" />
-    <ClCompile Include="PickUpComponent.cpp" />
     <ClCompile Include="PlayerState.cpp" />
     <ClCompile Include="Score.cpp" />
     <ClCompile Include="TileComponent.cpp" />
-    <ClCompile Include="UIValueTweaker.cpp" />
     <ClCompile Include="WalkingPlayerState.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -129,15 +124,10 @@
     <ClInclude Include="JumpCommand.h" />
     <ClInclude Include="MovementCommands.h" />
     <ClInclude Include="MovementComponent.h" />
-    <ClInclude Include="Orbit.h" />
-    <ClInclude Include="PelletComponent.h" />
-    <ClInclude Include="PickUpCommand.h" />
-    <ClInclude Include="PickUpComponent.h" />
     <ClInclude Include="PlayerState.h" />
     <ClInclude Include="RenderPriorities.h" />
     <ClInclude Include="Score.h" />
     <ClInclude Include="TileComponent.h" />
-    <ClInclude Include="UIValueTweaker.h" />
     <ClInclude Include="WalkingPlayerState.h" />
   </ItemGroup>
   <ItemGroup>

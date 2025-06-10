@@ -29,15 +29,6 @@
     <ClCompile Include="BubbleBobble.cpp">
       <Filter>Game\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Orbit.cpp">
-      <Filter>Components\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="PelletComponent.cpp">
-      <Filter>Components\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="PickUpComponent.cpp">
-      <Filter>Components\Source</Filter>
-    </ClCompile>
     <ClCompile Include="MovementComponent.cpp">
       <Filter>Components\Source</Filter>
     </ClCompile>
@@ -53,16 +44,10 @@
     <ClCompile Include="Score.cpp">
       <Filter>Components\Source</Filter>
     </ClCompile>
-    <ClCompile Include="UIValueTweaker.cpp">
-      <Filter>Components\Source</Filter>
-    </ClCompile>
     <ClCompile Include="DamageCommand.cpp">
       <Filter>Commands\Source</Filter>
     </ClCompile>
     <ClCompile Include="MovementCommands.cpp">
-      <Filter>Commands\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="PickUpCommand.cpp">
       <Filter>Commands\Source</Filter>
     </ClCompile>
     <ClCompile Include="AudioHandler.cpp">
@@ -112,28 +97,13 @@
     <ClInclude Include="MovementComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="Orbit.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="PelletComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="PickUpComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="Score.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="UIValueTweaker.h">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="DamageCommand.h">
       <Filter>Commands</Filter>
     </ClInclude>
     <ClInclude Include="MovementCommands.h">
-      <Filter>Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="PickUpCommand.h">
       <Filter>Commands</Filter>
     </ClInclude>
     <ClInclude Include="JumpCommand.h">
