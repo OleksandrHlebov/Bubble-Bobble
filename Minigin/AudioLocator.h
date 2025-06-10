@@ -1,5 +1,6 @@
 #pragma once
 #include <cstdint>
+#include <memory>
 
 namespace dae
 {
@@ -22,7 +23,7 @@ namespace dae
 	{
 	public:
 		Logger() = delete;
-		Logger(Audio* service) : m_Service{ service }
+		Logger(std::unique_ptr<Audio>&& service) : m_Service{ std::move(service) }
 		{
 		}
 		~Logger() = default;
@@ -42,7 +43,7 @@ namespace dae
 		float GetMasterVolume() override;
 
 	private:
-		Audio* m_Service;
+		std::unique_ptr<Audio> m_Service;
 	};
 
 	class AudioLocator final
@@ -56,8 +57,14 @@ namespace dae
 		AudioLocator& operator=(const AudioLocator&) = delete;
 		AudioLocator& operator=(AudioLocator&&) noexcept = delete;
 
-		static Audio* GetService() { return m_Service; }
-		static void		Provide(Audio* service) { m_Service = (service) ? service : &m_NullService; }
+		static Audio* GetService() { return m_Service.get(); }
+		static void		Provide(std::unique_ptr<Audio>&& service) 
+		{ 
+			if (service)
+				m_Service = std::move(service);
+			else
+				m_Service.reset(&m_NullService); 
+		}
 
 	private:
 		class NullAudio final : public Audio
@@ -92,6 +99,6 @@ namespace dae
 		};
 
 		inline static NullAudio m_NullService{};
-		inline static Audio* m_Service{ &m_NullService };
+		inline static std::unique_ptr<Audio> m_Service{ &m_NullService };
 	};
 }

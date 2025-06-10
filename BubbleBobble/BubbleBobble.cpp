@@ -42,13 +42,11 @@ using namespace dae;
 
 void load()
 {
-	static AudioMixer audioService{};
-	Audio* service{ &audioService };
+	std::unique_ptr<Audio> service{ std::make_unique<AudioMixer>() };
 #ifdef _DEBUG
-	static Logger logger{ service };
-	service = &logger;
+	service = std::make_unique<Logger>(std::move(service));
 #endif
-	AudioLocator::Provide(service);
+	AudioLocator::Provide(std::move(service));
 	AudioLocator::GetService()->SetMasterVolume(.4f);
 
 	auto scene = SceneManager::GetInstance().CreateScene("Demo");

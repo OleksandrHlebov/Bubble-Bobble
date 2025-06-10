@@ -1,6 +1,8 @@
 #pragma once
 #include "SceneManager.h"
 #include <memory>
+#include <glm.hpp>
+#include <utility>
 
 namespace dae { class Collision2DComponent; }
 
@@ -30,11 +32,19 @@ namespace dae
 		void ReorderGameObjects();
 
 		void AddCollider(Collision2DComponent* collider);
+		std::pair<Collision2DComponent*, glm::vec2> TraceSegment(const glm::vec2& begin, const glm::vec2& end, bool ignoreStatic = false, bool ignoreDynamic = false);
+		std::pair<Collision2DComponent*, glm::vec2> TraceSegment(const glm::vec2& begin, const glm::vec2& direction, float length, bool ignoreStatic = false, bool ignoreDynamic = false);
+
+		std::vector<std::pair<Collision2DComponent*, glm::vec2>> TraceSegmentMulti(const glm::vec2& begin, const glm::vec2& end, bool ignoreStatic = false, bool ignoreDynamic = false);
+		std::vector<std::pair<Collision2DComponent*, glm::vec2>> TraceSegmentMulti(const glm::vec2& begin, const glm::vec2& direction, float length, bool ignoreStatic = false, bool ignoreDynamic = false);
 
 		const std::vector<Collision2DComponent*>& GetStaticCollisions() { return m_StaticColliders; }
 		const std::vector<Collision2DComponent*>& GetDynamicCollisions() { return m_DynamicColliders; }
 
 	private: 
+		std::pair<bool, glm::vec2> SegmentsIntersect(const glm::vec2& begin1, const glm::vec2& end1, const glm::vec2& begin2, const glm::vec2& end2);
+		std::pair<bool, glm::vec2> SegmentIntersectsRect(const glm::vec2& begin, const glm::vec2& end, const glm::vec2& minAABB, const glm::vec2& maxAABB);
+		float OrientationToSegment(const glm::vec2& of, const glm::vec2& toBegin, const glm::vec2& toEnd);
 		void ClearPendingDelete();
 		void ReorderGameObjects_Internal();
 
