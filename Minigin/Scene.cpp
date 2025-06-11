@@ -82,6 +82,57 @@ void dae::Scene::Update(float deltaTime)
 	ClearPendingDelete();
 }
 
+std::vector<dae::Collision2DComponent*> Scene::TraceRectMulti(const glm::vec2& min, const glm::vec2& max, bool ignoreStatic /*= false*/, bool ignoreDynamic /*= false*/)
+{
+	assert(!(ignoreStatic == true && ignoreDynamic == true) && "Ignoring every collider for trace rect");
+	std::vector<dae::Collision2DComponent*> output;
+	static const size_t ESTIMATE_MAX_COLLISIONS{ 32 };
+	output.reserve(ESTIMATE_MAX_COLLISIONS);
+	if (!ignoreStatic)
+		for (Collision2DComponent* collider : m_StaticColliders)
+		{
+			const auto [otherMin, otherMax] = collider->GetBounds();
+			if (RectsIntersect(min, max, otherMin, otherMax))
+				output.emplace_back(collider);
+		}
+	if (!ignoreDynamic)
+		for (Collision2DComponent* collider : m_DynamicColliders)
+		{
+			const auto [otherMin, otherMax] = collider->GetBounds();
+			if (RectsIntersect(min, max, otherMin, otherMax))
+				output.emplace_back(collider);
+		}
+	return std::move(output);
+}
+
+bool Scene::RectsIntersect(const glm::vec2& min1, const glm::vec2& max1, const glm::vec2& min2, const glm::vec2& max2)
+{
+	return	! (min2.x > max1.x
+			|| max2.x < min1.x
+			|| min2.y > max1.y
+			|| max2.y < min1.y);
+}
+
+dae::Collision2DComponent* Scene::TraceRect(const glm::vec2& min, const glm::vec2& max, bool ignoreStatic /*= false*/, bool ignoreDynamic /*= false*/)
+{
+	assert(!(ignoreStatic == true && ignoreDynamic == true) && "Ignoring every collider for trace rect");
+	if (!ignoreStatic)
+		for (Collision2DComponent* collider : m_StaticColliders)
+		{
+			const auto [otherMin, otherMax] = collider->GetBounds();
+			if (RectsIntersect(min, max, otherMin, otherMax))
+				return collider;
+		}
+	if (!ignoreDynamic)
+		for (Collision2DComponent* collider : m_DynamicColliders)
+		{
+			const auto [otherMin, otherMax] = collider->GetBounds();
+			if (RectsIntersect(min, max, otherMin, otherMax))
+				return collider;
+		}
+	return nullptr;
+}
+
 std::vector<std::pair<dae::Collision2DComponent*, glm::vec2>> Scene::TraceSegmentMulti(const glm::vec2& begin, const glm::vec2& end, bool ignoreStatic, bool ignoreDynamic)
 {
 	assert(ignoreStatic != true && ignoreDynamic != true && "Ignoring every collider for trace segment");

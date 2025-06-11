@@ -61,7 +61,7 @@ void dae::WalkingAIState::HandleOverlap(GameEvent* event)
 			}
 		}
 		// collided with player or other npc
-		if (overlapEvent->SecondCollider->IsDynamic())
+		if (overlapEvent->SecondCollider->IsDynamic() && (overlapEvent->First == GetCharacter() || overlapEvent->Second == GetCharacter()))
 		{
 			const bool isFirst{ overlapEvent->First == GetCharacter() };
 			//GameObject* const self = (isFirst) ? overlapEvent->First : overlapEvent->Second;

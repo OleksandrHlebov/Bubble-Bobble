@@ -69,10 +69,18 @@ namespace dae
 														  }
 														  channel = Mix_PlayChannel(channel, chunk, 0);
 														  Mix_Volume(channel, static_cast<int8_t>(sound->GetVolume() * MIX_MAX_VOLUME));
-														  // link sound and assigned to it channel
-														  m_SoundChannels[sound->GetID()] = channel;
+														  if (m_ChannelChunks.contains(channel))
+														  {
+															  if (m_ChannelChunks[channel] != chunk)
+															  {
+																  Mix_FreeChunk(m_ChannelChunks[channel]);
+																  m_ChannelChunks.erase(channel);
+															  }
+														  }
 														  // cache chunk for cleanup
 														  m_ChannelChunks[channel] = chunk;
+														  // link sound and assigned to it channel
+														  m_SoundChannels[sound->GetID()] = channel;
 														  queueLock.lock();
 													  }
 												  }
@@ -91,8 +99,11 @@ namespace dae
 
 													  m_ChannelsToFree.erase(channelToFree);
 
-													  Mix_FreeChunk(m_ChannelChunks[channelToFree]);
-													  m_ChannelChunks.erase(channelToFree);
+													  if (m_ChannelChunks.contains(channelToFree))
+													  {
+														  Mix_FreeChunk(m_ChannelChunks[channelToFree]);
+														  m_ChannelChunks.erase(channelToFree);
+													  }
 												  }
 											  }
 										  });

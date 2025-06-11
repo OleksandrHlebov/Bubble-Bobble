@@ -5,6 +5,7 @@
 #include <functional>
 #include "TileComponent.h"
 #include "GridComponent.h"
+#include "Scene.h"
 
 
 void dae::MovementComponent::Start()
@@ -20,6 +21,13 @@ void dae::MovementComponent::AddMovementInput(const glm::vec3& inputVector)
 
 void dae::MovementComponent::Jump()
 {
+	Scene* scene = GetOwner()->GetScene();
+	Collision2DComponent* selfCollider = GetOwner()->GetComponent<Collision2DComponent>();
+	const glm::vec2 center = selfCollider->GetCenter();
+	auto [min, max] = selfCollider->GetBounds();
+	min.y += DOWN_RAY_LENGTH;
+	max.y += DOWN_RAY_LENGTH;
+	m_IsGrounded = scene->TraceRect(min, max, false, true);
 	if (m_IsGrounded)
 	{
 		m_Velocity.y = -JumpHeight;
@@ -84,7 +92,7 @@ void dae::MovementComponent::HandleOverlapping(GameEvent* event)
 						if (overlapEvent->Overlap.y > RESOLVE_THRESHOLD)
 						{
 							resolve.y = -overlapEvent->Overlap.y;
-							m_IsGrounded = otherMin.y < (selfMax.y + DOWN_RAY_LENGTH);
+							m_IsGrounded = otherMin.y < (selfMax.y + DOWN_RAY_LENGTH) && otherMax.y > selfMax.y;
 						}
 						if (m_IsGrounded)
 							m_Velocity.y = std::min(m_Velocity.y, 0.f);

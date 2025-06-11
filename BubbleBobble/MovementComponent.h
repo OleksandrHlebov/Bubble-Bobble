@@ -50,7 +50,7 @@ namespace dae
 		glm::vec3 m_QueriedInput{};
 		glm::vec3 m_Velocity{};
 
-		inline static const float DOWN_RAY_LENGTH{ 1.f };
+		inline static const float DOWN_RAY_LENGTH{ 2.f };
 		inline static const float RESOLVE_THRESHOLD{ .35f };
 		inline static const float GRAVITY_CLAMP{ 50.f };
 
