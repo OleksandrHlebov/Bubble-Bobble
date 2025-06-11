@@ -82,6 +82,11 @@ bool dae::Collision2DComponent::IsOverlapping(Collision2DComponent* other)
 	return true;
 }
 
+void dae::Collision2DComponent::End()
+{
+	GetOwner()->GetScene()->RemoveCollider(this);
+}
+
 std::pair<glm::vec2, glm::vec2> dae::Collision2DComponent::GetBounds() const
 {
 	const Transform* transform = GetOwner()->GetComponent<Transform>();

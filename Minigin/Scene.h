@@ -32,6 +32,7 @@ namespace dae
 		void ReorderGameObjects();
 
 		void AddCollider(Collision2DComponent* collider);
+		void RemoveCollider(Collision2DComponent* collider);
 
 		Collision2DComponent* TraceRect(const glm::vec2& min, const glm::vec2& max, bool ignoreStatic = false, bool ignoreDynamic = false);
 		std::vector<Collision2DComponent*> TraceRectMulti(const glm::vec2& min, const glm::vec2& max, bool ignoreStatic = false, bool ignoreDynamic = false);
@@ -45,12 +46,13 @@ namespace dae
 		const std::vector<Collision2DComponent*>& GetStaticCollisions() { return m_StaticColliders; }
 		const std::vector<Collision2DComponent*>& GetDynamicCollisions() { return m_DynamicColliders; }
 
+		void ClearPendingDelete();
+
 	private: 
 		std::pair<bool, glm::vec2> SegmentsIntersect(const glm::vec2& begin1, const glm::vec2& end1, const glm::vec2& begin2, const glm::vec2& end2);
 		std::pair<bool, glm::vec2> SegmentIntersectsRect(const glm::vec2& begin, const glm::vec2& end, const glm::vec2& minAABB, const glm::vec2& maxAABB);
 		float OrientationToSegment(const glm::vec2& of, const glm::vec2& toBegin, const glm::vec2& toEnd);
 		bool RectsIntersect(const glm::vec2& min1, const glm::vec2& max1, const glm::vec2& min2, const glm::vec2& max2);
-		void ClearPendingDelete();
 		void ReorderGameObjects_Internal();
 
 		std::string m_name;

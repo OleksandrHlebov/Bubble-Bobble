@@ -22,7 +22,7 @@ void dae::Score::HandleScoreChange(GameEvent* gameEvent)
 void dae::Score::Start()
 {
 	using namespace std::placeholders;
-	GameEvent::Bind("ScoreChange", std::bind(&Score::HandleScoreChange, this, _1));
+	GameEvent::Bind("ScoreChange", &m_ScoreChangeHandler);
 	UpdateScore();
 }
 

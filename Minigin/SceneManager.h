@@ -19,6 +19,7 @@ namespace dae
 		void FixedUpdate(float deltaTime);
 		void Render() const;
 		void RenderUI() const;
+		void ClearPendingDelete();
 
 	private:
 		SceneManager();

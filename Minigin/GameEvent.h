@@ -13,12 +13,12 @@ namespace dae
 			EventDispatcher::GetInstance().Dispatch<GameEventType>(constructorArguments...);
 		}
 
-		static void Bind(const std::string& id, const EventHandler& handler)
+		static void Bind(const std::string& id, EventHandler* handler)
 		{
 			EventDispatcher::GetInstance().Bind(id, handler);
 		}
 
-		static void UnBind(const std::string& id, const EventHandler& handler)
+		static void UnBind(const std::string& id, EventHandler* handler)
 		{
 			EventDispatcher::GetInstance().UnBind(id, handler);
 		}

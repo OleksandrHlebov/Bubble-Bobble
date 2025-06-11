@@ -12,12 +12,14 @@ void dae::DyingPlayerState::OnEnter()
 
 	m_AnimComponent = GetPlayer()->GetComponent<Animation2DComponent>();
 	m_AnimComponent->Play(m_DyingPath[playerIndex], 0, 5, TOTAL_FRAMES);
+	m_CanTransition = false;
 }
 
 std::unique_ptr<dae::PlayerState> dae::DyingPlayerState::Update(float)
 {
 	if (!m_AnimComponent->IsPlaying())
 	{
+		m_CanTransition = true;
 		GetPlayer()->GetComponent<Health>()->ResetImmunity();
 		return std::make_unique<IdlePlayerState>(GetPlayer());
 	}

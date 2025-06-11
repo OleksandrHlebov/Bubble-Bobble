@@ -52,6 +52,8 @@ namespace dae
 		bool IsOverlapping(Collision2DComponent* other);
 		bool IsDynamic() { return m_IsDynamic; }
 
+		void End() override;
+
 		std::pair<glm::vec2, glm::vec2> GetBounds() const; 
 		glm::vec2 GetCenter() const;
 

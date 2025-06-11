@@ -22,6 +22,8 @@ namespace dae
 
 		void End() override;
 
+		void TrapInBubble();
+
 	private:
 		const AIType& m_Type;
 		std::unique_ptr<AIState> m_State;

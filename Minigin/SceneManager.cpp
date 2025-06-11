@@ -33,6 +33,14 @@ void dae::SceneManager::RenderUI() const
 	}
 }
 
+void dae::SceneManager::ClearPendingDelete()
+{
+	for (const auto& scene : m_scenes)
+	{
+		scene->ClearPendingDelete();
+	}
+}
+
 dae::SceneManager::SceneManager() = default;
 
 dae::SceneManager::~SceneManager() = default;

@@ -11,11 +11,25 @@
 #include <exception>
 #include <typeinfo>
 #include <iostream>
+#include <stack>
+#include "Command.h"
 
 namespace dae
 {
 	struct GameEvent;
-	using EventHandler = std::function<void(GameEvent*)>;
+
+	class EventHandler
+	{
+	public:
+		EventHandler(std::function<void(GameEvent*)> func) : m_Func{ func } {}
+		void operator()(GameEvent* event)
+		{
+			m_Func(event);
+		}
+	private:
+		std::function<void(GameEvent*)> m_Func;
+	};
+
 	class EventDispatcher final : public Singleton<EventDispatcher>
 	{
 	public:
@@ -46,20 +60,14 @@ namespace dae
 			m_EventsToDispatch.push(std::move(event));
 		}
 
-		void Bind(const std::string& id, const EventHandler& handler)
+		void UnBind(const std::string& id, EventHandler* handler)
 		{
-			m_BoundHandlers[id].emplace_back(handler);
+			m_HandlersToUnbind.push({id, handler});
 		}
 
-		void UnBind(const std::string& id, const EventHandler& handler)
+		void Bind(const std::string& id, EventHandler* handler)
 		{
-			std::erase_if(m_BoundHandlers[id], [&handler](EventHandler& boundHandler) 
-				{
-					// https://stackoverflow.com/questions/18039723/c-trying-to-get-function-address-from-a-stdfunction
-					auto name1 = *(long*)(char*)(&handler);
-					auto name2 = *(long*)(char*)(&boundHandler);
-					return name1 == name2;
-				});
+			m_BoundHandlers[id].emplace_back(handler);
 		}
 
 		void Clear() { m_BoundHandlers.clear(); m_EventsToDispatch = {}; }
@@ -67,10 +75,15 @@ namespace dae
 		void HandleDispatchedEvents();
 
 	private:
-		inline static const int MAX_EVENTS_PER_FRAME{ 64 };
+		void UnBind_Impl(const std::string& id, EventHandler* handler)
+		{
+			std::erase(m_BoundHandlers[id], handler);
+		}
+		inline static const int MAX_EVENTS_PER_FRAME{ 256 };
 
 		bool m_BlockDispatcher{ false };
-		std::unordered_map<std::string, std::vector<EventHandler>> m_BoundHandlers;
+		std::unordered_map<std::string, std::vector<EventHandler*>> m_BoundHandlers;
 		std::queue<std::unique_ptr<GameEvent>> m_EventsToDispatch;
+		std::stack<std::pair<std::string, EventHandler*>> m_HandlersToUnbind;
 	};
 }

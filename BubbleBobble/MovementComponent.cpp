@@ -10,13 +10,14 @@
 
 void dae::MovementComponent::Start()
 {
-	using namespace std::placeholders;
-	GameEvent::Bind("OnOverlap", std::bind(&MovementComponent::HandleOverlapping, this, _1));
+	GameEvent::Bind("OnOverlap", &m_OverlapHandler);
 }
 
 void dae::MovementComponent::AddMovementInput(const glm::vec3& inputVector)
 {
 	m_QueriedInput += inputVector;
+	if (m_QueriedInput != glm::vec3{})
+		m_Forward = m_QueriedInput;
 }
 
 void dae::MovementComponent::Jump()
@@ -31,7 +32,7 @@ void dae::MovementComponent::Jump()
 	if (m_IsGrounded)
 	{
 		m_Velocity.y = -JumpHeight;
-		GameEvent::Dispatch<OnJump>();
+		GameEvent::Dispatch<OnJump>(GetOwner());
 		m_IsGrounded = false;
 	}
 }
@@ -108,5 +109,5 @@ void dae::MovementComponent::HandleOverlapping(GameEvent* event)
 void dae::MovementComponent::End()
 {
 	using namespace std::placeholders;
-	GameEvent::UnBind("OnOverlap", std::bind(&MovementComponent::HandleOverlapping, this, _1));
+	GameEvent::UnBind("OnOverlap", &m_OverlapHandler);
 }

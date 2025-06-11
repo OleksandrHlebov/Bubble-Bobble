@@ -20,11 +20,13 @@ namespace dae
 		virtual std::unique_ptr<AIState> Update(float deltaTime);
 		virtual void OnExit() {}
 
-		static void TransitionState(std::unique_ptr<AIState>& owningState, std::unique_ptr<AIState> newState);
+		bool CanTransition() { return m_CanTransition; }
 
 	protected:
 		GameObject* GetCharacter() { return m_Character; }
 		const AIType& GetType() { return m_Type; }
+
+		bool m_CanTransition{ true };
 
 	private:
 		GameObject* m_Character;

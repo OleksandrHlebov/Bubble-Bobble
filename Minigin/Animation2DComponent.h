@@ -1,12 +1,13 @@
 #pragma once
 #include "Component.h"
 #include <glm.hpp>
+#include <memory>
 
 namespace dae
 {
+	class Texture2D;
 	class GameObject;
 	class Render2DComponent;
-	class Animation;
 	class Animation2DComponent final : public Component
 	{
 	public:
@@ -25,8 +26,10 @@ namespace dae
 		void Start() override;
 
 		void Play(const std::string& texturePath, uint32_t firstFrame, uint32_t lastFrame, uint32_t totalFrames, bool loop = false);
+		void Play(std::shared_ptr<Texture2D> texture, uint32_t firstFrame, uint32_t lastFrame, uint32_t totalFrames, bool loop = false);
 
 		void SetFrameTime(float frameTime);
+		bool GetFrameTime() { return m_FrameTime; }
 
 		bool IsPlaying() { return m_IsPlaying; }
 		bool IsLooping() { return m_IsLooping; }
@@ -35,6 +38,8 @@ namespace dae
 
 
 	private:
+		void StartPlay(uint32_t firstFrame, uint32_t lastFrame, uint32_t totalFrames, bool loop);
+
 		Render2DComponent*	m_RenderComponentPtr;
 		glm::ivec2 m_FrameSize{};
 		uint32_t m_FirstFrame{};

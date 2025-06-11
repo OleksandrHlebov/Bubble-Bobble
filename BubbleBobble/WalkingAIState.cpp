@@ -12,8 +12,7 @@
 
 void dae::WalkingAIState::OnEnter()
 {
-	using namespace std::placeholders;
-	GameEvent::Bind("OnOverlap", std::bind(&WalkingAIState::HandleOverlap, this, _1));
+	GameEvent::Bind("OnOverlap", &m_OverlapHandler);
 
 	static const int TOTAL_FRAMES{ 2 };
 	Animation2DComponent* animComponent = GetCharacter()->GetComponent<Animation2DComponent>();
@@ -24,17 +23,26 @@ void dae::WalkingAIState::OnEnter()
 	m_MovementComponent->Speed = GetType().Speed;
 }
 
-std::unique_ptr<dae::AIState> dae::WalkingAIState::Update(float)
+std::unique_ptr<dae::AIState> dae::WalkingAIState::Update(float deltaTime)
 {
 	if (m_MovementComponent->GetVelocity().y < FLT_EPSILON)
 		m_MovementComponent->AddMovementInput(m_Direction);
+
+	if (m_JumpTimer >= m_TimeBeforeJump)
+	{
+		m_JumpTimer -= m_TimeBeforeJump;
+		int randomNumber{ rand() % 101 };
+		if (randomNumber / 100.f > m_JumpChance)
+			m_MovementComponent->Jump();
+	}
+
+	m_JumpTimer += deltaTime;
 	return nullptr;
 }
 
 void dae::WalkingAIState::OnExit()
 {
-	using namespace std::placeholders;
-	GameEvent::UnBind("OnOverlap", std::bind(&WalkingAIState::HandleOverlap, this, _1));
+	GameEvent::UnBind("OnOverlap", &m_OverlapHandler);
 }
 
 void dae::WalkingAIState::HandleOverlap(GameEvent* event)
@@ -69,7 +77,7 @@ void dae::WalkingAIState::HandleOverlap(GameEvent* event)
 			GameObject* const other = (!isFirst) ? overlapEvent->First : overlapEvent->Second;
 			//Collision2DComponent* const otherCollider = (!isFirst) ? overlapEvent->FirstCollider : overlapEvent->SecondCollider;
 
-			if (other->GetComponent<PlayerController>())
+			if (PlayerController* controller = other->GetComponent<PlayerController>())
 				other->GetComponent<Health>()->ApplyHealth(-1);
 		}
 	}

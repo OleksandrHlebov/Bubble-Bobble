@@ -25,6 +25,6 @@ namespace dae
 		inline static const std::string m_BurpPath[]{ "Textures/Bub_burp.png", "Textures/Bob_burp.png" };
 
 		float m_Timer{};
-		inline static const float DELAY{ 0.24f };
+		inline static const float DELAY{ 0.3f };
 	};
 }

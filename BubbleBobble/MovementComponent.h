@@ -2,6 +2,7 @@
 #include "Component.h"
 #include "Transform.h"
 #include "GameEvent.h"
+#include "EventDispatcher.h"
 
 namespace dae
 {
@@ -10,9 +11,11 @@ namespace dae
 	public:
 		struct OnJump final : public GameEvent
 		{
-			OnJump() : GameEvent("OnJump")
+			OnJump(GameObject* gameObject) : GameEvent("OnJump"), Object{ gameObject }
 			{
 			}
+
+			GameObject* const Object;
 		};
 
 		MovementComponent() = delete;
@@ -41,6 +44,7 @@ namespace dae
 		void End() override;
 
 		const glm::vec3& GetVelocity() { return m_Velocity; }
+		const glm::vec3& GetForward()  { return m_Forward; }
 
 		float Speed{ 50.f };
 		float JumpHeight{ 200.f };
@@ -49,6 +53,9 @@ namespace dae
 	private:
 		glm::vec3 m_QueriedInput{};
 		glm::vec3 m_Velocity{};
+		glm::vec3 m_Forward{ 1.f, .0f, .0f };
+
+		EventHandler m_OverlapHandler{ std::bind(&MovementComponent::HandleOverlapping, this, std::placeholders::_1) };
 
 		inline static const float DOWN_RAY_LENGTH{ 2.f };
 		inline static const float RESOLVE_THRESHOLD{ .35f };

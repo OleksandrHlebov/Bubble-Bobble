@@ -9,6 +9,7 @@
 #include "BurpCommand.h"
 #include "BurpPlayerState.h"
 #include "SDL_scancode.h"
+#include "Helpers.h"
 
 dae::PlayerController::PlayerController(bool useGamepad, GameObject* owner)
 	: Controller(owner, useGamepad)
@@ -41,23 +42,23 @@ void dae::PlayerController::Start()
 	m_IAJump		= inputManager.CreateInputAction<JumpCommand>(jump, BindTrigger::Released, GetControlledObject());
 
 	using std::placeholders::_1;
-	GameEvent::Bind("OnHealthChanged", std::bind(&PlayerController::HandleHealthChange, this, _1));
-	GameEvent::Bind("OnBurp", std::bind(&PlayerController::HandleBurp, this, _1));
+	GameEvent::Bind("OnHealthChanged", &m_HealthChangedHandler);
+	GameEvent::Bind("OnBurp", &m_BurpHandler);
 }
 
 void dae::PlayerController::Update(float deltaTime)
 {
 	if (std::unique_ptr<PlayerState> state = m_PlayerState->Update(deltaTime))
 	{
-		PlayerState::TransitionState(m_PlayerState, std::move(state));
+		dae::TransitionState(m_PlayerState, std::move(state));
 	}
 }
 
 void dae::PlayerController::End()
 {
 	using std::placeholders::_1;
-	GameEvent::UnBind("OnHealthChanged", std::bind(&PlayerController::HandleHealthChange, this, _1));
-	GameEvent::UnBind("OnBurp", std::bind(&PlayerController::HandleBurp, this, _1));
+	GameEvent::UnBind("OnHealthChanged", &m_HealthChangedHandler);
+	GameEvent::UnBind("OnBurp", &m_BurpHandler);
 	m_PlayerState->OnExit();
 }
 
@@ -66,7 +67,8 @@ void dae::PlayerController::HandleHealthChange(GameEvent* event)
 	Health::OnHealthChanged* onHealthChanged = static_cast<Health::OnHealthChanged*>(event);
 	if (onHealthChanged->HealthComponent->GetOwner() == this->GetOwner() && onHealthChanged->Delta < 0)
 	{
-		PlayerState::TransitionState(m_PlayerState, std::make_unique<DyingPlayerState>(this->GetOwner()));
+		m_PlayerState->ForceAllowTransition();
+		dae::TransitionState<PlayerState>(m_PlayerState, std::make_unique<DyingPlayerState>(this->GetOwner()));
 	}
 }
 
@@ -75,6 +77,6 @@ void dae::PlayerController::HandleBurp(GameEvent* event)
 	OnBurp* onBurp = static_cast<OnBurp*>(event);
 	if (onBurp->Object == this->GetOwner())
 	{
-		PlayerState::TransitionState(m_PlayerState, std::make_unique<BurpPlayerState>(this->GetOwner()));
+		dae::TransitionState<PlayerState>(m_PlayerState, std::make_unique<BurpPlayerState>(this->GetOwner()));
 	}
 }

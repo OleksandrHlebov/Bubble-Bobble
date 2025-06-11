@@ -1,5 +1,6 @@
 #pragma once
 #include "Component.h"
+#include "EventDispatcher.h"
 
 namespace dae
 {
@@ -24,9 +25,14 @@ namespace dae
 		void HandleHealthChange(GameEvent* gameEvent);
 		void HandleDeath(GameEvent* gameEvent);
 
+		void End() override;
+
 	private:
 		void Start();
 		void DisplayHealth();
+
+		EventHandler m_HealthChangeHandler{ std::bind(&HealthDisplay::HandleHealthChange, this, std::placeholders::_1) };
+		EventHandler m_DeathHandler{ std::bind(&HealthDisplay::HandleDeath, this, std::placeholders::_1) };
 
 		Component* m_Health;
 		int m_DisplayedHealth{ -1 };

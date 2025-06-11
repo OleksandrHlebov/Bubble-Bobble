@@ -91,6 +91,7 @@
     <ClCompile Include="AudioHandler.cpp" />
     <ClCompile Include="Brain.cpp" />
     <ClCompile Include="BubbleBobble.cpp" />
+    <ClCompile Include="BubbleComponent.cpp" />
     <ClCompile Include="BurpCommand.cpp" />
     <ClCompile Include="BurpPlayerState.cpp" />
     <ClCompile Include="DamageCommand.cpp" />
@@ -115,12 +116,14 @@
     <ClInclude Include="AIType.h" />
     <ClInclude Include="AudioHandler.h" />
     <ClInclude Include="Brain.h" />
+    <ClInclude Include="BubbleComponent.h" />
     <ClInclude Include="BurpCommand.h" />
     <ClInclude Include="BurpPlayerState.h" />
     <ClInclude Include="DamageCommand.h" />
     <ClInclude Include="DyingPlayerState.h" />
     <ClInclude Include="FallingPlayerState.h" />
     <ClInclude Include="GameInstanceComponent.h" />
+    <ClInclude Include="Helpers.h" />
     <ClInclude Include="WalkingAIState.h" />
     <ClInclude Include="PlayerController.h" />
     <ClInclude Include="GridComponent.h" />

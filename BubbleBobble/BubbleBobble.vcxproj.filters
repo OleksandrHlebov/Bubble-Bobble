@@ -107,6 +107,9 @@
     <ClCompile Include="Brain.cpp">
       <Filter>Components\Source</Filter>
     </ClCompile>
+    <ClCompile Include="BubbleComponent.cpp">
+      <Filter>Game\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerController.h">
@@ -177,6 +180,12 @@
     </ClInclude>
     <ClInclude Include="Brain.h">
       <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="BubbleComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Helpers.h">
+      <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

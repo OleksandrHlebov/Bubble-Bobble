@@ -19,11 +19,14 @@ namespace dae
 		virtual std::unique_ptr<PlayerState> Update(float deltaTime);
 		virtual void OnExit() {  }
 
-		static void TransitionState(std::unique_ptr<PlayerState>& owningState, std::unique_ptr<PlayerState> newState);
+		bool CanTransition() { return m_CanTransition; }
+
+		void ForceAllowTransition() { m_CanTransition = true; };
 
 	protected:
 		GameObject* GetPlayer() { return m_Player; }
 
+		bool m_CanTransition{ true };
 	private:
 		GameObject* m_Player;
 	};

@@ -1,6 +1,8 @@
 #pragma once
 #include "Component.h"
 #include "GameEvent.h"
+#include "EventDispatcher.h"
+#include <functional>
 
 namespace dae
 {
@@ -37,6 +39,7 @@ namespace dae
 		void Start() override;
 		void UpdateScore();
 
+		EventHandler m_ScoreChangeHandler{ std::bind(&Score::HandleScoreChange, this, std::placeholders::_1) };
 		GameObject* m_TrackedGameObject;
 
 		int m_Score{};

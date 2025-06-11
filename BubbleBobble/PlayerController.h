@@ -1,5 +1,6 @@
 #pragma once
 #include "Controller.h"
+#include "EventDispatcher.h"
 
 namespace dae
 {
@@ -32,6 +33,9 @@ namespace dae
 		void HandleBurp(GameEvent*);
 
 	private:
+		EventHandler m_HealthChangedHandler{ std::bind(&PlayerController::HandleHealthChange, this, std::placeholders::_1) };
+		EventHandler m_BurpHandler{ std::bind(&PlayerController::HandleBurp, this, std::placeholders::_1) };
+
 		InputAction* m_IAMoveRight;
 		InputAction* m_IAMoveLeft;
 

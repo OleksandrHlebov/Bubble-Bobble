@@ -82,6 +82,8 @@ dae::Minigin::Minigin(const std::string &dataPath)
 
 	if (SDL_RenderSetVSync(SDL_GetRenderer(g_window), VSYNC_ON))
 		std::cout << "vsync failed";
+
+	srand(static_cast<unsigned int>(time(nullptr)));
 }
 
 dae::Minigin::~Minigin()
@@ -127,6 +129,8 @@ void dae::Minigin::Run(const std::function<void()>& load)
 		}
 		eventDispatcher.HandleDispatchedEvents();
 		renderer.Render();
+
+		sceneManager.ClearPendingDelete();
 
 		if (unloadResorcesTimer >= RESOURCES_UNLOAD_TIME)
 		{

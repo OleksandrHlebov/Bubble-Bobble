@@ -79,7 +79,12 @@ void dae::Scene::Update(float deltaTime)
 	{
 		object->LateUpdate(deltaTime);
 	}
-	ClearPendingDelete();
+}
+
+void Scene::RemoveCollider(Collision2DComponent* collider)
+{
+	std::erase(m_StaticColliders, collider);
+	std::erase(m_DynamicColliders, collider);
 }
 
 std::vector<dae::Collision2DComponent*> Scene::TraceRectMulti(const glm::vec2& min, const glm::vec2& max, bool ignoreStatic /*= false*/, bool ignoreDynamic /*= false*/)
@@ -261,7 +266,8 @@ void Scene::RenderUI()
 
 void Scene::ClearPendingDelete()
 {
-	std::erase_if(m_Objects, [](const auto& object) { return object->IsPendingDelete(); });
+	size_t numErased = std::erase_if(m_Objects, [](const auto& object) { return object->IsPendingDelete(); });
+	numErased;
 }
 
 void Scene::FixedUpdate(float deltaTime)

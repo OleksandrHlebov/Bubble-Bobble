@@ -8,11 +8,17 @@ void dae::EventDispatcher::HandleDispatchedEvents()
 	while (!m_EventsToDispatch.empty() && eventsHandledThisFrame < MAX_EVENTS_PER_FRAME)
 	{
 		GameEvent* currentEvent{ m_EventsToDispatch.front().get() };
-		const std::vector<EventHandler>& handlersToCall = m_BoundHandlers[currentEvent->ID];
-		for (const auto& handler : handlersToCall)
-			handler(currentEvent);
+		std::vector<EventHandler*>& handlersToCall = m_BoundHandlers[currentEvent->ID];
+		for (EventHandler* handler : handlersToCall)
+			(*handler)(currentEvent);
 		m_EventsToDispatch.pop();
 		++eventsHandledThisFrame;
+	}
+	while (!m_HandlersToUnbind.empty())
+	{
+		auto [id, handler] = m_HandlersToUnbind.top();
+		m_HandlersToUnbind.pop();
+		UnBind_Impl(id, handler);
 	}
 	m_BlockDispatcher = false;
 }

@@ -141,31 +141,31 @@ void load()
 	player0Score->AddComponent<TextComponent>(font);
 	player0Score->AddComponent<Score>()->TrackGameObject(player0);
 
-	auto player1 = scene->CreateGameObject();
-	player1->SetLocalPosition(glm::vec3{ 50.f, 180.f, .0f });
-	player1->AddComponent<Render2DComponent>()->SetTexture("Bobblun.png");
-	player1->AddComponent<PlayerController>()->GetGamepad()->SetDeadzone(.7f);
-	player1->AddComponent<Animation2DComponent>(animationFrameTime);
-	player1->AddComponent<MovementComponent>()->Speed = 100.f;
-	{
-		const int framesInTexture{ 4 };
-		const glm::vec2 playerSize{ glm::vec2{ player0Render->GetDimensions() } *glm::vec2(1.f / framesInTexture, 1.f) };
-		player1->AddComponent<Collision2DComponent>(true)->SetSize(playerSize);
-	}
-	player1->AddComponent<Health>();
-	auto player1UI = scene->CreateGameObject();
-	player1UI->SetLocalPosition(glm::vec3(4.f, 44.f, .0f));
-	auto player1HealthDisplay = scene->CreateGameObject();
-	player1HealthDisplay->AttachTo(player1UI);
-	player1HealthDisplay->AddComponent<Render2DComponent>();
-	player1HealthDisplay->AddComponent<TextComponent>(font);
-	player1HealthDisplay->AddComponent<HealthDisplay>()->TrackHealth(player1);
-	auto player1Score = scene->CreateGameObject();
-	player1Score->AttachTo(player1UI);
-	player1Score->SetLocalPosition(glm::vec3(.0f, 12.f, .0f));
-	player1Score->AddComponent<Render2DComponent>();
-	player1Score->AddComponent<TextComponent>(font);
-	player1Score->AddComponent<Score>()->TrackGameObject(player1);
+	//auto player1 = scene->CreateGameObject();
+	//player1->SetLocalPosition(glm::vec3{ 50.f, 180.f, .0f });
+	//player1->AddComponent<Render2DComponent>()->SetTexture("Bobblun.png");
+	//player1->AddComponent<PlayerController>()->GetGamepad()->SetDeadzone(.7f);
+	//player1->AddComponent<Animation2DComponent>(animationFrameTime);
+	//player1->AddComponent<MovementComponent>()->Speed = 100.f;
+	//{
+	//	const int framesInTexture{ 4 };
+	//	const glm::vec2 playerSize{ glm::vec2{ player0Render->GetDimensions() } *glm::vec2(1.f / framesInTexture, 1.f) };
+	//	player1->AddComponent<Collision2DComponent>(true)->SetSize(playerSize);
+	//}
+	//player1->AddComponent<Health>();
+	//auto player1UI = scene->CreateGameObject();
+	//player1UI->SetLocalPosition(glm::vec3(4.f, 44.f, .0f));
+	//auto player1HealthDisplay = scene->CreateGameObject();
+	//player1HealthDisplay->AttachTo(player1UI);
+	//player1HealthDisplay->AddComponent<Render2DComponent>();
+	//player1HealthDisplay->AddComponent<TextComponent>(font);
+	//player1HealthDisplay->AddComponent<HealthDisplay>()->TrackHealth(player1);
+	//auto player1Score = scene->CreateGameObject();
+	//player1Score->AttachTo(player1UI);
+	//player1Score->SetLocalPosition(glm::vec3(.0f, 12.f, .0f));
+	//player1Score->AddComponent<Render2DComponent>();
+	//player1Score->AddComponent<TextComponent>(font);
+	//player1Score->AddComponent<Score>()->TrackGameObject(player1);
 
 	auto zen = scene->CreateGameObject();
 	zen->SetLocalPosition(glm::vec3{ 50.f, 20.f, .0f });

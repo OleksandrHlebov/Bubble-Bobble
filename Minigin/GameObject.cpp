@@ -62,7 +62,16 @@ void dae::GameObject::Delete()
 
 void dae::GameObject::ClearPendingDelete()
 {
-	std::erase_if(m_Components, [](const auto& component) { return component->IsPendingDelete(); });
+	std::erase_if(m_Components, [](const auto& component) 
+	{ 
+		const bool isPendingDelete{ component->IsPendingDelete() };
+		if (isPendingDelete)
+		{
+			component->End();
+			return true;
+		}
+		return false; 
+	});
 }
 
 void dae::GameObject::RemoveChild(GameObject* child)

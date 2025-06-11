@@ -52,11 +52,16 @@ void dae::HealthDisplay::HandleDeath(GameEvent* gameEvent)
 	}
 }
 
+void dae::HealthDisplay::End()
+{
+	GameEvent::UnBind("OnHealthChanged", &m_HealthChangeHandler);
+	GameEvent::UnBind("OnDeath", &m_DeathHandler);
+}
+
 void dae::HealthDisplay::Start()
 {
-	using namespace std::placeholders;
-	GameEvent::Bind("OnHealthChanged", std::bind(&HealthDisplay::HandleHealthChange, this, _1));
-	GameEvent::Bind("OnDeath", std::bind(&HealthDisplay::HandleDeath, this, _1));
+	GameEvent::Bind("OnHealthChanged", &m_HealthChangeHandler);
+	GameEvent::Bind("OnDeath", &m_DeathHandler);
 }
 
 void dae::HealthDisplay::DisplayHealth()
