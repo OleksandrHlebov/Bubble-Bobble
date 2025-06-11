@@ -24,10 +24,10 @@ namespace dae
 
 			const glm::vec2		Overlap;
 			const glm::vec2		Normal;
-			const GameObject*	First;
-			Collision2DComponent* FirstCollider;
-			const GameObject*	Second;
-			Collision2DComponent* SecondCollider;
+			GameObject* const	First;
+			GameObject* const	Second;
+			Collision2DComponent* const FirstCollider;
+			Collision2DComponent* const SecondCollider;
 
 		};
 
@@ -40,15 +40,20 @@ namespace dae
 		Collision2DComponent& operator=(const Collision2DComponent&) 	 	= delete;
 		Collision2DComponent& operator=(Collision2DComponent&&) noexcept 	= delete;
 
+		void Render() const override;
+
 		void SetSize(float x, float y);
 		void SetSize(const glm::vec2& size);
+
+		glm::vec2 GetSize() const;
 
 		void ProcessOverlaps();
 
 		bool IsOverlapping(Collision2DComponent* other);
 		bool IsDynamic() { return m_IsDynamic; }
 
-		std::pair<glm::vec2, glm::vec2> GetBounds(); 
+		std::pair<glm::vec2, glm::vec2> GetBounds() const; 
+		glm::vec2 GetCenter() const;
 
 	private:
 		glm::vec2 m_OriginalSize;

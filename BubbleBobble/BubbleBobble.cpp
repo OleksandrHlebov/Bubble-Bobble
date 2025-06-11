@@ -22,6 +22,7 @@
 #pragma endregion engine
 
 #pragma region Components
+#include "Brain.h"
 #include "Render2DComponent.h"
 #include "FPSComponent.h"
 #include "TextComponent.h"
@@ -52,8 +53,7 @@ void load()
 
 	auto scene = SceneManager::GetInstance().CreateScene("Demo");
 
-	auto gameInstance = scene->CreateGameObject();
-	gameInstance->AddComponent<GameInstance>();
+	auto gameInstance = scene->CreateGameObject()->AddComponent<GameInstance>();
 
 	auto levelGrid = scene->CreateGameObject();
 	levelGrid->SetRenderPriority(static_cast<int>(RenderPriority::Background));
@@ -118,9 +118,11 @@ void load()
 	player0->AddComponent<PlayerController>(false);
 	player0->AddComponent<Animation2DComponent>(.08f);
 	player0->AddComponent<MovementComponent>()->Speed = 50.f;
-	const float framesInTexture{ 4 };
-	const glm::vec2 playerSize{ glm::vec2{ player0Render->GetDimensions() } * glm::vec2(1 / framesInTexture, 1.f) };
-	player0->AddComponent<Collision2DComponent>(true)->SetSize(playerSize);
+	{
+		const int framesInTexture{ 4 };
+		const glm::vec2 playerSize{ glm::vec2{ player0Render->GetDimensions() } *glm::vec2(1.f / framesInTexture, 1.f) };
+		player0->AddComponent<Collision2DComponent>(true)->SetSize(playerSize);
+	}
 	player0->AddComponent<Health>();
 	auto player0UI = scene->CreateGameObject();
 	player0UI->SetRenderPriority(static_cast<int>(RenderPriority::UI));
@@ -143,7 +145,11 @@ void load()
 	player1->AddComponent<PlayerController>()->GetGamepad()->SetDeadzone(.7f);
 	player1->AddComponent<Animation2DComponent>(.08f);
 	player1->AddComponent<MovementComponent>()->Speed = 100.f;
-	player1->AddComponent<Collision2DComponent>(true)->SetSize(playerSize);
+	{
+		const int framesInTexture{ 4 };
+		const glm::vec2 playerSize{ glm::vec2{ player0Render->GetDimensions() } *glm::vec2(1.f / framesInTexture, 1.f) };
+		player1->AddComponent<Collision2DComponent>(true)->SetSize(playerSize);
+	}
 	player1->AddComponent<Health>();
 	auto player1UI = scene->CreateGameObject();
 	player1UI->SetLocalPosition(glm::vec3(4.f, 44.f, .0f));
@@ -159,7 +165,18 @@ void load()
 	player1Score->AddComponent<TextComponent>(font);
 	player1Score->AddComponent<Score>()->TrackGameObject(player1);
 
-	
+	auto zen = scene->CreateGameObject();
+	zen->SetLocalPosition(glm::vec3{ 50.f, 20.f, .0f });
+	auto zenRender = zen->AddComponent<Render2DComponent>();
+	zenRender->SetTexture("Textures/Zen_walking.png");
+	zen->AddComponent<Brain>(gameInstance->GetZenType());
+	zen->AddComponent<Animation2DComponent>(.08f);
+	zen->AddComponent<MovementComponent>()->Speed = 100.f;
+	{
+		const int framesInTexture{ 2 };
+		const glm::vec2 zenSize{ glm::vec2{ zenRender->GetDimensions() } *glm::vec2(1.f / framesInTexture, 1.f) };
+		zen->AddComponent<Collision2DComponent>(true)->SetSize(zenSize);
+	}
 
 	auto audioHandler = scene->CreateGameObject();
 	audioHandler->AddComponent<AudioHandler>();

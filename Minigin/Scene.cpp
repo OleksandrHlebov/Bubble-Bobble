@@ -153,7 +153,7 @@ std::pair<bool, glm::vec2> Scene::SegmentsIntersect(const glm::vec2& begin1, con
 
 std::pair<Collision2DComponent*, glm::vec2> Scene::TraceSegment(const glm::vec2& begin, const glm::vec2& end, bool ignoreStatic, bool ignoreDynamic)
 {
-	assert(ignoreStatic != true && ignoreDynamic != true && "Ignoring every collider for trace segment");
+	assert(!(ignoreStatic == true && ignoreDynamic == true) && "Ignoring every collider for trace segment");
 	if (!ignoreStatic)
 		for (Collision2DComponent* collider : m_StaticColliders)
 		{

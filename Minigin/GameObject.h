@@ -4,6 +4,7 @@
 #include "Transform.h"
 #include <unordered_set>
 #include "GameEvent.h"
+#include <type_traits>
 
 
 namespace dae
@@ -40,6 +41,7 @@ namespace dae
 		bool IsChildOf(GameObject* object);
 
 		GameObject* GetParent() { return m_ParentPtr; }
+		const GameObject* GetParent() const { return m_ParentPtr; }
 		Scene* GetScene() { return m_ScenePtr; }
 
 		uint32_t GetID() { return m_ID; }
@@ -57,7 +59,7 @@ namespace dae
 
 		const glm::vec3& GetWorldPosition();
 		const glm::vec3& GetLocalPosition() { return m_Transform.GetLocalPosition(); }
-		const glm::vec3& GetScale() { return m_Transform.GetScale(); }
+		const glm::vec3& GetScale() const { return m_Transform.GetScale(); }
 
 		template<typename ComponentType, typename... Args>
 		ComponentType* AddComponent(Args&&... args)
@@ -80,21 +82,36 @@ namespace dae
 		}
 
 		template<typename ComponentType>
+		const ComponentType* GetComponent() const
+		{
+			return GetComponent_Impl<ComponentType>(*this);
+		}
+
+		template<typename ComponentType>
 		ComponentType* GetComponent()
 		{
-			auto comp = std::find_if(m_Components.begin(), m_Components.end(), [](const std::unique_ptr<Component>& compUPtr) 
-																{ return dynamic_cast<ComponentType*>(compUPtr.get()) != nullptr; });
-			if (comp != m_Components.end())
-				return static_cast<ComponentType*>((*comp).get());
-			return (nullptr);
-		}
-		template<>
-		Transform* GetComponent<Transform>()
-		{
-			return &m_Transform;
+			return GetComponent_Impl<ComponentType>(*this);
 		}
 
 	private:
+
+		template<typename ComponentType, typename T>
+		static auto GetComponent_Impl(T& t) -> decltype(t.GetComponent<ComponentType>())
+		{
+			if constexpr (std::is_same_v<std::remove_cv_t<ComponentType>, Transform>)
+			{
+				return &t.m_Transform;
+			}
+			else
+			{
+				auto comp = std::find_if(t.m_Components.begin(), t.m_Components.end(), [](const std::unique_ptr<Component>& compUPtr)
+										 { return dynamic_cast<ComponentType*>(compUPtr.get()) != nullptr; });
+				if (comp != t.m_Components.end())
+					return static_cast<ComponentType*>((*comp).get());
+				return (nullptr);
+			}
+		}
+
 		void ClearPendingDelete();
 		void RemoveChild(GameObject* child);
 

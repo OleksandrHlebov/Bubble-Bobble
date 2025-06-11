@@ -40,9 +40,6 @@ void dae::PlayerController::Start()
 	m_IABurp		= inputManager.CreateInputAction<BurpCommand>(burp, BindTrigger::Pressed, GetControlledObject());
 	m_IAJump		= inputManager.CreateInputAction<JumpCommand>(jump, BindTrigger::Released, GetControlledObject());
 
-	if (usingGamepad)
-		m_IAMoveRightLeft	= inputManager.CreateInputAction<MoveCommand>(Gamepad::ValueProvider::LeftThumbX, BindTrigger::Held, GetControlledObject(), glm::vec3{ 1.f,  .0f, .0f });
-
 	GameEvent::Bind("OnDeath",
 					[this](GameEvent* event)
 					{

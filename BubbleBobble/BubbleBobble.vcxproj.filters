@@ -104,6 +104,9 @@
     <ClCompile Include="TileComponent.cpp">
       <Filter>Components\Source</Filter>
     </ClCompile>
+    <ClCompile Include="Brain.cpp">
+      <Filter>Components\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerController.h">
@@ -170,6 +173,9 @@
       <Filter>Game\AI\States</Filter>
     </ClInclude>
     <ClInclude Include="GameInstanceComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Brain.h">
       <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>

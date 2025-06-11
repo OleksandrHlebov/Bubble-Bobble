@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "Render2DComponent.h"
 #include "Scene.h"
+#include "Renderer.h"
 
 dae::Collision2DComponent::Collision2DComponent(bool isDynamic, GameObject* owner) : Component(owner)
 , m_IsDynamic{ isDynamic }
@@ -10,9 +11,28 @@ dae::Collision2DComponent::Collision2DComponent(bool isDynamic, GameObject* owne
 	owner->GetScene()->AddCollider(this);
 }
 
+void dae::Collision2DComponent::Render() const
+{
+#ifndef NDEBUG
+	auto [min, max] = GetBounds();
+
+	Renderer::GetInstance().DrawLine(min.x, min.y, min.x, max.y, 255, 0, 0, 255);
+	Renderer::GetInstance().DrawLine(min.x, min.y, max.x, min.y, 255, 0, 0, 255);
+	Renderer::GetInstance().DrawLine(max.x, max.y, max.x, min.y, 255, 0, 0, 255);
+	Renderer::GetInstance().DrawLine(max.x, max.y, min.x, max.y, 255, 0, 0, 255);
+#endif
+}
+
 void dae::Collision2DComponent::SetSize(float x, float y)
 {
 	SetSize(glm::vec2(x, y));
+}
+
+glm::vec2 dae::Collision2DComponent::GetSize() const
+{
+	const glm::vec3 scale{ GetOwner()->GetScale() };
+	const glm::vec2 scale2d{ scale.x, scale.y };
+	return m_OriginalSize * scale2d;
 }
 
 void dae::Collision2DComponent::ProcessOverlaps()
@@ -62,11 +82,17 @@ bool dae::Collision2DComponent::IsOverlapping(Collision2DComponent* other)
 	return true;
 }
 
-std::pair<glm::vec2, glm::vec2> dae::Collision2DComponent::GetBounds()
+std::pair<glm::vec2, glm::vec2> dae::Collision2DComponent::GetBounds() const
 {
-	Transform* transform = GetOwner()->GetComponent<Transform>();
+	const Transform* transform = GetOwner()->GetComponent<Transform>();
 	const glm::vec3& position = transform->GetWorldPosition();
 	const glm::vec3& scale = transform->GetScale();
 	const glm::vec2 pos2D{ position.x, position.y };
 	return { pos2D, glm::vec2{ pos2D + m_OriginalSize * glm::vec2{ scale.x, scale.y } } };
+}
+
+glm::vec2 dae::Collision2DComponent::GetCenter() const
+{
+	auto [min, max] = GetBounds();
+	return (min + max) / 2.f;
 }

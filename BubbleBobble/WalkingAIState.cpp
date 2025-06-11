@@ -6,6 +6,8 @@
 #include "Render2DComponent.h"
 #include "Collision2DComponent.h"
 #include "Animation2DComponent.H"
+#include "Scene.h"
+#include "Health.h"
 
 void dae::WalkingAIState::OnEnter()
 {
@@ -41,8 +43,30 @@ void dae::WalkingAIState::HandleOverlap(GameEvent* event)
 		// dynamic collisions are being processed differently
 		if (!overlapEvent->SecondCollider->IsDynamic() && GetCharacter() == overlapEvent->First)
 		{
+			// possible horizontal collision
 			if (overlapEvent->Overlap.x < overlapEvent->Overlap.y)
-				m_Direction *= -1;
+			{
+				Scene* scene = GetCharacter()->GetScene();
+				const glm::vec2 center = overlapEvent->FirstCollider->GetCenter();
+				// check 2 pixels ahead of character
+				const float rayLength = overlapEvent->FirstCollider->GetSize().x / 2.f + 2;
+				if (auto [collider, intersection] = scene->TraceSegment(center, m_Direction, rayLength, false, true); collider)
+				{
+					m_Direction *= -1;
+					m_RenderComponent->Flip(m_Direction.x > 0);
+				}
+			}
+		}
+		// collided with player or other npc
+		if (overlapEvent->SecondCollider->IsDynamic())
+		{
+			const bool isFirst{ overlapEvent->First == GetCharacter() };
+			//GameObject* const self = (isFirst) ? overlapEvent->First : overlapEvent->Second;
+			//Collision2DComponent* const selfCollider = (isFirst) ? overlapEvent->FirstCollider : overlapEvent->SecondCollider;
+			GameObject* const other = (!isFirst) ? overlapEvent->First : overlapEvent->Second;
+			//Collision2DComponent* const otherCollider = (!isFirst) ? overlapEvent->FirstCollider : overlapEvent->SecondCollider;
+
+			other->GetComponent<Health>()->ApplyHealth(-1);
 		}
 	}
 }

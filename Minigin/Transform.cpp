@@ -33,7 +33,7 @@ void dae::Transform::Move(const glm::vec3& delta, bool sweep)
 	}
 }
 
-const glm::vec3& dae::Transform::GetWorldPosition()
+const glm::vec3& dae::Transform::GetWorldPosition() const
 {
 	UpdateWorldPosition();
 	return m_WorldPosition;
@@ -62,14 +62,14 @@ void dae::Transform::Render() const
 {
 }
 
-void dae::Transform::UpdateWorldPosition()
+void dae::Transform::UpdateWorldPosition() const
 {
 	if (m_IsPositionDirty) 
 	{
-		GameObject* parent{ GetOwner()->GetParent() };
+		const GameObject* parent{ GetOwner()->GetParent() };
 		if (parent)
 		{
-			Transform* parentTransform{ parent->GetComponent<Transform>() };
+			const Transform* parentTransform{ parent->GetComponent<Transform>() };
 			m_WorldPosition = parentTransform->GetWorldPosition() + m_LocalPosition;
 		}
 		else

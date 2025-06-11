@@ -138,6 +138,7 @@ xcopy "$(SolutionDir)Data" "$(OutputPath)Data\" /R /Y</Command>
     <ClInclude Include="InputAction.h" />
     <ClInclude Include="Keybind.h" />
     <ClInclude Include="MathHelpers.h" />
+    <ClInclude Include="RenderPriorities.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FPSComponent.h" />

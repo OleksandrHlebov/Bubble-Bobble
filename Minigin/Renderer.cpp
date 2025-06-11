@@ -71,4 +71,9 @@ void dae::Renderer::DrawLine(int x1, int y1, int x2, int y2, Uint8 r, Uint8 g, U
 	SDL_RenderDrawLine(m_renderer, x1, y1, x2, y2);
 }
 
+void dae::Renderer::DrawLine(float x1, float y1, float x2, float y2, Uint8 r, Uint8 g, Uint8 b, Uint8 a)
+{
+	DrawLine(static_cast<int>(x1), static_cast<int>(y1), static_cast<int>(x2), static_cast<int>(y2), r, g, b, a);
+}
+
 SDL_Renderer* dae::Renderer::GetSDLRenderer() const { return m_renderer; }
