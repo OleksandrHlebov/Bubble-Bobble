@@ -23,12 +23,17 @@ namespace dae
 			EventDispatcher::GetInstance().UnBind(id, handler);
 		}
 
+		virtual bool AllowedLayeredDispatch() const { return m_AllowedDispatchFromOtherEvents; }
+
 		const std::string ID;
 
 	protected:
 		GameEvent() = delete;
-		constexpr explicit GameEvent(const std::string& id) : ID{ id }
+		// allow dispatch from other events at your own risk, may result in infinite loop
+		constexpr explicit GameEvent(const std::string& id, bool allowDispatchFromOtherEvents = false) : ID{ id }, m_AllowedDispatchFromOtherEvents{ allowDispatchFromOtherEvents }
 		{
 		}
+	private:
+		const bool m_AllowedDispatchFromOtherEvents;
 	};
 }

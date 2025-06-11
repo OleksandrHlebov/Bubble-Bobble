@@ -8,6 +8,7 @@
 #include "Animation2DComponent.H"
 #include "Scene.h"
 #include "Health.h"
+#include "PlayerController.h"
 
 void dae::WalkingAIState::OnEnter()
 {
@@ -25,13 +26,15 @@ void dae::WalkingAIState::OnEnter()
 
 std::unique_ptr<dae::AIState> dae::WalkingAIState::Update(float)
 {
-	m_MovementComponent->AddMovementInput(m_Direction);
+	if (m_MovementComponent->GetVelocity().y < FLT_EPSILON)
+		m_MovementComponent->AddMovementInput(m_Direction);
 	return nullptr;
 }
 
 void dae::WalkingAIState::OnExit()
 {
-
+	using namespace std::placeholders;
+	GameEvent::UnBind("OnOverlap", std::bind(&WalkingAIState::HandleOverlap, this, _1));
 }
 
 void dae::WalkingAIState::HandleOverlap(GameEvent* event)
@@ -66,7 +69,8 @@ void dae::WalkingAIState::HandleOverlap(GameEvent* event)
 			GameObject* const other = (!isFirst) ? overlapEvent->First : overlapEvent->Second;
 			//Collision2DComponent* const otherCollider = (!isFirst) ? overlapEvent->FirstCollider : overlapEvent->SecondCollider;
 
-			other->GetComponent<Health>()->ApplyHealth(-1);
+			if (other->GetComponent<PlayerController>())
+				other->GetComponent<Health>()->ApplyHealth(-1);
 		}
 	}
 }

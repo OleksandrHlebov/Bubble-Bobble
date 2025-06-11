@@ -36,6 +36,10 @@ namespace dae
 
 		void HandleOverlapping(GameEvent* event);
 
+		bool IsGrounded() { return m_IsGrounded; }
+
+		void End() override;
+
 		const glm::vec3& GetVelocity() { return m_Velocity; }
 
 		float Speed{ 50.f };

@@ -18,7 +18,7 @@ std::unique_ptr<dae::PlayerState> dae::DyingPlayerState::Update(float)
 {
 	if (!m_AnimComponent->IsPlaying())
 	{
-		GetPlayer()->GetComponent<Health>()->ResetHP();
+		GetPlayer()->GetComponent<Health>()->ResetImmunity();
 		return std::make_unique<IdlePlayerState>(GetPlayer());
 	}
 	return nullptr;

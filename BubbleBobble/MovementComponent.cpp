@@ -96,3 +96,9 @@ void dae::MovementComponent::HandleOverlapping(GameEvent* event)
 		}
 	}
 }
+
+void dae::MovementComponent::End()
+{
+	using namespace std::placeholders;
+	GameEvent::UnBind("OnOverlap", std::bind(&MovementComponent::HandleOverlapping, this, _1));
+}

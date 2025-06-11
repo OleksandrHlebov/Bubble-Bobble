@@ -28,6 +28,9 @@ namespace dae
 
 		void End() override;
 
+		void HandleHealthChange(GameEvent*);
+		void HandleBurp(GameEvent*);
+
 	private:
 		InputAction* m_IAMoveRight;
 		InputAction* m_IAMoveLeft;

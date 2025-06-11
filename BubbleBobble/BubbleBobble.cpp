@@ -44,6 +44,8 @@ using namespace dae;
 
 void load()
 {
+	const float animationFrameTime{ .16f };
+	
 	std::unique_ptr<Audio> service{ std::make_unique<AudioMixer>() };
 #ifdef _DEBUG
 	service = std::make_unique<Logger>(std::move(service));
@@ -116,7 +118,7 @@ void load()
 	auto player0Render = player0->AddComponent<Render2DComponent>();
 	player0Render->SetTexture("Textures/Bub_walking.png");
 	player0->AddComponent<PlayerController>(false);
-	player0->AddComponent<Animation2DComponent>(.08f);
+	player0->AddComponent<Animation2DComponent>(animationFrameTime);
 	player0->AddComponent<MovementComponent>()->Speed = 50.f;
 	{
 		const int framesInTexture{ 4 };
@@ -143,7 +145,7 @@ void load()
 	player1->SetLocalPosition(glm::vec3{ 50.f, 180.f, .0f });
 	player1->AddComponent<Render2DComponent>()->SetTexture("Bobblun.png");
 	player1->AddComponent<PlayerController>()->GetGamepad()->SetDeadzone(.7f);
-	player1->AddComponent<Animation2DComponent>(.08f);
+	player1->AddComponent<Animation2DComponent>(animationFrameTime);
 	player1->AddComponent<MovementComponent>()->Speed = 100.f;
 	{
 		const int framesInTexture{ 4 };
@@ -170,7 +172,7 @@ void load()
 	auto zenRender = zen->AddComponent<Render2DComponent>();
 	zenRender->SetTexture("Textures/Zen_walking.png");
 	zen->AddComponent<Brain>(gameInstance->GetZenType());
-	zen->AddComponent<Animation2DComponent>(.08f);
+	zen->AddComponent<Animation2DComponent>(animationFrameTime);
 	zen->AddComponent<MovementComponent>()->Speed = 100.f;
 	{
 		const int framesInTexture{ 2 };

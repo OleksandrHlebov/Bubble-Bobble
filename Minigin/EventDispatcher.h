@@ -38,7 +38,7 @@ namespace dae
 			std::unique_ptr<GameEventType> event = std::make_unique<GameEventType>(eventArguments...);
 			// Game programming patterns suggested rule
 			// to avoid cycles: https://shorturl.at/KgyfA
-			if (m_BlockDispatcher)
+			if (m_BlockDispatcher && !event->AllowedLayeredDispatch())
 			{
 				std::cout << "Event " << event->ID << " dispatched, while event " << m_EventsToDispatch.front().get()->ID << " was being processed\n";
 				throw bad_dispatch();
@@ -61,6 +61,8 @@ namespace dae
 					return name1 == name2;
 				});
 		}
+
+		void Clear() { m_BoundHandlers.clear(); m_EventsToDispatch = {}; }
 
 		void HandleDispatchedEvents();
 

@@ -11,7 +11,7 @@ namespace dae
 		{
 			OnHealthChanged() = delete;
 			explicit OnHealthChanged(Health* component, int delta) 
-				: GameEvent("OnHealthChanged"), Delta{delta}, HealthComponent{component}
+				: GameEvent("OnHealthChanged", true), Delta{delta}, HealthComponent{component}
 			{
 			}
 
@@ -22,7 +22,7 @@ namespace dae
 		struct OnDeath final : public GameEvent
 		{
 			OnDeath() = delete;
-			explicit OnDeath(Health* deadComponent) :GameEvent("OnDeath"), HealthComponent{ deadComponent } {}
+			explicit OnDeath(Health* deadComponent) :GameEvent("OnDeath", true), HealthComponent{ deadComponent } {}
 
 			const Health* HealthComponent;
 		};
@@ -44,6 +44,10 @@ namespace dae
 
 		void ApplyHealth(int HP)
 		{
+			if (m_Immune)
+				return;
+			m_Immune = HP < 0;
+
 			m_CurrentHealth += HP;
 			m_CurrentHealth %= (m_MaxHealthPoints + 1);
 
@@ -65,8 +69,15 @@ namespace dae
 			int delta{ m_MaxHealthPoints - m_CurrentHealth };
 			ApplyHealth(delta);
 		}
+
+		void ResetImmunity()
+		{
+			m_Immune = false;
+		}
+
 	private:
-		int m_MaxHealthPoints{ 3 };
+		int m_MaxHealthPoints{ 4 };
 		int m_CurrentHealth{ m_MaxHealthPoints };
+		bool m_Immune{};
 	};
 }
