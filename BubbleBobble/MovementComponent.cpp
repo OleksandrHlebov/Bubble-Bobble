@@ -13,7 +13,7 @@ void dae::MovementComponent::Start()
 	GameEvent::Bind("OnOverlap", std::bind(&MovementComponent::HandleOverlapping, this, _1));
 }
 
-void dae::MovementComponent::AddMovementInput(glm::vec3 inputVector)
+void dae::MovementComponent::AddMovementInput(const glm::vec3& inputVector)
 {
 	m_QueriedInput += inputVector;
 }
@@ -30,7 +30,7 @@ void dae::MovementComponent::Jump()
 
 void dae::MovementComponent::Update(float deltaTime)
 {
-	const float GRAVITY{ JumpHeight * 2.5f };
+	const float gravity{ JumpHeight * 2.5f };
 	if (deltaTime > .5f)
 		return;
 
@@ -39,7 +39,7 @@ void dae::MovementComponent::Update(float deltaTime)
 	const float horizontalMovement{ m_QueriedInput.x * Speed }; // if positive check if moving right is allowed
 
 	m_Velocity.x = horizontalMovement;
-	m_Velocity.y = std::min(m_Velocity.y + GRAVITY * deltaTime, GRAVITY);
+	m_Velocity.y = std::min(m_Velocity.y + gravity * deltaTime, GRAVITY_CLAMP);
 
 	transform->Move(m_Velocity * deltaTime, true);
 }
@@ -81,10 +81,10 @@ void dae::MovementComponent::HandleOverlapping(GameEvent* event)
 				{
 					if (overlapEvent->Normal.y < 0)
 					{
-						if (overlapEvent->Overlap.y > ResolveThreshold)
+						if (overlapEvent->Overlap.y > RESOLVE_THRESHOLD)
 						{
 							resolve.y = -overlapEvent->Overlap.y;
-							m_IsGrounded = otherMin.y < (selfMax.y + DownRayLength);
+							m_IsGrounded = otherMin.y < (selfMax.y + DOWN_RAY_LENGTH);
 						}
 						if (m_IsGrounded)
 							m_Velocity.y = std::min(m_Velocity.y, 0.f);

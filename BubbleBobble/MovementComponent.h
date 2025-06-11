@@ -26,7 +26,7 @@ namespace dae
 
 		void Start() override;
 
-		void AddMovementInput(glm::vec3 inputVector);
+		void AddMovementInput(const glm::vec3& inputVector);
 
 		void Jump();
 
@@ -46,8 +46,9 @@ namespace dae
 		glm::vec3 m_QueriedInput{};
 		glm::vec3 m_Velocity{};
 
-		inline static const float DownRayLength{ 1.f };
-		inline static const float ResolveThreshold{ .35f };
+		inline static const float DOWN_RAY_LENGTH{ 1.f };
+		inline static const float RESOLVE_THRESHOLD{ .35f };
+		inline static const float GRAVITY_CLAMP{ 50.f };
 
 		bool m_IsGrounded{};
 	};

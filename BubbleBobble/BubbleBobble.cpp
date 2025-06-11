@@ -36,6 +36,7 @@
 #include "GridComponent.h"
 #include "Collision2DComponent.h"
 #include "RenderPriorities.h"
+#include "GameInstanceComponent.h"
 #pragma endregion Components
 
 using namespace dae;
@@ -50,6 +51,9 @@ void load()
 	AudioLocator::GetService()->SetMasterVolume(.4f);
 
 	auto scene = SceneManager::GetInstance().CreateScene("Demo");
+
+	auto gameInstance = scene->CreateGameObject();
+	gameInstance->AddComponent<GameInstance>();
 
 	auto levelGrid = scene->CreateGameObject();
 	levelGrid->SetRenderPriority(static_cast<int>(RenderPriority::Background));
@@ -154,6 +158,8 @@ void load()
 	player1Score->AddComponent<Render2DComponent>();
 	player1Score->AddComponent<TextComponent>(font);
 	player1Score->AddComponent<Score>()->TrackGameObject(player1);
+
+	
 
 	auto audioHandler = scene->CreateGameObject();
 	audioHandler->AddComponent<AudioHandler>();

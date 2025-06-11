@@ -106,16 +106,20 @@
     <ClCompile Include="PlayerState.cpp" />
     <ClCompile Include="Score.cpp" />
     <ClCompile Include="TileComponent.cpp" />
+    <ClCompile Include="WalkingAIState.cpp" />
     <ClCompile Include="WalkingPlayerState.cpp" />
+    <ClCompile Include="AIState.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AIType.h" />
     <ClInclude Include="AudioHandler.h" />
     <ClInclude Include="BurpCommand.h" />
-    <ClInclude Include="BurpComponent.h" />
     <ClInclude Include="BurpPlayerState.h" />
     <ClInclude Include="DamageCommand.h" />
     <ClInclude Include="DyingPlayerState.h" />
     <ClInclude Include="FallingPlayerState.h" />
+    <ClInclude Include="GameInstanceComponent.h" />
+    <ClInclude Include="WalkingAIState.h" />
     <ClInclude Include="PlayerController.h" />
     <ClInclude Include="GridComponent.h" />
     <ClInclude Include="Health.h" />
@@ -125,10 +129,10 @@
     <ClInclude Include="MovementCommands.h" />
     <ClInclude Include="MovementComponent.h" />
     <ClInclude Include="PlayerState.h" />
-    <ClInclude Include="RenderPriorities.h" />
     <ClInclude Include="Score.h" />
     <ClInclude Include="TileComponent.h" />
     <ClInclude Include="WalkingPlayerState.h" />
+    <ClInclude Include="AIState.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="JumpingPlayerState.h" />
