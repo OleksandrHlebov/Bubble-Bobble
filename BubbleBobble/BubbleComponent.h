@@ -24,6 +24,7 @@ namespace dae
 
 		void HandleStaticOverlap(GameEvent* event);
 		void HandleDynamicOverlap(GameEvent* event);
+		void HandleAnimationFinished(GameEvent* event);
 
 		void Start() override;
 
@@ -32,8 +33,11 @@ namespace dae
 		float Speed{ 75.f };
 
 	private:
+		void StartGoingUp();
+
 		EventHandler m_StaticOverlapHandler	{ std::bind(&BubbleComponent::HandleStaticOverlap, this, std::placeholders::_1) };
 		EventHandler m_DynamicOverlapHandler{ std::bind(&BubbleComponent::HandleDynamicOverlap, this, std::placeholders::_1) };
+		EventHandler m_AnimationFinishedHandler{ std::bind(&BubbleComponent::HandleAnimationFinished, this, std::placeholders::_1) };
 		glm::vec2 m_Direction;
 
 	};

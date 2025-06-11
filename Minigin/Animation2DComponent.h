@@ -2,6 +2,7 @@
 #include "Component.h"
 #include <glm.hpp>
 #include <memory>
+#include "GameEvent.h"
 
 namespace dae
 {
@@ -11,6 +12,16 @@ namespace dae
 	class Animation2DComponent final : public Component
 	{
 	public:
+		struct OnAnimationFinished final : public GameEvent
+		{
+			OnAnimationFinished(Animation2DComponent* animComp) 
+				: GameEvent("OnAnimationFinished")
+				, AnimationComponent{ animComp }
+				{}
+
+			Animation2DComponent* const AnimationComponent;
+		};
+
 		Animation2DComponent() = delete;
 		Animation2DComponent(float frameTime, GameObject* owner)
 			: Component(owner)

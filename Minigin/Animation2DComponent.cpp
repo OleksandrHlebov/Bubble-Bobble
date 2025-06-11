@@ -49,6 +49,7 @@ namespace dae
 			{
 				m_IsPlaying = false;
 				--m_CurrentFrame;
+				GameEvent::Dispatch<OnAnimationFinished>(this);
 			}
 				
 			m_CurrentFrame = std::max(++m_CurrentFrame % (m_LastFrame + 1), m_FirstFrame);

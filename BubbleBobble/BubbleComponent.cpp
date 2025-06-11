@@ -5,6 +5,7 @@
 #include "Collision2DComponent.h"
 #include "TileComponent.h"
 #include "Brain.h"
+#include "Animation2DComponent.H"
 
 void dae::BubbleComponent::Update(float deltaTime)
 {
@@ -36,9 +37,7 @@ void dae::BubbleComponent::HandleStaticOverlap(GameEvent* event)
 					else
 						resolve.x = -overlapEvent->Overlap.x;
 
-					m_Direction = glm::vec2{ .0f, -1.f }; // start going up
-					using std::placeholders::_1;
-					GameEvent::UnBind("OnOverlap", &m_StaticOverlapHandler);
+					StartGoingUp();
 				}
 			}
 
@@ -67,11 +66,21 @@ void dae::BubbleComponent::HandleDynamicOverlap(GameEvent* event)
 		}
 }
 
+void dae::BubbleComponent::HandleAnimationFinished(GameEvent* event)
+{
+	Animation2DComponent::OnAnimationFinished* animFinished = static_cast<Animation2DComponent::OnAnimationFinished*>(event);
+	if (animFinished->AnimationComponent->GetOwner() == GetOwner())
+	{
+		StartGoingUp();
+	}
+}
+
 void dae::BubbleComponent::Start()
 {
 	using std::placeholders::_1;
 	GameEvent::Bind("OnOverlap", &m_StaticOverlapHandler);
 	GameEvent::Bind("OnOverlap", &m_DynamicOverlapHandler);
+	GameEvent::Bind("OnAnimationFinished", &m_AnimationFinishedHandler);
 }
 
 void dae::BubbleComponent::End()
@@ -79,4 +88,11 @@ void dae::BubbleComponent::End()
 	using std::placeholders::_1;
 	GameEvent::UnBind("OnOverlap", &m_StaticOverlapHandler);
 	GameEvent::UnBind("OnOverlap", &m_DynamicOverlapHandler);
+}
+
+void dae::BubbleComponent::StartGoingUp()
+{
+	m_Direction = glm::vec2{ .0f, -1.f }; // start going up
+	GameEvent::UnBind("OnOverlap", &m_StaticOverlapHandler);
+	GameEvent::UnBind("OnAnimationFinished", &m_AnimationFinishedHandler);
 }
