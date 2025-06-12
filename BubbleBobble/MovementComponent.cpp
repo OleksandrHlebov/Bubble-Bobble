@@ -58,6 +58,9 @@ void dae::MovementComponent::Update(float deltaTime)
 	m_Velocity.x = horizontalMovement;
 	m_Velocity.y = std::min(m_Velocity.y + gravity * deltaTime, GRAVITY_CLAMP);
 
+	if (transform->GetWorldPosition().y > GetOwner()->GetScene()->GetLimits().y)
+		transform->Move({ .0f, -transform->GetWorldPosition().y, .0f }, false);
+
 	transform->Move(m_Velocity * deltaTime, true);
 }
 

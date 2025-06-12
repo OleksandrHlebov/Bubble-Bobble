@@ -47,6 +47,8 @@ namespace dae
 		const std::vector<Collision2DComponent*>& GetStaticCollisions() { return m_StaticColliders; }
 		const std::vector<Collision2DComponent*>& GetDynamicCollisions() { return m_DynamicColliders; }
 
+		const glm::vec2& GetLimits() { return m_Limits; }
+
 		void ClearPendingDelete();
 
 	private: 
@@ -56,11 +58,12 @@ namespace dae
 		bool RectsIntersect(const glm::vec2& min1, const glm::vec2& max1, const glm::vec2& min2, const glm::vec2& max2);
 		void ReorderGameObjects_Internal();
 
-		std::string m_name;
+		std::string m_Name;
 		std::vector<std::unique_ptr<GameObject>> m_Objects;
 		std::vector<std::unique_ptr<GameObject>> m_PendingObjects;
 		std::vector<Collision2DComponent*> m_StaticColliders;
 		std::vector<Collision2DComponent*> m_DynamicColliders;
+		const glm::vec2 m_Limits;
 
 		static unsigned int m_idCounter; 
 		bool m_IsLoaded{};

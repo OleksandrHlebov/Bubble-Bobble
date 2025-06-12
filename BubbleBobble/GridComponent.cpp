@@ -9,6 +9,7 @@
 #include "Texture2D.h"
 #include "RenderPriorities.h"
 #include "TileComponent.h"
+#include "Helpers.h"
 
 namespace dae
 {
@@ -68,6 +69,11 @@ namespace dae
 			m_Tiles[index * m_Cols + colIndex] = false;
 	}
 
+	void GridComponent::LoadLayoutFromFile(const std::string& path)
+	{
+		dae::ReadLevelLayout(path, m_Tiles);
+	}
+
 	bool GridComponent::GetIsTileActive(const glm::ivec2& gridPos)
 	{
 		const int64_t transformed1DIndex{ gridPos.x + gridPos.y * m_Cols };
@@ -99,7 +105,7 @@ namespace dae
 				{
 					auto collider = tile->AddComponent<Collision2DComponent>(false);
 					collider->SetSize(m_Texture->GetSize());
-					//collider->EnableDebugDraw();
+					collider->EnableDebugDraw();
 				}
 			}
 			else

@@ -1,5 +1,7 @@
 #pragma once
 #include <memory>
+#include <vector>
+#include <string>
 
 namespace dae
 {
@@ -13,4 +15,6 @@ namespace dae
 			owningState->OnEnter();
 		}
 	}
+	void ReadLevelLayout(const std::string& path, std::vector<bool>& destination);
+
 }

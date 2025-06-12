@@ -61,42 +61,43 @@ void load()
 	levelGrid->SetRenderPriority(static_cast<int>(RenderPriority::Background));
 	GridComponent* grid = levelGrid->AddComponent<GridComponent>(28, 37, glm::ivec2{ Minigin::GetGameWidth(), Minigin::GetGameHeight() });
 
-	grid->EnableColumn(0);
-	grid->EnableColumn(1);
-	grid->EnableColumn(36);
-	grid->EnableColumn(35);
+	grid->LoadLayoutFromFile("Data/Level/1/Layout.csv");
+	//grid->EnableColumn(0);
+	//grid->EnableColumn(1);
+	//grid->EnableColumn(36);
+	//grid->EnableColumn(35);
 
-	grid->DisableRow(0);
-	grid->DisableRow(1);
-	grid->DisableRow(2);
+	//grid->DisableRow(0);
+	//grid->DisableRow(1);
+	//grid->DisableRow(2);
 
-	grid->EnableRow(12);
-	grid->EnableRow(17);
-	grid->EnableRow(22);
+	//grid->EnableRow(12);
+	//grid->EnableRow(17);
+	//grid->EnableRow(22);
 
-	grid->DisableColumn(6);
-	grid->DisableColumn(7);
-	grid->DisableColumn(8);
+	//grid->DisableColumn(6);
+	//grid->DisableColumn(7);
+	//grid->DisableColumn(8);
 
-	grid->DisableColumn(30);
-	grid->DisableColumn(29);
-	grid->DisableColumn(28);
+	//grid->DisableColumn(30);
+	//grid->DisableColumn(29);
+	//grid->DisableColumn(28);
 
-	grid->EnableRow(3);
-	grid->DisableTile(17 + 37 * 3);
-	grid->DisableTile(18 + 37 * 3);
-	grid->DisableTile(19 + 37 * 3);
-	grid->EnableRow(27);
+	//grid->EnableRow(3);
+	//grid->DisableTile(17 + 37 * 3);
+	//grid->DisableTile(18 + 37 * 3);
+	//grid->DisableTile(19 + 37 * 3);
+	//grid->EnableRow(27);
 
-	auto go = scene->CreateGameObject();
+	//auto go = scene->CreateGameObject();
 	auto font = ResourceManager::GetInstance().LoadFont("arcade-legacy.otf", 16);
 
-	go = scene->CreateGameObject();
-	go->SetRenderPriority(static_cast<int>(RenderPriority::UI));
-	go->AddComponent<Render2DComponent>();
-	go->AddComponent<TextComponent>(font);
-	go->AddComponent<FPSComponent>();
-	go->SetLocalPosition(0, 0);
+	//go = scene->CreateGameObject();
+	//go->SetRenderPriority(static_cast<int>(RenderPriority::UI));
+	//go->AddComponent<Render2DComponent>();
+	//go->AddComponent<TextComponent>(font);
+	//go->AddComponent<FPSComponent>();
+	//go->SetLocalPosition(0, 0);
 
 	font = ResourceManager::GetInstance().LoadFont("arcade-legacy.otf", 8);
 

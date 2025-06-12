@@ -37,6 +37,7 @@ namespace dae
 		void DisableTile(int index);
 		void DisableRow(int rowIndex);
 		void DisableColumn(int colIndex);
+		void LoadLayoutFromFile(const std::string& path);
 
 		bool GetIsTileActive(const glm::ivec2& gridPos);
 
