@@ -11,19 +11,19 @@ namespace dae
 		m_RenderComponentPtr = GetOwner()->GetComponent<Render2DComponent>();
 	}
 
-	void Animation2DComponent::Play(const std::string& texturePath, uint32_t firstFrame, uint32_t lastFrame, uint32_t totalFrames, bool loop)
+	void Animation2DComponent::Play(const std::string& texturePath, uint32_t firstFrame, uint32_t lastFrame, uint32_t totalFrames, bool loop, uint32_t loops)
 	{
 		m_RenderComponentPtr->SetTexture(texturePath);
-		PlayCurrent(firstFrame, lastFrame, totalFrames, loop);
+		PlayCurrent(firstFrame, lastFrame, totalFrames, loop, loops);
 	}
 
-	void Animation2DComponent::Play(std::shared_ptr<Texture2D> texture, uint32_t firstFrame, uint32_t lastFrame, uint32_t totalFrames, bool loop /*= false*/)
+	void Animation2DComponent::Play(std::shared_ptr<Texture2D> texture, uint32_t firstFrame, uint32_t lastFrame, uint32_t totalFrames, bool loop, uint32_t loops)
 	{
 		m_RenderComponentPtr->SetTexture(texture);
-		PlayCurrent(firstFrame, lastFrame, totalFrames, loop);
+		PlayCurrent(firstFrame, lastFrame, totalFrames, loop, loops);
 	}
 
-	void Animation2DComponent::PlayCurrent(uint32_t firstFrame, uint32_t lastFrame, uint32_t totalFrames, bool loop)
+	void Animation2DComponent::PlayCurrent(uint32_t firstFrame, uint32_t lastFrame, uint32_t totalFrames, bool loop, uint32_t loops)
 	{
 		assert(totalFrames != 0);
 		m_FrameSize = m_RenderComponentPtr->GetDimensions();
@@ -35,6 +35,8 @@ namespace dae
 		m_CurrentFrame = firstFrame;
 		m_IsLooping = loop;
 		m_IsPlaying = true;
+		m_TotalLoops = loops;
+		m_CurrentLoop = 0;
 	}
 
 	void Animation2DComponent::SetFrameTime(float frameTime)
@@ -46,11 +48,18 @@ namespace dae
 	{
 		if (m_FrameTime <= m_Time)
 		{
-			if (m_CurrentFrame == m_LastFrame && !IsLooping())
+			if (m_CurrentFrame == m_LastFrame)
 			{
-				m_IsPlaying = false;
-				--m_CurrentFrame;
-				GameEvent::Dispatch<OnAnimationFinished>(this);
+				if (!IsLooping() || m_CurrentLoop >= m_TotalLoops - 1)
+				{
+					m_IsPlaying = false;
+					--m_CurrentFrame;
+					GameEvent::Dispatch<OnAnimationFinished>(this);
+				}
+				else
+				{
+					++m_CurrentLoop;
+				}
 			}
 				
 			m_CurrentFrame = std::max(++m_CurrentFrame % (m_LastFrame + 1), m_FirstFrame);

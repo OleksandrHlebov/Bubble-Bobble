@@ -14,9 +14,9 @@ void dae::WalkingAIState::OnEnter()
 {
 	GameEvent::Bind("OnOverlap", &m_OverlapHandler);
 
-	static const int TOTAL_FRAMES{ 2 };
 	Animation2DComponent* animComponent = GetCharacter()->GetComponent<Animation2DComponent>();
-	animComponent->Play(GetType().WalkingTexturePath, 0, TOTAL_FRAMES - 1, TOTAL_FRAMES, true);
+	auto [path, frames] = GetType().WalkingTexturePath;
+	animComponent->Play(path, 0, frames - 1, frames, true);
 
 	m_RenderComponent = GetCharacter()->GetComponent<Render2DComponent>();
 	m_MovementComponent = GetCharacter()->GetComponent<MovementComponent>();

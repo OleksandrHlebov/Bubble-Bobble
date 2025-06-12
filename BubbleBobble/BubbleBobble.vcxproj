@@ -95,6 +95,7 @@
     <ClCompile Include="BurpCommand.cpp" />
     <ClCompile Include="BurpPlayerState.cpp" />
     <ClCompile Include="DamageCommand.cpp" />
+    <ClCompile Include="DeadAIState.cpp" />
     <ClCompile Include="DyingPlayerState.cpp" />
     <ClCompile Include="FallingPlayerState.cpp" />
     <ClCompile Include="Helpers.cpp" />
@@ -122,6 +123,7 @@
     <ClInclude Include="BurpCommand.h" />
     <ClInclude Include="BurpPlayerState.h" />
     <ClInclude Include="DamageCommand.h" />
+    <ClInclude Include="DeadAIState.h" />
     <ClInclude Include="DyingPlayerState.h" />
     <ClInclude Include="FallingPlayerState.h" />
     <ClInclude Include="GameInstanceComponent.h" />

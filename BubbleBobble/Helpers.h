@@ -16,5 +16,4 @@ namespace dae
 		}
 	}
 	void ReadLevelLayout(const std::string& path, std::vector<bool>& destination);
-
 }

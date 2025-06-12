@@ -22,7 +22,10 @@ namespace dae
 		const AIType& GetZenType() { return m_ZenType; }
 
 	private:
-		AIType m_ZenType{ 50, "Textures/Zen_walking.png", "Textures/Zen_trapped.png" };
+		AIType m_ZenType{ 50
+						, std::make_pair("Textures/Zen_walking.png", 2)
+						, std::make_pair("Textures/Zen_trapped.png", 2)
+						, std::make_pair("Textures/Zen_dead.png", 4) };
 		
 	};
 }

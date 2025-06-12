@@ -26,5 +26,6 @@ namespace dae
 		const float m_TimeToEscape{ 6.f };
 		float m_EscapeTimer{};
 		float m_FloatingSpeed{};
+		bool m_Died{};
 	};
 }

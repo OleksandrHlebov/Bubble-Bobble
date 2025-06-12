@@ -58,6 +58,7 @@ namespace dae
 			m_DrawDebug = true; 
 #endif
 		}
+		void SetEnabled(bool isEnabled);
 
 		void End() override;
 
@@ -67,6 +68,7 @@ namespace dae
 	private:
 		glm::vec2 m_OriginalSize;
 		bool m_IsDynamic;
+		bool m_IsEnabled{ true };
 #ifndef NDEBUG
 		bool m_DrawDebug{};
 #endif

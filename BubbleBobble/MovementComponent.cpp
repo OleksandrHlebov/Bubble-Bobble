@@ -143,6 +143,16 @@ void dae::MovementComponent::SetEnabled(bool isEnabled)
 	m_IsEnabled = isEnabled;
 }
 
+void dae::MovementComponent::Launch(const glm::vec3& direction, float strength)
+{
+	Launch(direction * strength);
+}
+
+void dae::MovementComponent::Launch(const glm::vec3& impulse)
+{
+	m_Velocity = impulse;
+}
+
 float dae::MovementComponent::ResolveVerticalCollision(Collision2DComponent::OnOverlap* overlapEvent, bool selfIsFirst)
 {
 	Collision2DComponent* selfCollider = (selfIsFirst) ? overlapEvent->FirstCollider : overlapEvent->SecondCollider;

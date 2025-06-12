@@ -116,6 +116,9 @@
     <ClCompile Include="TrappedAIState.cpp">
       <Filter>Game\AI\States\Source</Filter>
     </ClCompile>
+    <ClCompile Include="DeadAIState.cpp">
+      <Filter>Game\AI\States\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerController.h">
@@ -194,6 +197,9 @@
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="TrappedAIState.h">
+      <Filter>Game\AI\States</Filter>
+    </ClInclude>
+    <ClInclude Include="DeadAIState.h">
       <Filter>Game\AI\States</Filter>
     </ClInclude>
   </ItemGroup>

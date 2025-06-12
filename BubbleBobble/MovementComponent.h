@@ -45,6 +45,8 @@ namespace dae
 		void End() override;
 
 		void SetEnabled(bool isEnabled);
+		void Launch(const glm::vec3& direction, float strength);
+		void Launch(const glm::vec3& impulse);
 
 		const glm::vec3& GetVelocity() { return m_Velocity; }
 		const glm::vec3& GetForward()  { return m_Forward; }

@@ -6,6 +6,7 @@
 #include "PlayerController.h"
 #include "MovementComponent.h"
 #include "Animation2DComponent.H"
+#include "DeadAIState.h"
 
 void dae::TrappedAIState::OnEnter()
 {
@@ -14,11 +15,16 @@ void dae::TrappedAIState::OnEnter()
 	m_FloatingSpeed = movement->Speed - movement->Speed * movement->InAirSlowdownPercent;
 	GameEvent::Bind("OnOverlap", &m_OverlapHandler);
 	auto animComp = GetCharacter()->GetComponent<Animation2DComponent>();
-	animComp->Play(GetType().TrappedTexturePath, 0, 1, 2, true);
+	auto [path, frames] = GetType().TrappedTexturePath;
+	animComp->Play(path, 0, frames - 1, frames, true);
 }
 
 std::unique_ptr<dae::AIState> dae::TrappedAIState::Update(float deltaTime)
 {
+	if (m_Died)
+	{
+		return std::make_unique<DeadAIState>(GetCharacter(), GetType());
+	}
 	if (m_EscapeTimer >= m_TimeToEscape)
 	{
 		return std::make_unique<WalkingAIState>(GetCharacter(), GetType());
@@ -44,7 +50,7 @@ void dae::TrappedAIState::HandleOverlap(GameEvent* event)
 		GameObject* other = (isFirst) ? overlapEvent->Second : overlapEvent->First;
 		if (other->GetComponent<PlayerController>())
 		{
-			GetCharacter()->Delete();
+			m_Died = true;
 		}
 	}
 }

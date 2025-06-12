@@ -40,6 +40,8 @@ glm::vec2 dae::Collision2DComponent::GetSize() const
 
 void dae::Collision2DComponent::ProcessOverlaps()
 {
+	if (!m_IsEnabled)
+		return;
 	for (auto& collider : GetOwner()->GetScene()->GetDynamicCollisions())
 		IsOverlapping(collider);
 	for (auto& collider : GetOwner()->GetScene()->GetStaticCollisions())
@@ -83,6 +85,18 @@ bool dae::Collision2DComponent::IsOverlapping(Collision2DComponent* other)
 	GameEvent::Dispatch<OnOverlap>(GetOwner(), this, other->GetOwner(), other, std::move(overlap), std::move(collisionNormal));
 
 	return true;
+}
+
+void dae::Collision2DComponent::SetEnabled(bool isEnabled)
+{
+	if (isEnabled == !m_IsEnabled)
+	{
+		if (isEnabled)
+			GetOwner()->GetScene()->AddCollider(this);
+		else
+			GetOwner()->GetScene()->RemoveCollider(this);
+	}
+	m_IsEnabled = isEnabled;
 }
 
 void dae::Collision2DComponent::End()

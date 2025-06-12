@@ -13,7 +13,7 @@ void dae::IdlePlayerState::OnEnter()
 	uint32_t playerIndex = GetPlayer()->GetComponent<Controller>()->GetPlayerIndex();
 
 	Animation2DComponent* animComponent = GetPlayer()->GetComponent<Animation2DComponent>();
-	animComponent->Play(m_IdlePath[playerIndex], 0, 0, TOTAL_FRAMES, false);
+	animComponent->Play(m_IdlePath[playerIndex], 0, 0, TOTAL_FRAMES, true);
 
 	m_MovementComponent = GetPlayer()->GetComponent<MovementComponent>();
 }

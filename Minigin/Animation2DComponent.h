@@ -36,9 +36,9 @@ namespace dae
 
 		void Start() override;
 
-		void Play(const std::string& texturePath, uint32_t firstFrame, uint32_t lastFrame, uint32_t totalFrames, bool loop = false);
-		void Play(std::shared_ptr<Texture2D> texture, uint32_t firstFrame, uint32_t lastFrame, uint32_t totalFrames, bool loop = false);
-		void PlayCurrent(uint32_t firstFrame, uint32_t lastFrame, uint32_t totalFrames, bool loop);
+		void Play(const std::string& texturePath, uint32_t firstFrame, uint32_t lastFrame, uint32_t totalFrames, bool loop = false, uint32_t loops = std::numeric_limits<uint32_t>::max());
+		void Play(std::shared_ptr<Texture2D> texture, uint32_t firstFrame, uint32_t lastFrame, uint32_t totalFrames, bool loop = false, uint32_t loops = std::numeric_limits<uint32_t>::max());
+		void PlayCurrent(uint32_t firstFrame, uint32_t lastFrame, uint32_t totalFrames, bool loop, uint32_t loops = std::numeric_limits<uint32_t>::max());
 
 		void SetFrameTime(float frameTime);
 		bool GetFrameTime() { return m_FrameTime; }
@@ -58,6 +58,8 @@ namespace dae
 		uint32_t m_LastFrame{};
 		uint32_t m_CurrentFrame{};
 		uint32_t m_TotalFrames{};
+		uint32_t m_CurrentLoop{};
+		uint32_t m_TotalLoops{};
 		float m_FrameTime{};
 		float m_Time{};
 		bool m_IsPlaying{ false };
