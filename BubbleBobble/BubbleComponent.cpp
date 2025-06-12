@@ -68,14 +68,37 @@ void dae::BubbleComponent::HandleDynamicOverlap(GameEvent* event)
 		{
 			const bool isFirst{ overlapEvent->First == GetOwner() };
 			//GameObject* const self = (isFirst) ? overlapEvent->First : overlapEvent->Second;
-			//Collision2DComponent* const selfCollider = (isFirst) ? overlapEvent->FirstCollider : overlapEvent->SecondCollider;
+			Collision2DComponent* const selfCollider = (isFirst) ? overlapEvent->FirstCollider : overlapEvent->SecondCollider;
 			GameObject* const other = (!isFirst) ? overlapEvent->First : overlapEvent->Second;
-			//Collision2DComponent* const otherCollider = (!isFirst) ? overlapEvent->FirstCollider : overlapEvent->SecondCollider;
+			Collision2DComponent* const otherCollider = (!isFirst) ? overlapEvent->FirstCollider : overlapEvent->SecondCollider;
 
 			if (Brain* brain = other->GetComponent<Brain>())
 			{
 				brain->TrapInBubble();
 				GetOwner()->Delete();
+			}
+			if (other->GetComponent<BubbleComponent>())
+			{
+				auto [selfMin, selfMax] = selfCollider->GetBounds();
+				auto [otherMin, otherMax] = otherCollider->GetBounds();
+				glm::vec2 resolve{};
+				const float normalDirection{ (isFirst) ? 1.f : -1.f };
+				if (overlapEvent->Overlap.x && overlapEvent->Overlap.x < overlapEvent->Overlap.y)
+				{
+					if (normalDirection * overlapEvent->Normal.x > 0)
+						resolve.x = overlapEvent->Overlap.x;
+					else
+						resolve.x = -overlapEvent->Overlap.x;
+				}
+				else
+				{
+					if (normalDirection * overlapEvent->Normal.y > 0)
+						resolve.y = overlapEvent->Overlap.y;
+					else
+						resolve.y = -overlapEvent->Overlap.y;
+				}
+
+				GetOwner()->GetComponent<Transform>()->Move({ resolve, .0f });
 			}
 		}
 }

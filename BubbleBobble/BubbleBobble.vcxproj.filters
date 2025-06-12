@@ -108,7 +108,7 @@
       <Filter>Components\Source</Filter>
     </ClCompile>
     <ClCompile Include="BubbleComponent.cpp">
-      <Filter>Game\Source Files</Filter>
+      <Filter>Components\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
