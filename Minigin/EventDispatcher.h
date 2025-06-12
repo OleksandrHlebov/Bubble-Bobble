@@ -11,7 +11,6 @@
 #include <exception>
 #include <typeinfo>
 #include <iostream>
-#include <stack>
 #include "Command.h"
 
 namespace dae
@@ -62,7 +61,7 @@ namespace dae
 
 		void UnBind(const std::string& id, EventHandler* handler)
 		{
-			m_HandlersToUnbind.push({id, handler});
+			m_HandlersToUnbind.emplace_back(id, handler);
 		}
 
 		void Bind(const std::string& id, EventHandler* handler)
@@ -84,6 +83,6 @@ namespace dae
 		bool m_BlockDispatcher{ false };
 		std::unordered_map<std::string, std::vector<EventHandler*>> m_BoundHandlers;
 		std::queue<std::unique_ptr<GameEvent>> m_EventsToDispatch;
-		std::stack<std::pair<std::string, EventHandler*>> m_HandlersToUnbind;
+		std::vector<std::pair<std::string, EventHandler*>> m_HandlersToUnbind;
 	};
 }

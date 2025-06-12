@@ -1,8 +1,12 @@
 #include "Brain.h"
 #include "AIState.h"
 #include "Helpers.h"
+#include "TrappedAIState.h"
 
-dae::Brain::Brain(const AIType& type, GameObject* owner) : Component(owner), m_Type{ type }, m_State{ std::make_unique<AIState>(owner, m_Type) }
+dae::Brain::Brain(const AIType& type, GameObject* owner) 
+	: Component(owner)
+	, m_Type{ type }
+	, m_State{ std::make_unique<AIState>(owner, m_Type) }
 {
 
 }
@@ -24,5 +28,5 @@ void dae::Brain::End()
 
 void dae::Brain::TrapInBubble()
 {
-
+	dae::TransitionState<AIState>(m_State, std::make_unique<TrappedAIState>(GetOwner(), m_Type));
 }

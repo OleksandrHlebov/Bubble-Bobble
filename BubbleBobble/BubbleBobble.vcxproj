@@ -109,6 +109,7 @@
     <ClCompile Include="PlayerState.cpp" />
     <ClCompile Include="Score.cpp" />
     <ClCompile Include="TileComponent.cpp" />
+    <ClCompile Include="TrappedAIState.cpp" />
     <ClCompile Include="WalkingAIState.cpp" />
     <ClCompile Include="WalkingPlayerState.cpp" />
     <ClCompile Include="AIState.cpp" />
@@ -125,6 +126,7 @@
     <ClInclude Include="FallingPlayerState.h" />
     <ClInclude Include="GameInstanceComponent.h" />
     <ClInclude Include="Helpers.h" />
+    <ClInclude Include="TrappedAIState.h" />
     <ClInclude Include="WalkingAIState.h" />
     <ClInclude Include="PlayerController.h" />
     <ClInclude Include="GridComponent.h" />

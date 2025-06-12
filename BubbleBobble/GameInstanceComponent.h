@@ -22,7 +22,7 @@ namespace dae
 		const AIType& GetZenType() { return m_ZenType; }
 
 	private:
-		AIType m_ZenType{ 50, "Textures/Zen_walking.png" };
+		AIType m_ZenType{ 50, "Textures/Zen_walking.png", "Textures/Zen_trapped.png" };
 		
 	};
 }

@@ -4,6 +4,8 @@
 #include <glm.hpp>
 #include "EventDispatcher.h"
 #include "GameEvent.h"
+#include "MovementCommands.h"
+#include "JumpCommand.h"
 
 namespace dae
 {
@@ -33,7 +35,9 @@ namespace dae
 		MovementComponent* m_MovementComponent;
 		Render2DComponent* m_RenderComponent;
 		glm::vec3 m_Direction{ -1.f, .0f, .0f };
-		const float m_TimeBeforeJump{ 2.f };
+		MoveCommand m_MoveCommand{ GetCharacter(), m_Direction };
+		JumpCommand m_JumpCommand{ GetCharacter() };
+		const float m_TimeBeforeJump{ 1.f };
 		const float m_JumpChance{ .3f };
 		float m_JumpTimer{};
 	};

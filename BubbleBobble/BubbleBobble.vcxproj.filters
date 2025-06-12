@@ -113,6 +113,9 @@
     <ClCompile Include="Helpers.cpp">
       <Filter>Game\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TrappedAIState.cpp">
+      <Filter>Game\AI\States\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerController.h">
@@ -189,6 +192,9 @@
     </ClInclude>
     <ClInclude Include="Helpers.h">
       <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="TrappedAIState.h">
+      <Filter>Game\AI\States</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

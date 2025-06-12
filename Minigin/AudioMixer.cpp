@@ -76,6 +76,11 @@ namespace dae
 																  Mix_FreeChunk(m_ChannelChunks[channel]);
 																  m_ChannelChunks.erase(channel);
 															  }
+															  if (auto it = std::find_if(m_SoundChannels.begin(), m_SoundChannels.end(), [channel](const std::pair<size_t, int>& pair)
+																						 {
+																							 return pair.second == channel;
+																						 }); it != m_SoundChannels.end())
+																  m_SoundChannels.erase(it);
 														  }
 														  // cache chunk for cleanup
 														  m_ChannelChunks[channel] = chunk;

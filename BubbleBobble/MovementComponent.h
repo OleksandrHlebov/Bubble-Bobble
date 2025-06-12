@@ -44,12 +44,14 @@ namespace dae
 
 		void End() override;
 
+		void SetEnabled(bool isEnabled);
+
 		const glm::vec3& GetVelocity() { return m_Velocity; }
 		const glm::vec3& GetForward()  { return m_Forward; }
 
 		float Speed{ 50.f };
 		float JumpHeight{ 200.f };
-
+		float InAirSlowdownPercent{ .3f };
 
 	private:
 		float ResolveVerticalCollision(Collision2DComponent::OnOverlap* overlapEvent, bool selfIsFirst);
@@ -64,6 +66,7 @@ namespace dae
 		inline static const float RESOLVE_THRESHOLD{ .35f };
 		inline static const float GRAVITY_CLAMP{ 50.f };
 
+		bool m_IsEnabled{ true };
 		bool m_IsGrounded{};
 	};
 }

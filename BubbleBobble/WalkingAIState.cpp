@@ -21,19 +21,20 @@ void dae::WalkingAIState::OnEnter()
 	m_RenderComponent = GetCharacter()->GetComponent<Render2DComponent>();
 	m_MovementComponent = GetCharacter()->GetComponent<MovementComponent>();
 	m_MovementComponent->Speed = GetType().Speed;
+	m_MovementComponent->SetEnabled(true);
 }
 
 std::unique_ptr<dae::AIState> dae::WalkingAIState::Update(float deltaTime)
 {
 	if (m_MovementComponent->GetVelocity().y < FLT_EPSILON)
-		m_MovementComponent->AddMovementInput(m_Direction);
+		m_MoveCommand.Execute(deltaTime);
 
 	if (m_JumpTimer >= m_TimeBeforeJump)
 	{
 		m_JumpTimer -= m_TimeBeforeJump;
 		int randomNumber{ rand() % 101 };
 		if (randomNumber / 100.f > m_JumpChance)
-			m_MovementComponent->Jump();
+			m_JumpCommand.Execute(deltaTime);
 	}
 
 	m_JumpTimer += deltaTime;
@@ -55,7 +56,7 @@ void dae::WalkingAIState::HandleOverlap(GameEvent* event)
 		if (!overlapEvent->SecondCollider->IsDynamic() && GetCharacter() == overlapEvent->First)
 		{
 			// possible horizontal collision
-			if (overlapEvent->Overlap.x < overlapEvent->Overlap.y)
+			if (overlapEvent->Overlap.x < overlapEvent->Overlap.y && abs(m_MovementComponent->GetVelocity().y) < FLT_EPSILON)
 			{
 				Scene* scene = GetCharacter()->GetScene();
 				const glm::vec2 center = overlapEvent->FirstCollider->GetCenter();
@@ -63,7 +64,7 @@ void dae::WalkingAIState::HandleOverlap(GameEvent* event)
 				const float rayLength = overlapEvent->FirstCollider->GetSize().x / 2.f + 2;
 				if (auto [collider, intersection] = scene->TraceSegment(center, m_Direction, rayLength, false, true); collider)
 				{
-					m_Direction *= -1;
+					m_MoveCommand.SetDirection(m_Direction *= -1);
 					m_RenderComponent->Flip(m_Direction.x > 0);
 				}
 			}

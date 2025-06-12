@@ -16,6 +16,8 @@ void dae::MovementComponent::Start()
 
 void dae::MovementComponent::AddMovementInput(const glm::vec3& inputVector)
 {
+	if (!m_IsEnabled)
+		return;
 	m_QueriedInput += inputVector;
 	if (m_QueriedInput != glm::vec3{})
 		m_Forward = m_QueriedInput;
@@ -23,6 +25,8 @@ void dae::MovementComponent::AddMovementInput(const glm::vec3& inputVector)
 
 void dae::MovementComponent::Jump()
 {
+	if (!m_IsEnabled)
+		return;
 	Scene* scene = GetOwner()->GetScene();
 	Collision2DComponent* selfCollider = GetOwner()->GetComponent<Collision2DComponent>();
 	const glm::vec2 center = selfCollider->GetCenter();
@@ -47,6 +51,8 @@ void dae::MovementComponent::Jump()
 
 void dae::MovementComponent::Update(float deltaTime)
 {
+	if (!m_IsEnabled)
+		return;
 	const float gravity{ JumpHeight * 2.5f };
 	if (deltaTime > .5f)
 		return;
@@ -55,7 +61,7 @@ void dae::MovementComponent::Update(float deltaTime)
 	Transform* transform = owner->GetComponent<Transform>();
 	const float horizontalMovement{ m_QueriedInput.x * Speed }; // if positive check if moving right is allowed
 
-	m_Velocity.x = horizontalMovement;
+	m_Velocity.x = horizontalMovement - horizontalMovement * InAirSlowdownPercent * (abs(m_Velocity.y) > FLT_EPSILON);
 	m_Velocity.y = std::min(m_Velocity.y + gravity * deltaTime, GRAVITY_CLAMP);
 
 	if (transform->GetWorldPosition().y > GetOwner()->GetScene()->GetLimits().y)
@@ -123,6 +129,18 @@ void dae::MovementComponent::End()
 {
 	using namespace std::placeholders;
 	GameEvent::UnBind("OnOverlap", &m_OverlapHandler);
+}
+
+void dae::MovementComponent::SetEnabled(bool isEnabled)
+{
+	if (isEnabled == !m_IsEnabled)
+	{
+		if (isEnabled)
+			GameEvent::Bind("OnOverlap", &m_OverlapHandler);
+		else
+			GameEvent::UnBind("OnOverlap", &m_OverlapHandler);
+	}
+	m_IsEnabled = isEnabled;
 }
 
 float dae::MovementComponent::ResolveVerticalCollision(Collision2DComponent::OnOverlap* overlapEvent, bool selfIsFirst)
