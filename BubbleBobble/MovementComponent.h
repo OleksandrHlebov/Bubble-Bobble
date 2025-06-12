@@ -3,6 +3,7 @@
 #include "Transform.h"
 #include "GameEvent.h"
 #include "EventDispatcher.h"
+#include "Collision2DComponent.h"
 
 namespace dae
 {
@@ -51,6 +52,8 @@ namespace dae
 
 
 	private:
+		float ResolveVerticalCollision(Collision2DComponent::OnOverlap* overlapEvent, bool selfIsFirst);
+
 		glm::vec3 m_QueriedInput{};
 		glm::vec3 m_Velocity{};
 		glm::vec3 m_Forward{ 1.f, .0f, .0f };

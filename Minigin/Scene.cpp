@@ -87,7 +87,7 @@ void Scene::RemoveCollider(Collision2DComponent* collider)
 	std::erase(m_DynamicColliders, collider);
 }
 
-std::vector<dae::Collision2DComponent*> Scene::TraceRectMulti(const glm::vec2& min, const glm::vec2& max, bool ignoreStatic /*= false*/, bool ignoreDynamic /*= false*/)
+std::vector<dae::Collision2DComponent*> Scene::TraceRectMulti(const glm::vec2& min, const glm::vec2& max, bool ignoreStatic, bool ignoreDynamic, std::span<GameObject*> objectsToIgnore)
 {
 	assert(!(ignoreStatic == true && ignoreDynamic == true) && "Ignoring every collider for trace rect");
 	std::vector<dae::Collision2DComponent*> output;
@@ -96,6 +96,8 @@ std::vector<dae::Collision2DComponent*> Scene::TraceRectMulti(const glm::vec2& m
 	if (!ignoreStatic)
 		for (Collision2DComponent* collider : m_StaticColliders)
 		{
+			if (std::find(objectsToIgnore.begin(), objectsToIgnore.end(), collider->GetOwner()) != objectsToIgnore.end())
+				continue;
 			const auto [otherMin, otherMax] = collider->GetBounds();
 			if (RectsIntersect(min, max, otherMin, otherMax))
 				output.emplace_back(collider);
@@ -103,6 +105,8 @@ std::vector<dae::Collision2DComponent*> Scene::TraceRectMulti(const glm::vec2& m
 	if (!ignoreDynamic)
 		for (Collision2DComponent* collider : m_DynamicColliders)
 		{
+			if (std::find(objectsToIgnore.begin(), objectsToIgnore.end(), collider->GetOwner()) != objectsToIgnore.end())
+				continue;
 			const auto [otherMin, otherMax] = collider->GetBounds();
 			if (RectsIntersect(min, max, otherMin, otherMax))
 				output.emplace_back(collider);
@@ -118,12 +122,14 @@ bool Scene::RectsIntersect(const glm::vec2& min1, const glm::vec2& max1, const g
 			|| max2.y < min1.y);
 }
 
-dae::Collision2DComponent* Scene::TraceRect(const glm::vec2& min, const glm::vec2& max, bool ignoreStatic /*= false*/, bool ignoreDynamic /*= false*/)
+dae::Collision2DComponent* Scene::TraceRect(const glm::vec2& min, const glm::vec2& max, bool ignoreStatic, bool ignoreDynamic, std::span<GameObject*> objectsToIgnore)
 {
 	assert(!(ignoreStatic == true && ignoreDynamic == true) && "Ignoring every collider for trace rect");
 	if (!ignoreStatic)
 		for (Collision2DComponent* collider : m_StaticColliders)
 		{
+			if (std::find(objectsToIgnore.begin(), objectsToIgnore.end(), collider->GetOwner()) != objectsToIgnore.end())
+				continue;
 			const auto [otherMin, otherMax] = collider->GetBounds();
 			if (RectsIntersect(min, max, otherMin, otherMax))
 				return collider;
@@ -131,6 +137,8 @@ dae::Collision2DComponent* Scene::TraceRect(const glm::vec2& min, const glm::vec
 	if (!ignoreDynamic)
 		for (Collision2DComponent* collider : m_DynamicColliders)
 		{
+			if (std::find(objectsToIgnore.begin(), objectsToIgnore.end(), collider->GetOwner()) != objectsToIgnore.end())
+				continue;
 			const auto [otherMin, otherMax] = collider->GetBounds();
 			if (RectsIntersect(min, max, otherMin, otherMax))
 				return collider;
@@ -138,15 +146,17 @@ dae::Collision2DComponent* Scene::TraceRect(const glm::vec2& min, const glm::vec
 	return nullptr;
 }
 
-std::vector<std::pair<dae::Collision2DComponent*, glm::vec2>> Scene::TraceSegmentMulti(const glm::vec2& begin, const glm::vec2& end, bool ignoreStatic, bool ignoreDynamic)
+std::vector<std::pair<dae::Collision2DComponent*, glm::vec2>> Scene::TraceSegmentMulti(const glm::vec2& begin, const glm::vec2& end, bool ignoreStatic, bool ignoreDynamic, std::span<GameObject*> objectsToIgnore)
 {
-	assert(ignoreStatic != true && ignoreDynamic != true && "Ignoring every collider for trace segment");
+	assert(!(ignoreStatic == true && ignoreDynamic == true) && "Ignoring every collider for trace segment");
 	std::vector<std::pair<dae::Collision2DComponent*, glm::vec2>> output;
 	static const size_t ESTIMATE_MAX_COLLISIONS{ 32 };
 	output.reserve(ESTIMATE_MAX_COLLISIONS);
 	if (!ignoreStatic)
 		for (Collision2DComponent* collider : m_StaticColliders)
 		{
+			if (std::find(objectsToIgnore.begin(), objectsToIgnore.end(), collider->GetOwner()) != objectsToIgnore.end())
+				continue;
 			const auto [min, max] = collider->GetBounds();
 			if (auto [intersects, intersection] = SegmentIntersectsRect(begin, end, min, max); intersects)
 				output.emplace_back(collider, std::move(intersection));
@@ -154,6 +164,8 @@ std::vector<std::pair<dae::Collision2DComponent*, glm::vec2>> Scene::TraceSegmen
 	if (!ignoreDynamic)
 		for (Collision2DComponent* collider : m_DynamicColliders)
 		{
+			if (std::find(objectsToIgnore.begin(), objectsToIgnore.end(), collider->GetOwner()) != objectsToIgnore.end())
+				continue;
 			const auto [min, max] = collider->GetBounds();
 			if (auto [intersects, intersection] = SegmentIntersectsRect(begin, end, min, max); intersects)
 				output.emplace_back(collider, std::move(intersection));
@@ -161,9 +173,9 @@ std::vector<std::pair<dae::Collision2DComponent*, glm::vec2>> Scene::TraceSegmen
 	return std::move(output);
 }
 
-std::vector<std::pair<dae::Collision2DComponent*, glm::vec2>> Scene::TraceSegmentMulti(const glm::vec2& begin, const glm::vec2& direction, float length, bool ignoreStatic, bool ignoreDynamic)
+std::vector<std::pair<dae::Collision2DComponent*, glm::vec2>> Scene::TraceSegmentMulti(const glm::vec2& begin, const glm::vec2& direction, float length, bool ignoreStatic, bool ignoreDynamic, std::span<GameObject*> objectsToIgnore)
 {
-	return TraceSegmentMulti(begin, begin + direction * length, ignoreStatic, ignoreDynamic);
+	return TraceSegmentMulti(begin, begin + direction * length, ignoreStatic, ignoreDynamic, objectsToIgnore);
 }
 
 std::pair<bool, glm::vec2> Scene::SegmentIntersectsRect(const glm::vec2& begin, const glm::vec2& end, const glm::vec2& minAABB, const glm::vec2& maxAABB)
@@ -207,12 +219,14 @@ std::pair<bool, glm::vec2> Scene::SegmentsIntersect(const glm::vec2& begin1, con
 	return { true, begin1 + t * a };
 }
 
-std::pair<Collision2DComponent*, glm::vec2> Scene::TraceSegment(const glm::vec2& begin, const glm::vec2& end, bool ignoreStatic, bool ignoreDynamic)
+std::pair<Collision2DComponent*, glm::vec2> Scene::TraceSegment(const glm::vec2& begin, const glm::vec2& end, bool ignoreStatic, bool ignoreDynamic, std::span<GameObject*> objectsToIgnore)
 {
 	assert(!(ignoreStatic == true && ignoreDynamic == true) && "Ignoring every collider for trace segment");
 	if (!ignoreStatic)
 		for (Collision2DComponent* collider : m_StaticColliders)
 		{
+			if (std::find(objectsToIgnore.begin(), objectsToIgnore.end(), collider->GetOwner()) != objectsToIgnore.end())
+				continue;
 			const auto [min, max] = collider->GetBounds();
 			if (auto [intersects, intersection] = SegmentIntersectsRect(begin, end, min, max); intersects)
 				return { collider, std::move(intersection) };
@@ -220,6 +234,8 @@ std::pair<Collision2DComponent*, glm::vec2> Scene::TraceSegment(const glm::vec2&
 	if (!ignoreDynamic)
 		for (Collision2DComponent* collider : m_DynamicColliders)
 		{
+			if (std::find(objectsToIgnore.begin(), objectsToIgnore.end(), collider->GetOwner()) != objectsToIgnore.end())
+				continue;
 			const auto [min, max] = collider->GetBounds();
 			if (auto [intersects, intersection] = SegmentIntersectsRect(begin, end, min, max); intersects)
 				return { collider, std::move(intersection) };
@@ -227,9 +243,9 @@ std::pair<Collision2DComponent*, glm::vec2> Scene::TraceSegment(const glm::vec2&
 	return { nullptr, glm::vec2{} };
 }
 
-std::pair<Collision2DComponent*, glm::vec2> Scene::TraceSegment(const glm::vec2& begin, const glm::vec2& direction, float length, bool ignoreStatic, bool ignoreDynamic)
+std::pair<Collision2DComponent*, glm::vec2> Scene::TraceSegment(const glm::vec2& begin, const glm::vec2& direction, float length, bool ignoreStatic, bool ignoreDynamic, std::span<GameObject*> objectsToIgnore)
 {
-	return TraceSegment(begin, begin + direction * length, ignoreStatic, ignoreDynamic);
+	return TraceSegment(begin, begin + direction * length, ignoreStatic, ignoreDynamic, objectsToIgnore);
 }
 
 void Scene::AddCollider(Collision2DComponent* collider)
@@ -266,8 +282,12 @@ void Scene::RenderUI()
 
 void Scene::ClearPendingDelete()
 {
-	size_t numErased = std::erase_if(m_Objects, [](const auto& object) { return object->IsPendingDelete(); });
-	numErased;
+	for (auto& object : m_Objects)
+	{
+		object->ClearPendingDelete();
+	}
+	
+	std::erase_if(m_Objects, [](const auto& object) { return object->IsPendingDelete(); });
 }
 
 void Scene::FixedUpdate(float deltaTime)

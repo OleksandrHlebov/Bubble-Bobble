@@ -93,6 +93,8 @@ namespace dae
 			return GetComponent_Impl<ComponentType>(*this);
 		}
 
+		void ClearPendingDelete();
+
 	private:
 
 		template<typename ComponentType, typename T>
@@ -112,7 +114,6 @@ namespace dae
 			}
 		}
 
-		void ClearPendingDelete();
 		void RemoveChild(GameObject* child);
 
 		Scene* m_ScenePtr;

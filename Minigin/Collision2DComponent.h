@@ -1,3 +1,4 @@
+#pragma once
 #include "Component.h"
 #include "glm.hpp"
 #include "GameEvent.h"

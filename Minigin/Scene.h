@@ -3,6 +3,7 @@
 #include <memory>
 #include <glm.hpp>
 #include <utility>
+#include <span>
 
 namespace dae { class Collision2DComponent; }
 
@@ -34,14 +35,14 @@ namespace dae
 		void AddCollider(Collision2DComponent* collider);
 		void RemoveCollider(Collision2DComponent* collider);
 
-		Collision2DComponent* TraceRect(const glm::vec2& min, const glm::vec2& max, bool ignoreStatic = false, bool ignoreDynamic = false);
-		std::vector<Collision2DComponent*> TraceRectMulti(const glm::vec2& min, const glm::vec2& max, bool ignoreStatic = false, bool ignoreDynamic = false);
+		Collision2DComponent* TraceRect(const glm::vec2& min, const glm::vec2& max, bool ignoreStatic = false, bool ignoreDynamic = false, std::span<GameObject*> objectsToIgnore = {});
+		std::vector<Collision2DComponent*> TraceRectMulti(const glm::vec2& min, const glm::vec2& max, bool ignoreStatic = false, bool ignoreDynamic = false, std::span<GameObject*> objectsToIgnore = {});
 
-		std::pair<Collision2DComponent*, glm::vec2> TraceSegment(const glm::vec2& begin, const glm::vec2& end, bool ignoreStatic = false, bool ignoreDynamic = false);
-		std::pair<Collision2DComponent*, glm::vec2> TraceSegment(const glm::vec2& begin, const glm::vec2& direction, float length, bool ignoreStatic = false, bool ignoreDynamic = false);
+		std::pair<Collision2DComponent*, glm::vec2> TraceSegment(const glm::vec2& begin, const glm::vec2& end, bool ignoreStatic = false, bool ignoreDynamic = false, std::span<GameObject*> objectsToIgnore = {});
+		std::pair<Collision2DComponent*, glm::vec2> TraceSegment(const glm::vec2& begin, const glm::vec2& direction, float length, bool ignoreStatic = false, bool ignoreDynamic = false, std::span<GameObject*> objectsToIgnore = {});
 
-		std::vector<std::pair<Collision2DComponent*, glm::vec2>> TraceSegmentMulti(const glm::vec2& begin, const glm::vec2& end, bool ignoreStatic = false, bool ignoreDynamic = false);
-		std::vector<std::pair<Collision2DComponent*, glm::vec2>> TraceSegmentMulti(const glm::vec2& begin, const glm::vec2& direction, float length, bool ignoreStatic = false, bool ignoreDynamic = false);
+		std::vector<std::pair<Collision2DComponent*, glm::vec2>> TraceSegmentMulti(const glm::vec2& begin, const glm::vec2& end, bool ignoreStatic = false, bool ignoreDynamic = false, std::span<GameObject*> objectsToIgnore = {});
+		std::vector<std::pair<Collision2DComponent*, glm::vec2>> TraceSegmentMulti(const glm::vec2& begin, const glm::vec2& direction, float length, bool ignoreStatic = false, bool ignoreDynamic = false, std::span<GameObject*> objectsToIgnore = {});
 
 		const std::vector<Collision2DComponent*>& GetStaticCollisions() { return m_StaticColliders; }
 		const std::vector<Collision2DComponent*>& GetDynamicCollisions() { return m_DynamicColliders; }

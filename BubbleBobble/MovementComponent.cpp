@@ -6,6 +6,7 @@
 #include "TileComponent.h"
 #include "GridComponent.h"
 #include "Scene.h"
+#include "BubbleComponent.h"
 
 
 void dae::MovementComponent::Start()
@@ -29,6 +30,13 @@ void dae::MovementComponent::Jump()
 	min.y += DOWN_RAY_LENGTH;
 	max.y += DOWN_RAY_LENGTH;
 	m_IsGrounded = scene->TraceRect(min, max, false, true);
+	if (!m_IsGrounded)
+	{
+		std::vector<GameObject*> toIgnore{ GetOwner() };
+		Collision2DComponent* collider = scene->TraceRect(min, max, true, false, toIgnore);
+		if (collider)
+			m_IsGrounded = collider->GetOwner()->GetComponent<BubbleComponent>() != nullptr;
+	}
 	if (m_IsGrounded)
 	{
 		m_Velocity.y = -JumpHeight;
@@ -65,7 +73,8 @@ void dae::MovementComponent::HandleOverlapping(GameEvent* event)
 		// if second collider is static it means that first initiated the sweep
 		// and is always first
 		// dynamic collisions are being processed differently
-		if (!overlapEvent->SecondCollider->IsDynamic() && GetOwner() == overlapEvent->First)
+		const bool isResultOfOwnSweep{ !overlapEvent->SecondCollider->IsDynamic() && GetOwner() == overlapEvent->First };
+		if (isResultOfOwnSweep)
 		{
 			Collision2DComponent* selfCollider  = overlapEvent->FirstCollider;
 			Collision2DComponent* otherCollider = overlapEvent->SecondCollider;
@@ -86,22 +95,23 @@ void dae::MovementComponent::HandleOverlapping(GameEvent* event)
 			}
 			else
 			{
-				if (m_Velocity.y > .0f)
-				{
-					if (overlapEvent->Normal.y < 0)
-					{
-						if (overlapEvent->Overlap.y > RESOLVE_THRESHOLD)
-						{
-							resolve.y = -overlapEvent->Overlap.y;
-							m_IsGrounded = otherMin.y < (selfMax.y + DOWN_RAY_LENGTH) && otherMax.y > selfMax.y;
-						}
-						if (m_IsGrounded)
-							m_Velocity.y = std::min(m_Velocity.y, 0.f);
-					}
-				}
+				resolve.y = ResolveVerticalCollision(overlapEvent, isResultOfOwnSweep);
 			}
 
 			GetOwner()->GetComponent<Transform>()->Move({ resolve, .0f });
+		}
+		const bool collidedWithDynamic{ overlapEvent->SecondCollider->IsDynamic() && (overlapEvent->First == GetOwner() || overlapEvent->Second == GetOwner()) };
+		if (collidedWithDynamic)
+		{
+			bool selfIsFirst{ overlapEvent->First == GetOwner() };
+			GameObject* other	= (selfIsFirst) ? overlapEvent->Second : overlapEvent->First;
+			const bool isOtherBubble{ static_cast<bool>(other->GetComponent<BubbleComponent>()) };
+			if (isOtherBubble)
+			{
+				glm::vec2 resolve{};
+				resolve.y = ResolveVerticalCollision(overlapEvent, selfIsFirst);
+				GetOwner()->GetComponent<Transform>()->Move({ resolve, .0f });
+			}
 		}
 	}
 }
@@ -110,4 +120,27 @@ void dae::MovementComponent::End()
 {
 	using namespace std::placeholders;
 	GameEvent::UnBind("OnOverlap", &m_OverlapHandler);
+}
+
+float dae::MovementComponent::ResolveVerticalCollision(Collision2DComponent::OnOverlap* overlapEvent, bool selfIsFirst)
+{
+	Collision2DComponent* selfCollider = (selfIsFirst) ? overlapEvent->FirstCollider : overlapEvent->SecondCollider;
+	Collision2DComponent* otherCollider = (selfIsFirst) ? overlapEvent->SecondCollider : overlapEvent->SecondCollider;
+	auto [selfMin, selfMax] = selfCollider->GetBounds();
+	auto [otherMin, otherMax] = otherCollider->GetBounds();
+	float resolve{};
+	if (m_Velocity.y > .0f)
+	{
+		if (overlapEvent->Normal.y < 0)
+		{
+			if (overlapEvent->Overlap.y > RESOLVE_THRESHOLD)
+			{
+				resolve = -overlapEvent->Overlap.y;
+				m_IsGrounded = otherMin.y < (selfMax.y + DOWN_RAY_LENGTH) && otherMax.y > selfMax.y;
+			}
+			if (m_IsGrounded)
+				m_Velocity.y = std::min(m_Velocity.y, 0.f);
+		}
+	}
+	return resolve;
 }

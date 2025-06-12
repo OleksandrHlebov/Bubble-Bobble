@@ -21,7 +21,6 @@ void dae::GameObject::Start()
 void dae::GameObject::Update(float deltaTime)
 {
 	for (auto& comp : m_Components) comp->Update(deltaTime);
-	ClearPendingDelete();
 }
 
 void dae::GameObject::FixedUpdate(float deltaTime)
