@@ -6,16 +6,6 @@
 
 namespace dae
 {
-	struct ScoreChange final : public GameEvent
-	{
-		ScoreChange() = delete;
-		explicit ScoreChange(GameObject* instigator, int amount) : GameEvent("ScoreChange"), Instigator{ instigator }, Amount { amount }
-		{
-		}
-
-		const GameObject* Instigator;
-		const int Amount;
-	};
 	class Score final : public Component
 	{
 	public:

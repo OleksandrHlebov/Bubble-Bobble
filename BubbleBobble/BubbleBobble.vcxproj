@@ -99,6 +99,7 @@
     <ClCompile Include="DyingPlayerState.cpp" />
     <ClCompile Include="FallingPlayerState.cpp" />
     <ClCompile Include="Helpers.cpp" />
+    <ClCompile Include="PickupComponent.cpp" />
     <ClCompile Include="PlayerController.cpp" />
     <ClCompile Include="GridComponent.cpp" />
     <ClCompile Include="Health.cpp" />
@@ -109,6 +110,7 @@
     <ClCompile Include="MovementComponent.cpp" />
     <ClCompile Include="PlayerState.cpp" />
     <ClCompile Include="Score.cpp" />
+    <ClCompile Include="SpawnFruitCommand.cpp" />
     <ClCompile Include="TileComponent.cpp" />
     <ClCompile Include="TrappedAIState.cpp" />
     <ClCompile Include="WalkingAIState.cpp" />
@@ -128,6 +130,8 @@
     <ClInclude Include="FallingPlayerState.h" />
     <ClInclude Include="GameInstanceComponent.h" />
     <ClInclude Include="Helpers.h" />
+    <ClInclude Include="PickupComponent.h" />
+    <ClInclude Include="SpawnFruitCommand.h" />
     <ClInclude Include="TrappedAIState.h" />
     <ClInclude Include="WalkingAIState.h" />
     <ClInclude Include="PlayerController.h" />

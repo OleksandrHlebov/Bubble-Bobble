@@ -1,6 +1,7 @@
 #include "Score.h"
 #include "TextComponent.h"
 #include "GameObject.h"
+#include "PickUpComponent.h"
 
 void dae::Score::TrackGameObject(GameObject* gameObject)
 {
@@ -9,20 +10,18 @@ void dae::Score::TrackGameObject(GameObject* gameObject)
 
 void dae::Score::HandleScoreChange(GameEvent* gameEvent)
 {
-	if (auto scoreChange = dynamic_cast<const ScoreChange*>(gameEvent))
+	auto pickup = static_cast<PickupComponent::OnPickup*>(gameEvent);
+	
+	if (pickup->Player == m_TrackedGameObject)
 	{
-		if (scoreChange->Instigator == m_TrackedGameObject)
-		{
-			m_Score += scoreChange->Amount;
-			UpdateScore();
-		}
+		m_Score += pickup->Value;
+		UpdateScore();
 	}
 }
 
 void dae::Score::Start()
 {
-	using namespace std::placeholders;
-	GameEvent::Bind("ScoreChange", &m_ScoreChangeHandler);
+	GameEvent::Bind("OnPickup", &m_ScoreChangeHandler);
 	UpdateScore();
 }
 

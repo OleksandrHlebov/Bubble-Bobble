@@ -15,7 +15,7 @@ void dae::TrappedAIState::OnEnter()
 	m_FloatingSpeed = movement->Speed - movement->Speed * movement->InAirSlowdownPercent;
 	GameEvent::Bind("OnOverlap", &m_OverlapHandler);
 	auto animComp = GetCharacter()->GetComponent<Animation2DComponent>();
-	auto [path, frames] = GetType().TrappedTexturePath;
+	auto [path, frames] = GetType().TrappedTextureAnim;
 	animComp->Play(path, 0, frames - 1, frames, true);
 }
 

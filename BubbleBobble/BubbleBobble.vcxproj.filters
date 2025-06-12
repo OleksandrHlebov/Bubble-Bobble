@@ -119,6 +119,12 @@
     <ClCompile Include="DeadAIState.cpp">
       <Filter>Game\AI\States\Source</Filter>
     </ClCompile>
+    <ClCompile Include="SpawnFruitCommand.cpp">
+      <Filter>Commands\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PickupComponent.cpp">
+      <Filter>Components\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerController.h">
@@ -201,6 +207,12 @@
     </ClInclude>
     <ClInclude Include="DeadAIState.h">
       <Filter>Game\AI\States</Filter>
+    </ClInclude>
+    <ClInclude Include="SpawnFruitCommand.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="PickupComponent.h">
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

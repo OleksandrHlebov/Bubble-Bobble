@@ -25,7 +25,8 @@ namespace dae
 		AIType m_ZenType{ 50
 						, std::make_pair("Textures/Zen_walking.png", 2)
 						, std::make_pair("Textures/Zen_trapped.png", 2)
-						, std::make_pair("Textures/Zen_dead.png", 4) };
+						, std::make_pair("Textures/Zen_dead.png", 4) 
+						, std::make_pair("Textures/watermelon.png", 100) };
 		
 	};
 }
