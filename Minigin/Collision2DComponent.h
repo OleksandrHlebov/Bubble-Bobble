@@ -52,6 +52,12 @@ namespace dae
 
 		bool IsOverlapping(Collision2DComponent* other);
 		bool IsDynamic() { return m_IsDynamic; }
+		void EnableDebugDraw() 
+		{ 
+#ifndef NDEBUG
+			m_DrawDebug = true; 
+#endif
+		}
 
 		void End() override;
 
@@ -61,5 +67,8 @@ namespace dae
 	private:
 		glm::vec2 m_OriginalSize;
 		bool m_IsDynamic;
+#ifndef NDEBUG
+		bool m_DrawDebug{};
+#endif
 	};
 }

@@ -14,12 +14,15 @@ dae::Collision2DComponent::Collision2DComponent(bool isDynamic, GameObject* owne
 void dae::Collision2DComponent::Render() const
 {
 #ifndef NDEBUG
-	auto [min, max] = GetBounds();
+	if (m_DrawDebug)
+	{
+		auto [min, max] = GetBounds();
 
-	Renderer::GetInstance().DrawLine(min.x, min.y, min.x, max.y, 255, 0, 0, 255);
-	Renderer::GetInstance().DrawLine(min.x, min.y, max.x, min.y, 255, 0, 0, 255);
-	Renderer::GetInstance().DrawLine(max.x, max.y, max.x, min.y, 255, 0, 0, 255);
-	Renderer::GetInstance().DrawLine(max.x, max.y, min.x, max.y, 255, 0, 0, 255);
+		Renderer::GetInstance().DrawLine(min.x, min.y, min.x, max.y, 255, 0, 0, 255);
+		Renderer::GetInstance().DrawLine(min.x, min.y, max.x, min.y, 255, 0, 0, 255);
+		Renderer::GetInstance().DrawLine(max.x, max.y, max.x, min.y, 255, 0, 0, 255);
+		Renderer::GetInstance().DrawLine(max.x, max.y, min.x, max.y, 255, 0, 0, 255);
+	}
 #endif
 }
 

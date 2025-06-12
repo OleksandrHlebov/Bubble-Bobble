@@ -87,7 +87,13 @@ namespace dae
 				tile->SetLocalPosition(static_cast<float>(index % m_Cols * m_TileSize.x), static_cast<float>(index / m_Cols * m_TileSize.y));
 				tile->AddComponent<TileComponent>(glm::ivec2{ index % m_Cols, index / m_Cols });
 				tile->AddComponent<Render2DComponent>()->SetTexture(m_Texture);
-				tile->AddComponent<Collision2DComponent>(false)->SetSize(m_Texture->GetSize());
+				// in the original game tiles above the level have no collision
+				if (index > m_Cols * 4 - 1 /*account for first index being 0*/)
+				{
+					auto collider = tile->AddComponent<Collision2DComponent>(false);
+					collider->SetSize(m_Texture->GetSize());
+					collider->EnableDebugDraw();
+				}
 			}
 	}
 
