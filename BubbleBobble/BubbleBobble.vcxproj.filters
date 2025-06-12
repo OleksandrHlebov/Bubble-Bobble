@@ -39,6 +39,9 @@
     <Filter Include="Game\AI\States\Source">
       <UniqueIdentifier>{4ad73101-6951-40c9-bbe3-13ba2fb940fc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\AI\Source">
+      <UniqueIdentifier>{54a5194d-f18b-4e10-ab7a-b75efa3b9671}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BubbleBobble.cpp">
@@ -124,6 +127,9 @@
     </ClCompile>
     <ClCompile Include="PickupComponent.cpp">
       <Filter>Components\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="BoulderRolling.cpp">
+      <Filter>Game\AI\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -213,6 +219,12 @@
     </ClInclude>
     <ClInclude Include="PickupComponent.h">
       <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Ability.h">
+      <Filter>Game\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="BoulderRolling.h">
+      <Filter>Game\AI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

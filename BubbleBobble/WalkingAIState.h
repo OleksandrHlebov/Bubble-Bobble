@@ -37,8 +37,11 @@ namespace dae
 		glm::vec3 m_Direction{ -1.f, .0f, .0f };
 		MoveCommand m_MoveCommand{ GetCharacter(), m_Direction };
 		JumpCommand m_JumpCommand{ GetCharacter() };
-		const float m_TimeBeforeJump{ 1.f };
-		const float m_JumpChance{ .3f };
+		const float m_TimeBeforeJump	{ 1.f };
+		const float m_TimeBeforeAbility	{ 2.f };
+		const float m_JumpChance		{ .3f };
+		const float m_AbilityChance		{ .5f };
 		float m_JumpTimer{};
+		float m_AbilityTimer{};
 	};
 }

@@ -37,7 +37,16 @@ std::unique_ptr<dae::AIState> dae::WalkingAIState::Update(float deltaTime)
 			m_JumpCommand.Execute(deltaTime);
 	}
 
+	if (m_AbilityTimer >= m_TimeBeforeAbility)
+	{
+		m_AbilityTimer -= m_TimeBeforeAbility;
+		int randomNumber{ rand() % 101 };
+		if (randomNumber / 100.f > m_AbilityChance)
+			GetType().AbilityPtr->ExecuteOn(GetCharacter());
+	}
+
 	m_JumpTimer += deltaTime;
+	m_AbilityTimer += deltaTime;
 	return nullptr;
 }
 
