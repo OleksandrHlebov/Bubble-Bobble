@@ -6,6 +6,8 @@
 #include "TileComponent.h"
 #include "Brain.h"
 #include "Animation2DComponent.H"
+#include "Render2DComponent.h"
+#include <cassert>
 
 void dae::BubbleComponent::Update(float deltaTime)
 {
@@ -88,6 +90,7 @@ void dae::BubbleComponent::End()
 	using std::placeholders::_1;
 	GameEvent::UnBind("OnOverlap", &m_StaticOverlapHandler);
 	GameEvent::UnBind("OnOverlap", &m_DynamicOverlapHandler);
+	GameEvent::UnBind("OnAnimationFinished", &m_AnimationFinishedHandler);
 }
 
 void dae::BubbleComponent::StartGoingUp()
@@ -95,4 +98,7 @@ void dae::BubbleComponent::StartGoingUp()
 	m_Direction = glm::vec2{ .0f, -1.f }; // start going up
 	GameEvent::UnBind("OnOverlap", &m_StaticOverlapHandler);
 	GameEvent::UnBind("OnAnimationFinished", &m_AnimationFinishedHandler);
+	Animation2DComponent* animComp = GetOwner()->GetComponent<Animation2DComponent>();
+	assert(animComp->GetTotalFrames() == 7);
+	animComp->PlayCurrent(3, 4, animComp->GetTotalFrames(), true);
 }

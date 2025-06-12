@@ -38,9 +38,11 @@ namespace dae
 
 		void Play(const std::string& texturePath, uint32_t firstFrame, uint32_t lastFrame, uint32_t totalFrames, bool loop = false);
 		void Play(std::shared_ptr<Texture2D> texture, uint32_t firstFrame, uint32_t lastFrame, uint32_t totalFrames, bool loop = false);
+		void PlayCurrent(uint32_t firstFrame, uint32_t lastFrame, uint32_t totalFrames, bool loop);
 
 		void SetFrameTime(float frameTime);
 		bool GetFrameTime() { return m_FrameTime; }
+		uint32_t GetTotalFrames() { return m_TotalFrames; }
 
 		bool IsPlaying() { return m_IsPlaying; }
 		bool IsLooping() { return m_IsLooping; }
@@ -49,13 +51,13 @@ namespace dae
 
 
 	private:
-		void StartPlay(uint32_t firstFrame, uint32_t lastFrame, uint32_t totalFrames, bool loop);
 
 		Render2DComponent*	m_RenderComponentPtr;
 		glm::ivec2 m_FrameSize{};
 		uint32_t m_FirstFrame{};
 		uint32_t m_LastFrame{};
 		uint32_t m_CurrentFrame{};
+		uint32_t m_TotalFrames{};
 		float m_FrameTime{};
 		float m_Time{};
 		bool m_IsPlaying{ false };

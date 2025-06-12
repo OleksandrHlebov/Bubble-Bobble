@@ -26,6 +26,7 @@ namespace dae
 
 		void SetTexture(const std::string& filename);
 		void SetTexture(std::shared_ptr<Texture2D> texture);
+		std::shared_ptr<Texture2D> GetTexture() { return m_TextureSPtr; }
 
 		void SelectSection(int x, int y, int width, int height);
 
