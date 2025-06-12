@@ -70,8 +70,13 @@ namespace dae
 
 	bool GridComponent::GetIsTileActive(const glm::ivec2& gridPos)
 	{
-		const int transformed1DIndex{ gridPos.x + gridPos.y * m_Cols };
+		const int64_t transformed1DIndex{ gridPos.x + gridPos.y * m_Cols };
+		
 		assert(transformed1DIndex < GetTileCount());
+
+		if (transformed1DIndex < 0)
+			return true;
+
 		return m_Tiles[transformed1DIndex];
 	}
 
@@ -80,6 +85,8 @@ namespace dae
 		if (!m_Texture)
 			m_Texture = ResourceManager::GetInstance().LoadTexture("Textures/Level/Tile_1.png");
 		for (int index{}; index < m_Tiles.size(); ++index)
+		{
+			const bool isOnBorder{ index % m_Cols < m_BorderThickness || index % m_Cols >= m_Cols - m_BorderThickness };
 			if (m_Tiles[index])
 			{
 				GameObject* tile = GetOwner()->GetScene()->CreateGameObject();
@@ -88,13 +95,29 @@ namespace dae
 				tile->AddComponent<TileComponent>(glm::ivec2{ index % m_Cols, index / m_Cols });
 				tile->AddComponent<Render2DComponent>()->SetTexture(m_Texture);
 				// in the original game tiles above the level have no collision
-				if (index > m_Cols * 4 - 1 /*account for first index being 0*/)
+				if (index > m_Cols * 4 - 1 /*account for first index being 0*/ || isOnBorder)
 				{
+					auto collider = tile->AddComponent<Collision2DComponent>(false);
+					collider->SetSize(m_Texture->GetSize());
+					//collider->EnableDebugDraw();
+				}
+			}
+			else
+			{
+				if (isOnBorder)
+				{
+					m_Tiles[index] = true;
+					GameObject* tile = GetOwner()->GetScene()->CreateGameObject();
+					tile->AttachTo(GetOwner());
+					tile->SetLocalPosition(static_cast<float>(index % m_Cols * m_TileSize.x), static_cast<float>(index / m_Cols * m_TileSize.y));
+					tile->AddComponent<TileComponent>(glm::ivec2{ index % m_Cols, index / m_Cols });
+
 					auto collider = tile->AddComponent<Collision2DComponent>(false);
 					collider->SetSize(m_Texture->GetSize());
 					collider->EnableDebugDraw();
 				}
 			}
+		}
 	}
 
 }

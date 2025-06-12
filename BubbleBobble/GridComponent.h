@@ -40,7 +40,7 @@ namespace dae
 
 		bool GetIsTileActive(const glm::ivec2& gridPos);
 
-		size_t GetTileCount() { return m_Tiles.size(); }
+		int64_t GetTileCount() { return std::ssize(m_Tiles); }
 
 		void Start() override;
 
@@ -50,6 +50,7 @@ namespace dae
 		std::shared_ptr<Texture2D> m_Texture;
 		std::vector<bool> m_Tiles;
 		glm::ivec2 m_TileSize;
+		const int m_BorderThickness{ 2 };
 		int m_Rows;
 		int m_Cols;
 

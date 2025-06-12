@@ -84,7 +84,7 @@ void dae::MovementComponent::HandleOverlapping(GameEvent* event)
 
 			if (overlapEvent->Overlap.x && overlapEvent->Overlap.x < overlapEvent->Overlap.y)
 			{
-				TileComponent* tileComp = overlapEvent->SecondCollider->GetOwner()->GetComponent<TileComponent>();
+				TileComponent* tileComp = overlapEvent->Second->GetComponent<TileComponent>();
 				if (tileComp->HasTileAbove())
 				{
 					if (overlapEvent->Normal.x > 0)
