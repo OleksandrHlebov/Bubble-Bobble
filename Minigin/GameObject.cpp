@@ -138,6 +138,11 @@ void dae::GameObject::SetRenderPriority(int renderPriority)
 	GetScene()->ReorderGameObjects();
 }
 
+void dae::GameObject::SetRenderPriority(RenderPriority renderPriority)
+{
+	SetRenderPriority(static_cast<int>(renderPriority));
+}
+
 const glm::vec3& dae::GameObject::GetWorldPosition()
 {
 	return m_Transform.GetWorldPosition();

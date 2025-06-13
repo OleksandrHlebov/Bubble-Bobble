@@ -3,6 +3,8 @@
 #include <vector>
 #include <string>
 
+namespace dae { class Scene; }
+
 namespace dae
 {
 	template<typename StateType>
@@ -18,4 +20,6 @@ namespace dae
 		return false;
 	}
 	void ReadLevelLayout(const std::string& path, std::vector<bool>& destination);
+
+	void CreatePlayer0(Scene* scene, float animationFrameTime);
 }

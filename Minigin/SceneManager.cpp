@@ -3,42 +3,34 @@
 
 void dae::SceneManager::Update(float deltaTime)
 {
-	for(auto& scene : m_Scenes)
-	{
-		scene->Update(deltaTime);
-	}
+	m_CurrentScene->Update(deltaTime);
 }
 
 void dae::SceneManager::FixedUpdate(float deltaTime)
 {
-	for (auto& scene : m_Scenes)
-	{
-		scene->FixedUpdate(deltaTime);
-	}
+	m_CurrentScene->FixedUpdate(deltaTime);
 }
 
 void dae::SceneManager::Render() const
 {
-	for (const auto& scene : m_Scenes)
-	{
-		scene->Render();
-	}
+	m_CurrentScene->Render();
 }
 
 void dae::SceneManager::RenderUI() const
 {
-	for (const auto& scene : m_Scenes)
-	{
-		scene->RenderUI();
-	}
+	m_CurrentScene->RenderUI();
 }
 
 void dae::SceneManager::ClearPendingDelete()
 {
-	for (const auto& scene : m_Scenes)
-	{
-		scene->ClearPendingDelete();
-	}
+	m_CurrentScene->ClearPendingDelete();
+}
+
+void dae::SceneManager::LoadScene(const std::string& name)
+{
+	m_CurrentScene->End();
+	m_CurrentScene = m_Scenes[name].get();
+	m_CurrentScene->Start();
 }
 
 dae::SceneManager::SceneManager() = default;
@@ -47,14 +39,14 @@ dae::SceneManager::~SceneManager() = default;
 
 dae::Scene* dae::SceneManager::CreateScene(const std::string& name)
 {
-	const auto scene = m_Scenes.insert(m_Scenes.end(), std::make_unique<Scene>(name));
-	return (*scene).get();
+	m_Scenes[name] = std::make_unique<Scene>(name);
+	Scene* scene = m_Scenes[name].get();
+	if (!m_CurrentScene)
+		m_CurrentScene = scene;
+	return scene;
 }
 
 void dae::SceneManager::Start()
 {
-	for (const auto& scene : m_Scenes)
-	{
-		scene->Start();
-	}	
+	m_CurrentScene->Start();
 }

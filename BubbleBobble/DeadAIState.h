@@ -26,6 +26,6 @@ namespace dae
 		SpawnFruitCommand m_SpawnCommand{ GetCharacter(), GetType().TreatTextureValue.first, GetType().TreatTextureValue.second };
 
 		const float m_LaunchStrength{ 200.f };
-		const uint32_t m_Loops{ 2 };
+		const uint32_t m_Loops{ 3 };
 	};
 }

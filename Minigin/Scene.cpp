@@ -84,6 +84,19 @@ void dae::Scene::Update(float deltaTime)
 	}
 }
 
+void Scene::End()
+{
+	for (auto& object : m_Objects)
+	{
+		object->End();
+	}
+}
+
+uint32_t Scene::AddPlayer()
+{
+	return m_PlayerCount++;
+}
+
 void Scene::RemoveCollider(Collision2DComponent* collider)
 {
 	std::erase(m_StaticColliders, collider);

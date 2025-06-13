@@ -31,6 +31,8 @@ namespace dae
 		void Render() const;
 		void RenderUI();
 		void ReorderGameObjects();
+		void End();
+		uint32_t AddPlayer();
 
 		void AddCollider(Collision2DComponent* collider);
 		void RemoveCollider(Collision2DComponent* collider);
@@ -64,6 +66,7 @@ namespace dae
 		std::vector<Collision2DComponent*> m_StaticColliders;
 		std::vector<Collision2DComponent*> m_DynamicColliders;
 		const glm::vec2 m_Limits;
+		uint32_t m_PlayerCount{};
 
 		static unsigned int m_idCounter; 
 		bool m_IsLoaded{};

@@ -28,7 +28,6 @@ namespace dae
 	private:
 		std::unique_ptr<Gamepad> m_Gamepad{};
 
-		inline static uint32_t m_PlayerCount{};
-		uint32_t m_PlayerIndex{ m_PlayerCount++ };
+		uint32_t m_PlayerIndex;
 	};
 }

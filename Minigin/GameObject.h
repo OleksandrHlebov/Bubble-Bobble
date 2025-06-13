@@ -5,6 +5,7 @@
 #include <unordered_set>
 #include "GameEvent.h"
 #include <type_traits>
+#include "RenderPriorities.h"
 
 
 namespace dae
@@ -54,6 +55,7 @@ namespace dae
 		// supported only on scene load
 		// reordering happens after start is executed
 		void SetRenderPriority(int renderPriority);
+		void SetRenderPriority(RenderPriority renderPriority);
 
 		int GetRenderPriority() { return m_RenderPriority; }
 

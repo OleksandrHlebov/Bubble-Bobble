@@ -1,7 +1,7 @@
 #pragma once
-#include <vector>
 #include <string>
 #include <memory>
+#include <unordered_map>
 #include "Singleton.h"
 
 namespace dae
@@ -21,9 +21,12 @@ namespace dae
 		void RenderUI() const;
 		void ClearPendingDelete();
 
+		void LoadScene(const std::string& name);
+
 	private:
 		SceneManager();
 		friend class Singleton<SceneManager>;
-		std::vector<std::unique_ptr<Scene>> m_Scenes;
+		std::unordered_map<std::string, std::unique_ptr<Scene>> m_Scenes;
+		Scene* m_CurrentScene{};
 	};
 }

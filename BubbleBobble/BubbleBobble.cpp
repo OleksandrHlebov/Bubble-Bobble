@@ -41,6 +41,7 @@
 #include "PlayerType.h"
 #include "Ability.h"
 #include "BubbleBlowing.h"
+#include "Helpers.h"
 #pragma endregion Components
 
 using namespace dae;
@@ -61,7 +62,7 @@ void load()
 	auto gameInstance = scene->CreateGameObject()->AddComponent<GameInstance>();
 
 	auto levelGrid = scene->CreateGameObject();
-	levelGrid->SetRenderPriority(static_cast<int>(RenderPriority::Background));
+	levelGrid->SetRenderPriority(RenderPriority::Background);
 	GridComponent* grid = levelGrid->AddComponent<GridComponent>(28, 37, glm::ivec2{ Minigin::GetGameWidth(), Minigin::GetGameHeight() });
 
 	grid->LoadLayoutFromFile("Data/Level/1/Layout.csv");
@@ -95,67 +96,22 @@ void load()
 	//auto go = scene->CreateGameObject();
 	auto font = ResourceManager::GetInstance().LoadFont("arcade-legacy.otf", 16);
 
-	//go = scene->CreateGameObject();
-	//go->SetRenderPriority(static_cast<int>(RenderPriority::UI));
-	//go->AddComponent<Render2DComponent>();
-	//go->AddComponent<TextComponent>(font);
-	//go->AddComponent<FPSComponent>();
-	//go->SetLocalPosition(0, 0);
-
 	font = ResourceManager::GetInstance().LoadFont("arcade-legacy.otf", 8);
-
 	auto manual = scene->CreateGameObject();
-	manual->SetRenderPriority(static_cast<int>(RenderPriority::UI));
+	manual->SetRenderPriority(RenderPriority::UI);
 	manual->SetLocalPosition(glm::vec3{ 4.f, 68.f, .0f });
-	auto player0Controls = scene->CreateGameObject();
-	player0Controls->AttachTo(manual);
-	player0Controls->AddComponent<Render2DComponent>();
-	player0Controls->AddComponent<TextComponent>(font)->SetText("DPad, X burp, A jump, B damage");
+	auto controls = scene->CreateGameObject();
+	controls->AttachTo(manual);
+	controls->AddComponent<Render2DComponent>();
+	controls->AddComponent<TextComponent>(font)->SetText("DPad, X burp, A jump, B damage");
 	auto player1Controls = scene->CreateGameObject();
 	player1Controls->SetLocalPosition(glm::vec3{ .0f, 12.f, .0f });
 	player1Controls->AttachTo(manual);
 	player1Controls->AddComponent<Render2DComponent>();
 	player1Controls->AddComponent<TextComponent>(font)->SetText("AD, Z burp, X jump, C damage");
 
-	auto player0 = scene->CreateGameObject();
-	player0->SetLocalPosition(glm::vec3{ 30.f, 160.f, .0f });
-	auto player0Render = player0->AddComponent<Render2DComponent>();
-	player0Render->SetTexture("Textures/Bub_walking.png");
-	{
-		PlayerType type
-		{
-			{ "Textures/Bub_idle.png"	, 1 },
-			{ "Textures/Bub_walking.png", 4 },
-			{ "Textures/Bub_jumping.png", 2 },
-			{ "Textures/Bub_falling.png", 2 },
-			{ "Textures/Bub_dying.png"	, 6 },
-			{ "Textures/Bub_burp.png"	, 1 },
-			std::make_unique<BubbleBlowing>()
-		};
-		player0->AddComponent<PlayerController>(std::move(type), false);
-	}
-	player0->AddComponent<Animation2DComponent>(animationFrameTime);
-	player0->AddComponent<MovementComponent>()->Speed = 50.f;
-	{
-		const int framesInTexture{ 4 };
-		const glm::vec2 playerSize{ glm::vec2{ player0Render->GetDimensions() } *glm::vec2(1.f / framesInTexture, 1.f) };
-		player0->AddComponent<Collision2DComponent>(true)->SetSize(playerSize);
-	}
-	player0->AddComponent<Health>();
-	auto player0UI = scene->CreateGameObject();
-	player0UI->SetRenderPriority(static_cast<int>(RenderPriority::UI));
-	player0UI->SetLocalPosition(glm::vec3(4.f, 20.f, .0f));
-	auto player0HealthDisplay = scene->CreateGameObject();
-	player0HealthDisplay->AttachTo(player0UI);
-	player0HealthDisplay->AddComponent<Render2DComponent>();
-	player0HealthDisplay->AddComponent<TextComponent>(font);
-	player0HealthDisplay->AddComponent<HealthDisplay>()->TrackHealth(player0);
-	auto player0Score = scene->CreateGameObject();
-	player0Score->AttachTo(player0UI);
-	player0Score->SetLocalPosition(glm::vec3(.0f, 12.f, .0f));
-	player0Score->AddComponent<Render2DComponent>();
-	player0Score->AddComponent<TextComponent>(font);
-	player0Score->AddComponent<Score>()->TrackGameObject(player0);
+
+	dae::CreatePlayer0(scene, animationFrameTime);
 
 	//auto player1 = scene->CreateGameObject();
 	//player1->SetLocalPosition(glm::vec3{ 50.f, 180.f, .0f });
