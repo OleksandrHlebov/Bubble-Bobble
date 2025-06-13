@@ -63,18 +63,35 @@ void load()
 		auto scene = sceneManager.CreateScene("Menu");
 		
 		GameObject* menuObject = scene->CreateGameObject();
+		menuObject->SetLocalPosition(glm::vec3{ 100.f, 60.f, .0f });
 		menuObject->AddComponent<PlayerController>(false);
 		for (int index{}; index < InputManager::GetInstance().GetGamepadCount(); ++index)
 			menuObject->AddComponent<PlayerController>(true);
 		auto menu = menuObject->AddComponent<MenuComponent>(font);
 		menu->AddButton("1 player", [&sceneManager](const glm::ivec2& input)
-		{
-			if (input.y)
-			{
-				CreateScene("Data/Level/1/Layout.csv", GameMode::Solo);
-				sceneManager.LoadScene("1");
-			}
-		});
+						{
+							if (input.y)
+							{
+								CreateScene("Data/Level/1/Layout.csv", GameMode::Solo);
+								sceneManager.LoadScene("1");
+							}
+						});
+		menu->AddButton("2 player", [&sceneManager](const glm::ivec2& input)
+						{
+							if (input.y)
+							{
+								CreateScene("Data/Level/1/Layout.csv", GameMode::Duo);
+								sceneManager.LoadScene("1");
+							}
+						});
+		menu->AddButton("Versus", [&sceneManager](const glm::ivec2& input)
+						{
+							if (input.y)
+							{
+								CreateScene("Data/Level/1/Layout.csv", GameMode::Versus);
+								sceneManager.LoadScene("1");
+							}
+						});
 	}
 }
 
