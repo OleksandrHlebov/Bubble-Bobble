@@ -3,7 +3,7 @@
 #include "GameObject.h"
 #include "TextComponent.h"
 
-void dae::MenuComponent::AddButton(const std::string& label, std::function<void(const glm::ivec2&)> inputHandler)
+void dae::MenuComponent::AddButton(const std::string& label, std::function<void(GameObject*, const glm::ivec2&)> inputHandler)
 {
 	SDL_Color& currentColor{ (m_ButtonObjects.empty()) ? m_SelectedColor : m_InActiveColor };
 	GameObject* parent = (m_ButtonObjects.empty()) ? GetOwner() : m_ButtonObjects.back();
@@ -38,5 +38,5 @@ void dae::MenuComponent::ProcessInput(const glm::ivec3& input)
 		return;
 	}
 
-	m_Delegates[m_SelectedIndex]({ ((m_IsHorizontal) ? input.y : input.x), input.z });
+	m_Delegates[m_SelectedIndex](m_ButtonObjects[m_SelectedIndex], {((m_IsHorizontal) ? input.y : input.x), input.z});
 }

@@ -7,7 +7,6 @@
 
 namespace dae
 {
-	struct GameEvent;
 	class LevelInstance final : public Component
 	{
 	public:

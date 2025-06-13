@@ -1,5 +1,4 @@
-#include "GameEvent.h"
-#pragma once
+#include "LevelInstanceComponent.h"
 #include "Health.h"
 #include "SceneManager.h"
 

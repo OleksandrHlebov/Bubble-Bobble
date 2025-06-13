@@ -71,7 +71,7 @@ void load()
 			menuObject->AddComponent<PlayerController>(true);
 		menuObject->AddComponent<PlayerController>(false);
 		auto menu = menuObject->AddComponent<MenuComponent>(font);
-		menu->AddButton("1 player", [&sceneManager](const glm::ivec2& input)
+		menu->AddButton("1 player", [&sceneManager](GameObject*,const glm::ivec2& input)
 						{
 							if (input.y)
 							{
@@ -80,7 +80,7 @@ void load()
 								sceneManager.LoadScene("0");
 							}
 						});
-		menu->AddButton("2 player", [&sceneManager](const glm::ivec2& input)
+		menu->AddButton("2 player", [&sceneManager](GameObject*, const glm::ivec2& input)
 						{
 							if (input.y)
 							{
@@ -89,7 +89,7 @@ void load()
 								sceneManager.LoadScene("0");
 							}
 						});
-		menu->AddButton("Versus", [&sceneManager](const glm::ivec2& input)
+		menu->AddButton("Versus", [&sceneManager](GameObject*, const glm::ivec2& input)
 						{
 							if (input.y)
 							{
@@ -98,6 +98,31 @@ void load()
 								sceneManager.LoadScene(std::to_string(randomLevelIndex));
 							}
 						});
+	}
+
+	// endscreen
+	{
+		auto scene = sceneManager.CreateScene("End");
+		GameObject* menuObject = scene->CreateGameObject();
+		menuObject->SetLocalPosition(glm::vec3{ 100.f, 60.f, .0f });
+		for (int index{}; index < inputManager.GetGamepadCount(); ++index)
+			menuObject->AddComponent<PlayerController>(true);
+		menuObject->AddComponent<PlayerController>(false);
+		auto menu = menuObject->AddComponent<MenuComponent>(font, true);
+		menu->AddButton("_", [&sceneManager](GameObject*, const glm::ivec2& input)
+						{
+							if (input.x)
+							{
+
+							}
+							if (input.y)
+							{
+								for (int index{}; index < LEVELS_AVAILABLE; ++index)
+									CreateScene("Data/Level/" + std::to_string(index) + "/LevelInfo.csv", std::to_string(index), GameMode::Solo);
+								sceneManager.LoadScene("0");
+							}
+						});
+
 	}
 }
 
