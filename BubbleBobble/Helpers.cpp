@@ -65,7 +65,7 @@ void dae::CreatePlayer0(Scene* scene, float animationFrameTime)
 			{ "Textures/Bub_burp.png"	, 1 },
 			std::make_unique<BubbleBlowing>()
 		};
-		player0->AddComponent<PlayerController>(std::move(type), false);
+		player0->AddComponent<PlayerController>(std::move(type), true);
 	}
 	player0->AddComponent<Animation2DComponent>(animationFrameTime);
 	player0->AddComponent<MovementComponent>()->Speed = 50.f;

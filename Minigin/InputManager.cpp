@@ -80,6 +80,9 @@ bool dae::InputManager::ProcessInput(float deltaTime)
 
 		for (InputAction& inputAction : m_InputActions)
 		{
+			if (inputAction.GetDeviceIndex() != gamepad->GetDeviceIndex())
+				continue;
+
 			Gamepad::Binding binding = inputAction.GetKeybind().GamepadBinding;
 			Gamepad::ValueProvider provider = binding.BoundProvider;
 			WORD keyMask = static_cast<WORD>(binding.BoundButtons);
@@ -216,16 +219,22 @@ size_t dae::InputManager::GetGamepadCount()
 
 dae::Gamepad* dae::InputManager::GetGamepadByPlayerIndex(uint32_t index)
 {
-	if (index >= m_Gamepads.size())
+	auto it = std::find_if(m_Gamepads.begin(), m_Gamepads.end(), [index](const Gamepad& gamepad)
+		{
+			return gamepad.GetPlayerIndex() == index;
+		});
+	
+	if (it == m_Gamepads.end())
 		return nullptr;
-	return &m_Gamepads[index];
+
+	return &(*it);
 }
 
 dae::Gamepad* dae::InputManager::GetFirstAvailableGamepad()
 {
 	for (Gamepad& gamepad : m_Gamepads)
 	{
-		if (gamepad.GetPlayerIndex() < m_Gamepads.size())
+		if (gamepad.GetPlayerIndex() > m_Gamepads.size())
 			return &gamepad;
 	}
 	return nullptr;

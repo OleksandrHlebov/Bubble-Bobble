@@ -34,7 +34,7 @@ namespace dae
 						, std::make_pair("Textures/Maita_walking.png", 2)
 						, std::make_pair("Textures/Maita_trapped.png", 2)
 						, std::make_pair("Textures/Maita_dead.png", 4)
-						, std::make_pair("Textures/watermelon.png", 200)
+						, std::make_pair("Textures/fries.png", 200)
 						, std::make_unique<BoulderRolling>() };
 		
 	};

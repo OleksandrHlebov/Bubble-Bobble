@@ -26,8 +26,6 @@ dae::PlayerController::~PlayerController() {}
 
 void dae::PlayerController::Start()
 {
-	InputManager& inputManager = InputManager::GetInstance();
-	
 	const bool usingGamepad{ GetGamepad() != nullptr };
 
 	Keybind moveRight	{ (usingGamepad) ? Keybind(Gamepad::Button::DPadRight)	: Keybind(SDL_SCANCODE_D) };
@@ -38,18 +36,18 @@ void dae::PlayerController::Start()
 	Keybind burp		{ (usingGamepad) ? Keybind(Gamepad::Button::X)			: Keybind(SDL_SCANCODE_Z) };
 	Keybind jump		{ (usingGamepad) ? Keybind(Gamepad::Button::A)			: Keybind(SDL_SCANCODE_X) };
 
-	m_IAMoveRight	= inputManager.CreateInputAction<MoveCommand>(moveRight, BindTrigger::Held, GetControlledObject(), glm::vec3{  1.f, .0f, .0f });
-	m_IAMoveLeft	= inputManager.CreateInputAction<MoveCommand>(moveLeft, BindTrigger::Held, GetControlledObject(), glm::vec3{ -1.f, .0f, .0f });
+	m_IAMoveRight	= CreateInputAction<MoveCommand>(moveRight, BindTrigger::Held, GetControlledObject(), glm::vec3{  1.f, .0f, .0f });
+	m_IAMoveLeft	= CreateInputAction<MoveCommand>(moveLeft, BindTrigger::Held, GetControlledObject(), glm::vec3{ -1.f, .0f, .0f });
 
-	m_IADamageSelf	= inputManager.CreateInputAction<DamageCommand>(damageSelf, BindTrigger::Pressed, GetControlledObject(), 1);
-	m_IABurp		= inputManager.CreateInputAction<BurpCommand>(burp, BindTrigger::Pressed, GetControlledObject());
-	m_IAJump		= inputManager.CreateInputAction<JumpCommand>(jump, BindTrigger::Released, GetControlledObject());
+	m_IADamageSelf	= CreateInputAction<DamageCommand>(damageSelf, BindTrigger::Pressed, GetControlledObject(), 1);
+	m_IABurp		= CreateInputAction<BurpCommand>(burp, BindTrigger::Pressed, GetControlledObject());
+	m_IAJump		= CreateInputAction<JumpCommand>(jump, BindTrigger::Released, GetControlledObject());
 
-	m_IAMenuLeft	= inputManager.CreateInputAction<MenuNavigationCommand>(moveLeft, BindTrigger::Pressed, GetControlledObject(), glm::ivec3{ -1, 0, 0 });
-	m_IAMenuRight	= inputManager.CreateInputAction<MenuNavigationCommand>(moveRight, BindTrigger::Pressed, GetControlledObject(), glm::ivec3{ 1, 0, 0 });
-	m_IAMenuUp		= inputManager.CreateInputAction<MenuNavigationCommand>(moveUp, BindTrigger::Pressed, GetControlledObject(), glm::ivec3{ 0, -1, 0 });
-	m_IAMenuDown	= inputManager.CreateInputAction<MenuNavigationCommand>(moveDown, BindTrigger::Pressed, GetControlledObject(), glm::ivec3{ 0, 1, 0 });
-	m_IAMenuPress	= inputManager.CreateInputAction<MenuNavigationCommand>(jump, BindTrigger::Pressed, GetControlledObject(), glm::ivec3{ 0, 0, 1 });
+	m_IAMenuLeft	= CreateInputAction<MenuNavigationCommand>(moveLeft, BindTrigger::Pressed, GetControlledObject(), glm::ivec3{ -1, 0, 0 });
+	m_IAMenuRight	= CreateInputAction<MenuNavigationCommand>(moveRight, BindTrigger::Pressed, GetControlledObject(), glm::ivec3{ 1, 0, 0 });
+	m_IAMenuUp		= CreateInputAction<MenuNavigationCommand>(moveUp, BindTrigger::Pressed, GetControlledObject(), glm::ivec3{ 0, -1, 0 });
+	m_IAMenuDown	= CreateInputAction<MenuNavigationCommand>(moveDown, BindTrigger::Pressed, GetControlledObject(), glm::ivec3{ 0, 1, 0 });
+	m_IAMenuPress	= CreateInputAction<MenuNavigationCommand>(jump, BindTrigger::Pressed, GetControlledObject(), glm::ivec3{ 0, 0, 1 });
 
 	GameEvent::Bind("OnHealthChanged", &m_HealthChangedHandler);
 }

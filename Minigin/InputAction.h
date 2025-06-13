@@ -4,6 +4,7 @@
 #include <memory>
 #include "Keybind.h"
 #include <map>
+#include <limits>
 
 namespace dae
 {
@@ -37,6 +38,16 @@ namespace dae
 			m_Keybind = std::move(keybind);
 		}
 
+		void LinkToDeviceIndex(uint32_t deviceIndex)
+		{
+			m_DeviceIndex = deviceIndex;
+		}
+
+		uint32_t GetDeviceIndex()
+		{
+			return m_DeviceIndex;
+		}
+
 		void Execute(BindTrigger trigger, float deltaTime);
 
 		Keybind GetKeybind() { return m_Keybind; }
@@ -49,6 +60,7 @@ namespace dae
 	private:
 		std::map<BindTrigger,std::unique_ptr<Command>> m_TriggerBinds;
 		Keybind m_Keybind{};
+		uint32_t m_DeviceIndex{ std::numeric_limits<uint32_t>::max() };
 
 	};
 }

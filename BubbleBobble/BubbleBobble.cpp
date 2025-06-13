@@ -69,10 +69,10 @@ void load()
 	{
 		auto scene = sceneManager.CreateScene("1");
 
+		auto gameInstance = scene->CreateGameObject()->AddComponent<GameInstance>();
+
 		auto audioHandler = scene->CreateGameObject();
 		audioHandler->AddComponent<AudioHandler>();
-
-		auto gameInstance = scene->CreateGameObject()->AddComponent<GameInstance>();
 
 		auto levelGrid = scene->CreateGameObject();
 		levelGrid->SetRenderPriority(RenderPriority::Background);
@@ -125,7 +125,7 @@ void load()
 
 		dae::CreatePlayer0(scene, animationFrameTime);
 
-		dae::CreatePlayerAsMaita(scene, animationFrameTime);
+		//dae::CreatePlayerAsMaita(scene, animationFrameTime);
 
 		auto zen = scene->CreateGameObject();
 		zen->SetLocalPosition(glm::vec3{ 50.f, 20.f, .0f });
@@ -133,7 +133,7 @@ void load()
 		zenRender->SetTexture("Textures/Zen_walking.png");
 		zen->AddComponent<Brain>(gameInstance->GetZenType());
 		zen->AddComponent<Animation2DComponent>(animationFrameTime);
-		zen->AddComponent<MovementComponent>()->Speed = 100.f;
+		zen->AddComponent<MovementComponent>()->Speed = 75.f;
 		{
 			const int framesInTexture{ 2 };
 			const glm::vec2 zenSize{ glm::vec2{ zenRender->GetDimensions() } *glm::vec2(1.f / framesInTexture, 1.f) };

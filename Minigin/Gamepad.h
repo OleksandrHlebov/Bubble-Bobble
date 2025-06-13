@@ -71,8 +71,8 @@ namespace dae
 		Gamepad& operator=(Gamepad&&) noexcept = delete;
 
 		static uint32_t GetCount();
-		uint32_t GetDeviceIndex();
-		uint32_t GetPlayerIndex();
+		uint32_t GetDeviceIndex() const;
+		uint32_t GetPlayerIndex() const;
 		void AssignToPlayer(uint32_t index);
 
 		bool IsConnected() { return m_IsConnected; }
