@@ -74,7 +74,7 @@ void dae::WalkingAIState::HandleOverlap(GameEvent* event)
 				if (auto [collider, intersection] = scene->TraceSegment(center, m_Direction, rayLength, false, true); collider)
 				{
 					m_MoveCommand.SetDirection(m_Direction *= -1);
-					m_RenderComponent->Flip(m_Direction.x > 0);
+					m_RenderComponent->Flip(m_Direction.x < 0);
 				}
 			}
 		}

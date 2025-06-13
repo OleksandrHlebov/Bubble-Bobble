@@ -70,7 +70,7 @@ namespace dae
 		bool m_IsDynamic;
 		bool m_IsEnabled{ true };
 #ifndef NDEBUG
-		bool m_DrawDebug{};
+		bool m_DrawDebug{ true };
 #endif
 	};
 }

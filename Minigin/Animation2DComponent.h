@@ -38,10 +38,10 @@ namespace dae
 
 		void Play(const std::string& texturePath, uint32_t firstFrame, uint32_t lastFrame, uint32_t totalFrames, bool loop = false, uint32_t loops = std::numeric_limits<uint32_t>::max());
 		void Play(std::shared_ptr<Texture2D> texture, uint32_t firstFrame, uint32_t lastFrame, uint32_t totalFrames, bool loop = false, uint32_t loops = std::numeric_limits<uint32_t>::max());
-		void PlayCurrent(uint32_t firstFrame, uint32_t lastFrame, uint32_t totalFrames, bool loop, uint32_t loops = std::numeric_limits<uint32_t>::max());
+		void PlayCurrent(uint32_t firstFrame, uint32_t lastFrame, uint32_t totalFrames, bool loop = false, uint32_t loops = std::numeric_limits<uint32_t>::max());
 
 		void SetFrameTime(float frameTime);
-		bool GetFrameTime() { return m_FrameTime; }
+		float GetFrameTime() { return m_FrameTime; }
 		uint32_t GetTotalFrames() { return m_TotalFrames; }
 
 		bool IsPlaying() { return m_IsPlaying; }

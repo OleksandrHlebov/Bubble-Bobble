@@ -134,6 +134,9 @@
     <ClCompile Include="BubbleBlowing.cpp">
       <Filter>Game\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BoulderComponent.cpp">
+      <Filter>Components\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerController.h">
@@ -234,6 +237,9 @@
     </ClInclude>
     <ClInclude Include="BubbleBlowing.h">
       <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="BoulderComponent.h">
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -3,6 +3,7 @@
 #include "Render2DComponent.h"
 #include <algorithm>
 #include <cassert>
+#include "ResourceManager.h"
 
 namespace dae
 {
@@ -13,8 +14,7 @@ namespace dae
 
 	void Animation2DComponent::Play(const std::string& texturePath, uint32_t firstFrame, uint32_t lastFrame, uint32_t totalFrames, bool loop, uint32_t loops)
 	{
-		m_RenderComponentPtr->SetTexture(texturePath);
-		PlayCurrent(firstFrame, lastFrame, totalFrames, loop, loops);
+		Play(ResourceManager::GetInstance().LoadTexture(texturePath), firstFrame, lastFrame, totalFrames, loop, loops);
 	}
 
 	void Animation2DComponent::Play(std::shared_ptr<Texture2D> texture, uint32_t firstFrame, uint32_t lastFrame, uint32_t totalFrames, bool loop, uint32_t loops)

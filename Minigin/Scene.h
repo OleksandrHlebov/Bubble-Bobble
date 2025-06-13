@@ -71,6 +71,7 @@ namespace dae
 		static unsigned int m_idCounter; 
 		bool m_IsLoaded{};
 		bool m_IsLoading{};
+		bool m_BlockObjectCreation{};
 		bool m_ObjectsNeedReordering{};
 	};
 

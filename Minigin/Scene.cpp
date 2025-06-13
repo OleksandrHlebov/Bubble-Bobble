@@ -31,9 +31,10 @@ dae::GameObject* dae::Scene::CreateGameObject()
 	// it modifies m_Objects array invalidating the for loop
 	// to avoid it add all the objects created during that time to
 	// pending and handle their start separately
-	if (m_IsLoading)
+	if (m_IsLoading || m_BlockObjectCreation)
 	{
 		const auto object = m_PendingObjects.insert(m_PendingObjects.end(), std::make_unique<GameObject>(this));
+		(*object)->Start();
 		return object->get();
 	}
 	const auto object = m_Objects.insert(m_Objects.end(), std::make_unique<GameObject>(this));
@@ -59,8 +60,7 @@ void Scene::Start()
 	}
 	m_IsLoading = false;
 	m_IsLoaded = true;
-	for (auto& object : m_PendingObjects)
-		object->Start();
+
 	m_Objects.insert(m_Objects.end(), std::make_move_iterator(m_PendingObjects.begin())
 									, std::make_move_iterator(m_PendingObjects.end()));
 	m_PendingObjects.clear();
@@ -73,6 +73,7 @@ void Scene::Start()
 
 void dae::Scene::Update(float deltaTime)
 {
+	m_BlockObjectCreation = true;
 	for(auto& object : m_Objects)
 	{
 		object->Update(deltaTime);
@@ -82,6 +83,13 @@ void dae::Scene::Update(float deltaTime)
 	{
 		object->LateUpdate(deltaTime);
 	}
+	m_BlockObjectCreation = false;
+
+	for (auto& object : m_PendingObjects)
+		object->Start();
+	m_Objects.insert(m_Objects.end(), std::make_move_iterator(m_PendingObjects.begin())
+					 , std::make_move_iterator(m_PendingObjects.end()));
+	m_PendingObjects.clear();
 }
 
 void Scene::End()

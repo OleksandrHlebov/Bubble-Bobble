@@ -4,12 +4,16 @@
 #include "Render2DComponent.h"
 #include "Collision2DComponent.h"
 #include "Animation2DComponent.H"
+#include "BoulderComponent.h"
+#include "MovementComponent.h"
 
 void dae::BoulderRolling::ExecuteOn(GameObject* gameObject)
 {
 	GameObject* boulder = gameObject->GetScene()->CreateGameObject();
+	boulder->SetLocalPosition(gameObject->GetWorldPosition());
 	auto render = boulder->AddComponent<Render2DComponent>();
 	render->SetTexture("Textures/Boulder.png");
+	boulder->AddComponent<BoulderComponent>(gameObject->GetComponent<MovementComponent>()->GetForward(), gameObject);
 	const uint32_t totalFrames{ 6 };
 	boulder
 		->AddComponent<Collision2DComponent>(true)

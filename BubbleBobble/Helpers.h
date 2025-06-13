@@ -22,4 +22,5 @@ namespace dae
 	void ReadLevelLayout(const std::string& path, std::vector<bool>& destination);
 
 	void CreatePlayer0(Scene* scene, float animationFrameTime);
+	void CreatePlayerAsMaita(Scene* scene, float animationFrameTime);
 }

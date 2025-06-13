@@ -113,6 +113,8 @@ void load()
 
 	dae::CreatePlayer0(scene, animationFrameTime);
 
+	dae::CreatePlayerAsMaita(scene, animationFrameTime);
+
 	//auto player1 = scene->CreateGameObject();
 	//player1->SetLocalPosition(glm::vec3{ 50.f, 180.f, .0f });
 	//player1->AddComponent<Render2DComponent>()->SetTexture("Bobblun.png");
@@ -148,13 +150,25 @@ void load()
 	zen->AddComponent<MovementComponent>()->Speed = 100.f;
 	{
 		const int framesInTexture{ 2 };
-		const glm::vec2 zenSize{ glm::vec2{ zenRender->GetDimensions() } *glm::vec2(1.f / framesInTexture, 1.f) };
+		const glm::vec2 zenSize{ glm::vec2{ zenRender->GetDimensions() } * glm::vec2(1.f / framesInTexture, 1.f) };
 		zen->AddComponent<Collision2DComponent>(true)->SetSize(zenSize);
+	}
+
+	auto maita = scene->CreateGameObject();
+	maita->SetLocalPosition(glm::vec3{ 150.f, 20.f, .0f });
+	auto maitaRender = maita->AddComponent<Render2DComponent>();
+	maitaRender->SetTexture("Textures/Maita_walking.png");
+	maita->AddComponent<Brain>(gameInstance->GetMaitaType());
+	maita->AddComponent<Animation2DComponent>(animationFrameTime);
+	maita->AddComponent<MovementComponent>()->Speed = 50.f;
+	{
+		const int framesInTexture{ 2 };
+		const glm::vec2 maitaSize{ glm::vec2{ maitaRender->GetDimensions() } * glm::vec2(1.f / framesInTexture, 1.f) };
+		maita->AddComponent<Collision2DComponent>(true)->SetSize(maitaSize);
 	}
 
 	auto audioHandler = scene->CreateGameObject();
 	audioHandler->AddComponent<AudioHandler>();
-
 }
 
 int main(int, char* []) {

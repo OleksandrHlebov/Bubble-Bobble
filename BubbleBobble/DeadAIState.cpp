@@ -49,11 +49,12 @@ void dae::DeadAIState::HandleLanding(GameEvent* event)
 		const bool isResultOfOwnSweep{ !overlapEvent->SecondCollider->IsDynamic() && GetCharacter() == overlapEvent->First };
 		if (isResultOfOwnSweep)
 		{
-			if (overlapEvent->Overlap.y && overlapEvent->Overlap.x >= overlapEvent->Overlap.y)
-			{
-				GetCharacter()->GetComponent<Animation2DComponent>()->Stop();
-				GameEvent::UnBind("OnOverlap", &m_OverlapHandler);
-			}
+			if (auto movement = GetCharacter()->GetComponent<MovementComponent>())
+				if (overlapEvent->Overlap.y && overlapEvent->Overlap.x >= overlapEvent->Overlap.y && movement->GetVelocity().y > FLT_EPSILON)
+				{
+					GetCharacter()->GetComponent<Animation2DComponent>()->Stop();
+					GameEvent::UnBind("OnOverlap", &m_OverlapHandler);
+				}
 		}
 	}
 }

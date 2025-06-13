@@ -89,6 +89,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AudioHandler.cpp" />
+    <ClCompile Include="BoulderComponent.cpp" />
     <ClCompile Include="BoulderRolling.cpp" />
     <ClCompile Include="Brain.cpp" />
     <ClCompile Include="BubbleBlowing.cpp" />
@@ -123,6 +124,7 @@
     <ClInclude Include="Ability.h" />
     <ClInclude Include="AIType.h" />
     <ClInclude Include="AudioHandler.h" />
+    <ClInclude Include="BoulderComponent.h" />
     <ClInclude Include="BoulderRolling.h" />
     <ClInclude Include="Brain.h" />
     <ClInclude Include="BubbleBlowing.h" />
