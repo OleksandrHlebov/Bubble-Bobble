@@ -1,0 +1,6 @@
+Textures/Level/Tile_0.png;Data/Level/0/Layout.csv
+Count;TypePath
+3;Data/Enemy/Zen.csv
+100;-20;-1
+100;0;-1
+100;20;-1

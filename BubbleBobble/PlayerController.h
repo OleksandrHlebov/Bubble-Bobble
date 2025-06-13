@@ -50,6 +50,9 @@ namespace dae
 		InputAction* m_IAMenuDown;
 		InputAction* m_IAMenuPress;
 
+		InputAction* m_IAMute;
+		InputAction* m_IANextScene;
+
 		PlayerType m_Type;
 		std::unique_ptr<PlayerState> m_PlayerState;
 	};

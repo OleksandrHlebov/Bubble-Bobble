@@ -23,7 +23,10 @@ namespace dae
 		void ClearPendingDelete();
 
 		void LoadScene(const std::string& name);
+		void LoadScene(int id);
 		void LoadScene_Impl(GameEvent*);
+
+		Scene* GetCurrent() { return m_CurrentScene; }
 
 	private:
 		struct OnSceneChangeRequested final : public GameEvent

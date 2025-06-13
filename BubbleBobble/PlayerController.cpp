@@ -12,6 +12,8 @@
 #include "Helpers.h"
 #include "MenuNavigationCommand.h"
 #include "PlayerInMenuState.h"
+#include "MuteSoundCommand.h"
+#include "NextSceneCommand.h"
 
 dae::PlayerController::PlayerController(PlayerType&& type, bool useGamepad, GameObject* owner)
 	: Controller(owner, useGamepad)
@@ -35,6 +37,9 @@ dae::PlayerController::~PlayerController() {}
 void dae::PlayerController::Start()
 {
 	const bool usingGamepad{ GetGamepad() != nullptr };
+
+	m_IAMute = CreateInputAction<MuteSoundCommand>(Keybind(SDL_SCANCODE_F2), BindTrigger::Pressed);
+	m_IAMute = CreateInputAction<NextSceneCommand>(Keybind(SDL_SCANCODE_F1), BindTrigger::Pressed);
 
 	Keybind moveRight	{ (usingGamepad) ? Keybind(Gamepad::Button::DPadRight)	: Keybind(SDL_SCANCODE_D) };
 	Keybind moveLeft	{ (usingGamepad) ? Keybind(Gamepad::Button::DPadLeft)	: Keybind(SDL_SCANCODE_A) };

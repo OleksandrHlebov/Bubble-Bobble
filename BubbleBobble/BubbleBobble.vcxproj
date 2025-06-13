@@ -129,6 +129,7 @@
     <ClInclude Include="BoulderRolling.h" />
     <ClInclude Include="Brain.h" />
     <ClInclude Include="BubbleBlowing.h" />
+    <ClInclude Include="BubbleBobble.h" />
     <ClInclude Include="BubbleComponent.h" />
     <ClInclude Include="BurpCommand.h" />
     <ClInclude Include="BurpPlayerState.h" />
@@ -140,6 +141,8 @@
     <ClInclude Include="Helpers.h" />
     <ClInclude Include="MenuComponent.h" />
     <ClInclude Include="MenuNavigationCommand.h" />
+    <ClInclude Include="MuteSoundCommand.h" />
+    <ClInclude Include="NextSceneCommand.h" />
     <ClInclude Include="PickupComponent.h" />
     <ClInclude Include="PlayerInMenuState.h" />
     <ClInclude Include="PlayerType.h" />

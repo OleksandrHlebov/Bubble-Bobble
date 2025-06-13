@@ -26,7 +26,7 @@ void dae::Brain::End()
 	m_State->OnExit();
 }
 
-void dae::Brain::TrapInBubble()
+bool dae::Brain::TrapInBubble()
 {
-	dae::TransitionState<AIState>(m_State, std::make_unique<TrappedAIState>(GetOwner(), m_Type));
+	return dae::TransitionState<AIState>(m_State, std::make_unique<TrappedAIState>(GetOwner(), m_Type));
 }

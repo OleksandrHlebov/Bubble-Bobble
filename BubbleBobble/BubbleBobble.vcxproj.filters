@@ -253,6 +253,15 @@
     <ClInclude Include="PlayerInMenuState.h">
       <Filter>Game\PlayerState</Filter>
     </ClInclude>
+    <ClInclude Include="BubbleBobble.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="MuteSoundCommand.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="NextSceneCommand.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="JumpingPlayerState.h">

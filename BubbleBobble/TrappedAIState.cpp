@@ -17,16 +17,19 @@ void dae::TrappedAIState::OnEnter()
 	auto animComp = GetCharacter()->GetComponent<Animation2DComponent>();
 	auto [path, frames] = GetType().TrappedTextureAnim;
 	animComp->Play(path, 0, frames - 1, frames, true);
+	m_CanTransition = false;
 }
 
 std::unique_ptr<dae::AIState> dae::TrappedAIState::Update(float deltaTime)
 {
 	if (m_Died)
 	{
+		m_CanTransition = true;
 		return std::make_unique<DeadAIState>(GetCharacter(), GetType());
 	}
 	if (m_EscapeTimer >= m_TimeToEscape)
 	{
+		m_CanTransition = true;
 		return std::make_unique<WalkingAIState>(GetCharacter(), GetType());
 	}
 	auto transform = GetCharacter()->GetComponent<Transform>();

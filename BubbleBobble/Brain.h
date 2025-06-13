@@ -22,7 +22,7 @@ namespace dae
 
 		void End() override;
 
-		void TrapInBubble();
+		bool TrapInBubble();
 
 	private:
 		const AIType& m_Type;

@@ -33,5 +33,5 @@ namespace dae
 	void CreatePlayer0(Scene* scene, bool usesGamepad);
 	void CreatePlayer1(Scene* scene);
 	void CreatePlayerAsMaita(Scene* scene);
-	void CreateScene(const std::string& path, GameMode gameMode);
+	void CreateScene(const std::string& path, const std::string& name, GameMode gameMode);
 }

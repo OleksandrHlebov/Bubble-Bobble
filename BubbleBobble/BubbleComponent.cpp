@@ -74,8 +74,8 @@ void dae::BubbleComponent::HandleDynamicOverlap(GameEvent* event)
 
 			if (Brain* brain = other->GetComponent<Brain>())
 			{
-				brain->TrapInBubble();
-				GetOwner()->Delete();
+				if (brain->TrapInBubble())
+					GetOwner()->Delete();
 			}
 			if (other->GetComponent<BubbleComponent>())
 			{

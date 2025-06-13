@@ -22,7 +22,11 @@ void dae::WalkingAIState::OnEnter()
 	m_MovementComponent = GetCharacter()->GetComponent<MovementComponent>();
 	m_MovementComponent->Speed = GetType().Speed;
 	m_MovementComponent->SetEnabled(true);
+	m_Direction = m_MovementComponent->GetForward();
 	m_RenderComponent->Flip(m_Direction.x < 0);
+	const int randomDelay{ 101 };
+	m_JumpTimer -= (rand() % randomDelay) / 100.f;
+	m_AbilityTimer -= (rand() % randomDelay) / 100.f;
 }
 
 std::unique_ptr<dae::AIState> dae::WalkingAIState::Update(float deltaTime)

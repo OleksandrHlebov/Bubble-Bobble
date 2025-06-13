@@ -20,7 +20,13 @@ namespace dae
 		};
 
 		MovementComponent() = delete;
-		MovementComponent(GameObject* owner) : Component(owner) {}
+		MovementComponent(GameObject* owner)
+			: MovementComponent({ 1.f, .0f, .0f }, owner)
+			{}
+		MovementComponent(const glm::vec3& forward, GameObject* owner)
+			: Component(owner)
+			, m_Forward{ forward }
+			{}
 		~MovementComponent() = default;
 		
 		MovementComponent(const MovementComponent&) 				= delete;
@@ -60,7 +66,7 @@ namespace dae
 
 		glm::vec3 m_QueriedInput{};
 		glm::vec3 m_Velocity{};
-		glm::vec3 m_Forward{ 1.f, .0f, .0f };
+		glm::vec3 m_Forward;
 
 		EventHandler m_OverlapHandler{ std::bind(&MovementComponent::HandleOverlapping, this, std::placeholders::_1) };
 

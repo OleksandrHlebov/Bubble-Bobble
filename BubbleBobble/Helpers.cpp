@@ -183,9 +183,9 @@ void dae::CreatePlayerAsMaita(Scene* scene)
 	score->AddComponent<Score>()->TrackGameObject(playableMaita);
 }
 
-void dae::CreateScene(const std::string& path, GameMode gameMode)
+void dae::CreateScene(const std::string& path, const std::string& name, GameMode gameMode)
 {
-	auto scene = SceneManager::GetInstance().CreateScene("1");
+	auto scene = SceneManager::GetInstance().CreateScene(name);
 
 	auto audioHandler = scene->CreateGameObject();
 	audioHandler->AddComponent<AudioHandler>();
@@ -306,15 +306,17 @@ void dae::CreateScene(const std::string& path, GameMode gameMode)
 				glm::vec2 pos{};
 				std::getline(line, element, ';');
 				pos.x = std::stof(element);
-				std::getline(line, element);
+				std::getline(line, element, ';');
 				pos.y = std::stof(element);
+				std::getline(line, element);
+				float horizontalDirection{ std::stof(element) };
 				auto enemy = scene->CreateGameObject();
 				enemy->SetLocalPosition(glm::vec3{ pos, .0f });
 				auto enemyRender = enemy->AddComponent<Render2DComponent>();
 				enemyRender->SetTexture(type.WalkingTextureAnim.first);
 				enemy->AddComponent<Brain>(type);
 				enemy->AddComponent<Animation2DComponent>(ANIMATION_FRAMETIME);
-				enemy->AddComponent<MovementComponent>()->Speed = speed;
+				enemy->AddComponent<MovementComponent>(glm::vec3{ horizontalDirection, .0f, .0f })->Speed = speed;
 				const glm::vec2 enemySize{ glm::vec2{ enemyRender->GetDimensions() } *glm::vec2(1.f / type.WalkingTextureAnim.second, 1.f) };
 				enemy->AddComponent<Collision2DComponent>(true)->SetSize(enemySize);
 			}

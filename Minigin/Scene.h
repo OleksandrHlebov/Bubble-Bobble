@@ -33,6 +33,9 @@ namespace dae
 		void ReorderGameObjects();
 		void End();
 		uint32_t AddPlayer();
+		
+		int GetID() { return m_ID; }
+		const std::string& GetName() { return m_Name; }
 
 		void AddCollider(Collision2DComponent* collider);
 		void RemoveCollider(Collision2DComponent* collider);
@@ -68,7 +71,8 @@ namespace dae
 		const glm::vec2 m_Limits;
 		uint32_t m_PlayerCount{};
 
-		static unsigned int m_idCounter; 
+		inline static int m_idCounter{}; 
+		int m_ID{ m_idCounter++ };
 		bool m_IsLoaded{};
 		bool m_IsLoading{};
 		bool m_BlockObjectCreation{};

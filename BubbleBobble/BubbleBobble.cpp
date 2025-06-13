@@ -9,6 +9,8 @@
 
 #include <iostream>
 
+#include "BubbleBobble.h"
+
 #pragma region engine
 #include "Minigin.h"
 #include "SceneManager.h"
@@ -46,6 +48,7 @@
 #include "Helpers.h"
 
 using namespace dae;
+using namespace BubbleBobble;
 
 void load()
 {
@@ -73,24 +76,27 @@ void load()
 						{
 							if (input.y)
 							{
-								CreateScene("Data/Level/1/LevelInfo.csv", GameMode::Solo);
-								sceneManager.LoadScene("1");
+								for (int index{}; index < LEVELS_AVAILABLE; ++index)
+									CreateScene("Data/Level/" + std::to_string(index) + "/LevelInfo.csv", std::to_string(index), GameMode::Solo);
+								sceneManager.LoadScene("0");
 							}
 						});
 		menu->AddButton("2 player", [&sceneManager](const glm::ivec2& input)
 						{
 							if (input.y)
 							{
-								CreateScene("Data/Level/1/LevelInfo.csv", GameMode::Duo);
-								sceneManager.LoadScene("1");
+								for (int index{}; index < LEVELS_AVAILABLE; ++index)
+									CreateScene("Data/Level/" + std::to_string(index) + "/LevelInfo.csv", std::to_string(index), GameMode::Duo);
+								sceneManager.LoadScene("0");
 							}
 						});
 		menu->AddButton("Versus", [&sceneManager](const glm::ivec2& input)
 						{
 							if (input.y)
 							{
-								CreateScene("Data/Level/1/LevelInfo.csv", GameMode::Versus);
-								sceneManager.LoadScene("1");
+								int randomLevelIndex{ rand() % LEVELS_AVAILABLE };
+								CreateScene("Data/Level/" + std::to_string(randomLevelIndex) + "/LevelInfo.csv", std::to_string(randomLevelIndex), GameMode::Versus);
+								sceneManager.LoadScene(std::to_string(randomLevelIndex));
 							}
 						});
 	}
