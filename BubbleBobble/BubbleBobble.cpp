@@ -61,7 +61,6 @@ void load()
 	SceneManager& sceneManager = SceneManager::GetInstance();
 	auto font = ResourceManager::GetInstance().LoadFont("arcade-legacy.otf", 8);
 	InputManager& inputManager = InputManager::GetInstance();
-
 	// menu
 	{
 		auto scene = sceneManager.CreateScene("Menu");

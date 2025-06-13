@@ -2,6 +2,7 @@
 #include "Component.h"
 #include "AIType.h"
 #include "BoulderRolling.h"
+#include "GameEvent.h"
 #include <unordered_map>
 
 namespace dae
@@ -32,12 +33,21 @@ namespace dae
 			return *m_Types.emplace_back(std::make_unique<AIType>(speed, walking, trapped, dead, treat, m_DefinedAbilities[ability].get()));
 		}
 
+		void Start() override;
+
+		void End() override;
+
+		void HandleDeath(GameEvent*);
+
 		//const AIType& GetZenType() { return m_ZenType; }
 		//const AIType& GetMaitaType() { return m_MaitaType; }
 
 	private:
 		std::unordered_map<std::string, std::unique_ptr<Ability>> m_DefinedAbilities;
 		std::vector<std::unique_ptr<AIType>> m_Types;
+
+		EventHandler m_DeathHandler{ std::bind(&LevelInstance::HandleDeath, this, std::placeholders::_1) };
+
 		//AIType m_ZenType{ 50
 		//				, std::make_pair("Textures/Zen_walking.png", 2)
 		//				, std::make_pair("Textures/Zen_trapped.png", 2)

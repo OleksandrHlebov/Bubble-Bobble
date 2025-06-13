@@ -102,6 +102,7 @@
     <ClCompile Include="DyingPlayerState.cpp" />
     <ClCompile Include="FallingPlayerState.cpp" />
     <ClCompile Include="Helpers.cpp" />
+    <ClCompile Include="LevelInstanceComponent.cpp" />
     <ClCompile Include="MenuComponent.cpp" />
     <ClCompile Include="PickupComponent.cpp" />
     <ClCompile Include="PlayerController.cpp" />
