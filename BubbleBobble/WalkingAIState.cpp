@@ -24,6 +24,7 @@ void dae::WalkingAIState::OnEnter()
 	m_MovementComponent->SetEnabled(true);
 	m_Direction = m_MovementComponent->GetForward();
 	m_RenderComponent->Flip(m_Direction.x < 0);
+	m_MoveCommand.SetDirection(m_Direction);
 	const int randomDelay{ 101 };
 	m_JumpTimer -= (rand() % randomDelay) / 100.f;
 	m_AbilityTimer -= (rand() % randomDelay) / 100.f;
