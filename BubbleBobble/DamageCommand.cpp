@@ -8,6 +8,4 @@ void dae::DamageCommand::Execute(float)
 	Health* healthComp = GetGameObject()->GetComponent<Health>();
 	if (healthComp)
 		healthComp->ApplyHealth(-m_Damage);
-	else
-		std::cerr << "Missing health component on object to damage\n";
 }

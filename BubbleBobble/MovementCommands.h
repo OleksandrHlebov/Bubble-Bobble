@@ -23,7 +23,8 @@ namespace dae
 		void Execute(float) override
 		{
 			MovementComponent* movement = GetGameObject()->GetComponent<MovementComponent>();
-			movement->AddMovementInput(m_Direction);
+			if (movement)
+				movement->AddMovementInput(m_Direction);
 		}
 
 		void SetDirection(const glm::vec3& direction) { m_Direction = direction; }

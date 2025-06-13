@@ -19,11 +19,11 @@ namespace dae
 		MenuNavigationCommand& operator=(const MenuNavigationCommand&) 	 	= delete;
 		MenuNavigationCommand& operator=(MenuNavigationCommand&&) noexcept 	= delete;
 
-		void Execute(float deltaTime) override
+		void Execute(float) override
 		{
 			auto menu = (GetGameObject()->GetComponent<MenuComponent>());
 			if (menu)
-				menu->ProcessInput(input);
+				menu->ProcessInput(m_Input);
 		}
 
 	private:

@@ -28,6 +28,7 @@ namespace dae
 		void Bind(Command* command, BindTrigger trigger);
 
 		void UnBind(BindTrigger trigger);
+		void UnBind();
 
 		void Delete();
 

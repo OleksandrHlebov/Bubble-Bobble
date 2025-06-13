@@ -10,6 +10,7 @@
 #include "BurpPlayerState.h"
 #include "SDL_scancode.h"
 #include "Helpers.h"
+#include "MenuNavigationCommand.h"
 
 dae::PlayerController::PlayerController(PlayerType&& type, bool useGamepad, GameObject* owner)
 	: Controller(owner, useGamepad)
@@ -31,6 +32,8 @@ void dae::PlayerController::Start()
 
 	Keybind moveRight	{ (usingGamepad) ? Keybind(Gamepad::Button::DPadRight)	: Keybind(SDL_SCANCODE_D) };
 	Keybind moveLeft	{ (usingGamepad) ? Keybind(Gamepad::Button::DPadLeft)	: Keybind(SDL_SCANCODE_A) };
+	Keybind moveUp		{ (usingGamepad) ? Keybind(Gamepad::Button::DPadUp)		: Keybind(SDL_SCANCODE_W) };
+	Keybind moveDown	{ (usingGamepad) ? Keybind(Gamepad::Button::DPadLeft)	: Keybind(SDL_SCANCODE_S) };
 	Keybind damageSelf	{ (usingGamepad) ? Keybind(Gamepad::Button::B)			: Keybind(SDL_SCANCODE_C) };
 	Keybind burp		{ (usingGamepad) ? Keybind(Gamepad::Button::X)			: Keybind(SDL_SCANCODE_Z) };
 	Keybind jump		{ (usingGamepad) ? Keybind(Gamepad::Button::A)			: Keybind(SDL_SCANCODE_X) };
@@ -42,7 +45,12 @@ void dae::PlayerController::Start()
 	m_IABurp		= inputManager.CreateInputAction<BurpCommand>(burp, BindTrigger::Pressed, GetControlledObject());
 	m_IAJump		= inputManager.CreateInputAction<JumpCommand>(jump, BindTrigger::Released, GetControlledObject());
 
-	using std::placeholders::_1;
+	m_IAMenuLeft	= inputManager.CreateInputAction<MenuNavigationCommand>(moveLeft, BindTrigger::Pressed, GetControlledObject(), glm::ivec3{ -1, 0, 0 });
+	m_IAMenuRight	= inputManager.CreateInputAction<MenuNavigationCommand>(moveRight, BindTrigger::Pressed, GetControlledObject(), glm::ivec3{ 1, 0, 0 });
+	m_IAMenuUp		= inputManager.CreateInputAction<MenuNavigationCommand>(moveUp, BindTrigger::Pressed, GetControlledObject(), glm::ivec3{ 0, -1, 0 });
+	m_IAMenuDown	= inputManager.CreateInputAction<MenuNavigationCommand>(moveDown, BindTrigger::Pressed, GetControlledObject(), glm::ivec3{ 0, 1, 0 });
+	m_IAMenuPress	= inputManager.CreateInputAction<MenuNavigationCommand>(jump, BindTrigger::Pressed, GetControlledObject(), glm::ivec3{ 0, 0, 1 });
+
 	GameEvent::Bind("OnHealthChanged", &m_HealthChangedHandler);
 }
 
@@ -56,9 +64,18 @@ void dae::PlayerController::Update(float deltaTime)
 
 void dae::PlayerController::End()
 {
-	using std::placeholders::_1;
 	GameEvent::UnBind("OnHealthChanged", &m_HealthChangedHandler);
 	m_PlayerState->OnExit();
+	m_IAMoveRight->Delete();
+	m_IAMoveLeft->Delete();
+	m_IADamageSelf->Delete();
+	m_IABurp->Delete();
+	m_IAJump->Delete();
+	m_IAMenuLeft->Delete();
+	m_IAMenuRight->Delete();
+	m_IAMenuUp->Delete();
+	m_IAMenuDown->Delete();
+	m_IAMenuPress->Delete();
 }
 
 void dae::PlayerController::Attack()

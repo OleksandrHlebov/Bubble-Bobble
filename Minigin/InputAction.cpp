@@ -16,6 +16,11 @@ void dae::InputAction::UnBind(BindTrigger trigger)
 	m_TriggerBinds[trigger].reset(nullptr);
 }
 
+void dae::InputAction::UnBind()
+{
+	m_TriggerBinds.clear();
+}
+
 void dae::InputAction::Delete()
 {
 	InputManager::GetInstance().RemoveInputAction(this);

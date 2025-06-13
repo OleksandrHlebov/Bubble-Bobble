@@ -43,6 +43,12 @@ namespace dae
 
 		InputAction* m_IAJump;
 
+		InputAction* m_IAMenuLeft;
+		InputAction* m_IAMenuRight;
+		InputAction* m_IAMenuUp;
+		InputAction* m_IAMenuDown;
+		InputAction* m_IAMenuPress;
+
 		PlayerType m_Type;
 		std::unique_ptr<PlayerState> m_PlayerState;
 	};
