@@ -15,7 +15,7 @@ namespace dae
 		struct OnAnimationFinished final : public GameEvent
 		{
 			OnAnimationFinished(Animation2DComponent* animComp) 
-				: GameEvent("OnAnimationFinished")
+				: GameEvent("OnAnimationFinished", true)
 				, AnimationComponent{ animComp }
 				{}
 
@@ -48,7 +48,7 @@ namespace dae
 		bool IsLooping() { return m_IsLooping; }
 
 		void Update(float deltaTime) override;
-
+		void Stop();
 
 	private:
 

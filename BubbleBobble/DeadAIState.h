@@ -20,12 +20,16 @@ namespace dae
 		void OnExit() override;
 
 		void HandleMorphingIntoFruit(GameEvent* );
+		void HandleLanding(GameEvent*);
+
 	private:
 		EventHandler m_MorphingHandler{ std::bind(&DeadAIState::HandleMorphingIntoFruit, this, std::placeholders::_1) };
+		EventHandler m_OverlapHandler{ std::bind(&DeadAIState::HandleLanding, this, std::placeholders::_1) };
+
 		MoveCommand m_MoveCommand{ GetCharacter(), glm::vec3{ (rand() % 2) * 2 - 1, .0f, .0f } };
 		SpawnFruitCommand m_SpawnCommand{ GetCharacter(), GetType().TreatTextureValue.first, GetType().TreatTextureValue.second };
 
 		const float m_LaunchStrength{ 200.f };
-		const uint32_t m_Loops{ 3 };
+		const uint32_t m_Loops{ 6 };
 	};
 }

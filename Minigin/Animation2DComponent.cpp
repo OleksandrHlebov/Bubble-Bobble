@@ -52,9 +52,8 @@ namespace dae
 			{
 				if (!IsLooping() || m_CurrentLoop >= m_TotalLoops - 1)
 				{
-					m_IsPlaying = false;
 					--m_CurrentFrame;
-					GameEvent::Dispatch<OnAnimationFinished>(this);
+					Stop();
 				}
 				else
 				{
@@ -70,4 +69,9 @@ namespace dae
 		m_Time += deltaTime * IsPlaying();
 	}
 
+	void Animation2DComponent::Stop()
+	{
+		m_IsPlaying = false;
+		GameEvent::Dispatch<OnAnimationFinished>(this);
+	}
 }

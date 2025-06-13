@@ -9,6 +9,7 @@ void dae::DeadAIState::OnEnter()
 
 	animComp->Play(path, 0, frames - 1, frames, true, m_Loops);
 	GameEvent::Bind("OnAnimationFinished", &m_MorphingHandler);
+	GameEvent::Bind("OnOverlap", &m_OverlapHandler);
 	auto movement = GetCharacter()->GetComponent<MovementComponent>();
 	movement->SetEnabled(true);
 	movement->Launch(glm::vec3{ .0f, -1.f, .0f }, m_LaunchStrength);
@@ -24,6 +25,7 @@ std::unique_ptr<dae::AIState> dae::DeadAIState::Update(float deltaTime)
 void dae::DeadAIState::OnExit()
 {
 	GameEvent::UnBind("OnAnimationFinished", &m_MorphingHandler);
+	GameEvent::UnBind("OnOverlap", &m_OverlapHandler);
 }
 
 void dae::DeadAIState::HandleMorphingIntoFruit(GameEvent* event)
@@ -34,5 +36,24 @@ void dae::DeadAIState::HandleMorphingIntoFruit(GameEvent* event)
 		m_SpawnCommand.Execute(.0f);
 		GameEvent::UnBind("OnAnimationFinished", &m_MorphingHandler);
 		GetCharacter()->Delete();
+	}
+}
+
+void dae::DeadAIState::HandleLanding(GameEvent* event)
+{
+	if (Collision2DComponent::OnOverlap* overlapEvent = static_cast<Collision2DComponent::OnOverlap*>(event))
+	{
+		// if second collider is static it means that first initiated the sweep
+		// and is always first
+		// dynamic collisions are being processed differently
+		const bool isResultOfOwnSweep{ !overlapEvent->SecondCollider->IsDynamic() && GetCharacter() == overlapEvent->First };
+		if (isResultOfOwnSweep)
+		{
+			if (overlapEvent->Overlap.y && overlapEvent->Overlap.x >= overlapEvent->Overlap.y)
+			{
+				GetCharacter()->GetComponent<Animation2DComponent>()->Stop();
+				GameEvent::UnBind("OnOverlap", &m_OverlapHandler);
+			}
+		}
 	}
 }
