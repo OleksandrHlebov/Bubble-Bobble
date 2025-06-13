@@ -129,7 +129,10 @@
       <Filter>Components\Source</Filter>
     </ClCompile>
     <ClCompile Include="BoulderRolling.cpp">
-      <Filter>Game\AI\Source</Filter>
+      <Filter>Game\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BubbleBlowing.cpp">
+      <Filter>Game\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -220,11 +223,17 @@
     <ClInclude Include="PickupComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="Ability.h">
-      <Filter>Game\AI</Filter>
+    <ClInclude Include="PlayerType.h">
+      <Filter>Game\PlayerState</Filter>
     </ClInclude>
     <ClInclude Include="BoulderRolling.h">
-      <Filter>Game\AI</Filter>
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Ability.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="BubbleBlowing.h">
+      <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -10,7 +10,7 @@ namespace dae
 	class WalkingPlayerState final : public PlayerState
 	{
 	public:
-		WalkingPlayerState(GameObject* player) : PlayerState(player) {}
+		WalkingPlayerState(const PlayerType& type, GameObject* player) : PlayerState(type, player) {}
 		~WalkingPlayerState() = default;
 		
 		WalkingPlayerState(const WalkingPlayerState&) 				= delete;
@@ -25,8 +25,6 @@ namespace dae
 		void OnExit() override;
 
 	private:
-		inline static const std::string m_WalkingPath[]{ "Textures/Bub_walking.png", "Textures/Bob_walking.png" };
-
 		MovementComponent* m_MovementComponent;
 		Render2DComponent* m_RenderComponent;
 	};

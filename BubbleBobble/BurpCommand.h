@@ -4,15 +4,6 @@
 
 namespace dae
 {
-	struct OnBurp final : public GameEvent
-	{
-		OnBurp() = delete;
-		explicit OnBurp(GameObject* gameObject)
-			: GameEvent("OnBurp"), Object{ gameObject }
-		{}
-
-		const GameObject* Object;
-	};
 	class BurpCommand final : public GameObjectCommand
 	{
 	public:

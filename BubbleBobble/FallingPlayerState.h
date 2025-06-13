@@ -9,7 +9,7 @@ namespace dae
 	class FallingPlayerState final : public PlayerState
 	{
 	public:
-		FallingPlayerState(GameObject* player) : PlayerState(player) {}
+		FallingPlayerState(const PlayerType& type, GameObject* player) : PlayerState(type, player) {}
 		~FallingPlayerState() = default;
 
 		FallingPlayerState(const FallingPlayerState&) = delete;
@@ -24,8 +24,6 @@ namespace dae
 		void OnExit() override;
 
 	private:
-		inline static const std::string m_JumpingPath[]{ "Textures/Bub_jumping.png", "Textures/Bob_jumping.png" };
-
 		MovementComponent* m_MovementComponent;
 		Render2DComponent* m_RenderComponent;
 

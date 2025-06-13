@@ -8,11 +8,10 @@
 
 void dae::JumpingPlayerState::OnEnter()
 {
-	static const int TOTAL_FRAMES{ 4 };
-	uint32_t playerIndex = GetPlayer()->GetComponent<Controller>()->GetPlayerIndex();
+	auto [path, frames] = GetType().JumpingAnim;
 
 	Animation2DComponent* animComponent = GetPlayer()->GetComponent<Animation2DComponent>();
-	animComponent->Play(m_JumpingPath[playerIndex], 0, 0, TOTAL_FRAMES, true);
+	animComponent->Play(path, 0, frames - 1, frames, true);
 
 	m_MovementComponent = GetPlayer()->GetComponent<MovementComponent>();
 	m_RenderComponent = GetPlayer()->GetComponent<Render2DComponent>();
@@ -21,7 +20,7 @@ void dae::JumpingPlayerState::OnEnter()
 std::unique_ptr<dae::PlayerState> dae::JumpingPlayerState::Update(float)
 {
 	if (m_MovementComponent->GetVelocity().y >= .0f)
-		return std::make_unique<FallingPlayerState>(GetPlayer());
+		return std::make_unique<FallingPlayerState>(GetType(), GetPlayer());
 	if (abs(m_MovementComponent->GetVelocity().x) > FLT_EPSILON)
 		m_RenderComponent->Flip(m_MovementComponent->GetVelocity().x < 0);
 	return nullptr;

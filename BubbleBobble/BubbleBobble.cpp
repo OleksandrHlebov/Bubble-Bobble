@@ -38,6 +38,9 @@
 #include "Collision2DComponent.h"
 #include "RenderPriorities.h"
 #include "GameInstanceComponent.h"
+#include "PlayerType.h"
+#include "Ability.h"
+#include "BubbleBlowing.h"
 #pragma endregion Components
 
 using namespace dae;
@@ -118,7 +121,19 @@ void load()
 	player0->SetLocalPosition(glm::vec3{ 30.f, 160.f, .0f });
 	auto player0Render = player0->AddComponent<Render2DComponent>();
 	player0Render->SetTexture("Textures/Bub_walking.png");
-	player0->AddComponent<PlayerController>(false);
+	{
+		PlayerType type
+		{
+			{ "Textures/Bub_idle.png"	, 1 },
+			{ "Textures/Bub_walking.png", 4 },
+			{ "Textures/Bub_jumping.png", 2 },
+			{ "Textures/Bub_falling.png", 2 },
+			{ "Textures/Bub_dying.png"	, 6 },
+			{ "Textures/Bub_burp.png"	, 1 },
+			std::make_unique<BubbleBlowing>()
+		};
+		player0->AddComponent<PlayerController>(std::move(type), false);
+	}
 	player0->AddComponent<Animation2DComponent>(animationFrameTime);
 	player0->AddComponent<MovementComponent>()->Speed = 50.f;
 	{

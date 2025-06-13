@@ -7,11 +7,9 @@
 
 void dae::DyingPlayerState::OnEnter()
 {
-	static const uint32_t TOTAL_FRAMES{ 6 };
-	uint32_t playerIndex = GetPlayer()->GetComponent<Controller>()->GetPlayerIndex();
-
+	auto [path, frames] = GetType().DyingAnim;
 	m_AnimComponent = GetPlayer()->GetComponent<Animation2DComponent>();
-	m_AnimComponent->Play(m_DyingPath[playerIndex], 0, 5, TOTAL_FRAMES);
+	m_AnimComponent->Play(path, 0, frames - 1, frames);
 	m_CanTransition = false;
 }
 
@@ -21,7 +19,7 @@ std::unique_ptr<dae::PlayerState> dae::DyingPlayerState::Update(float)
 	{
 		m_CanTransition = true;
 		GetPlayer()->GetComponent<Health>()->ResetImmunity();
-		return std::make_unique<IdlePlayerState>(GetPlayer());
+		return std::make_unique<IdlePlayerState>(GetType(), GetPlayer());
 	}
 	return nullptr;
 }

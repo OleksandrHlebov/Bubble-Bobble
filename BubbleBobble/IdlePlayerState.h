@@ -8,7 +8,7 @@ namespace dae
 	class IdlePlayerState final : public PlayerState
 	{
 	public:
-		IdlePlayerState(GameObject* player) : PlayerState(player) {}
+		IdlePlayerState(const PlayerType& type, GameObject* player) : PlayerState(type, player) {}
 		~IdlePlayerState() = default;
 		
 		IdlePlayerState(const IdlePlayerState&) 				= delete;
@@ -23,8 +23,6 @@ namespace dae
 		void OnExit() override;
 
 	private:
-		inline static const std::string m_IdlePath[]{ "Textures/Bub_walking.png", "Textures/Bob_walking.png" };
-
 		MovementComponent* m_MovementComponent;
 	};
 }

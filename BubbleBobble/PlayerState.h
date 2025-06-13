@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include "PlayerType.h"
 
 namespace dae
 {
@@ -7,7 +8,10 @@ namespace dae
 	class PlayerState
 	{
 	public:
-		PlayerState(GameObject* player) : m_Player{ player } {}
+		PlayerState(const PlayerType& type, GameObject* player) 
+			: m_Player	{ player }
+			, m_Type	{ type }
+			{}
 		virtual ~PlayerState() {}
 
 		PlayerState(const PlayerState&) = delete;
@@ -25,9 +29,11 @@ namespace dae
 
 	protected:
 		GameObject* GetPlayer() { return m_Player; }
+		const PlayerType& GetType() { return m_Type; }
 
 		bool m_CanTransition{ true };
 	private:
 		GameObject* m_Player;
+		const PlayerType& m_Type;
 	};
 }

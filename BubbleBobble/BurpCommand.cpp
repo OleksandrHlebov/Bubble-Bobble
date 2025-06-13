@@ -6,10 +6,10 @@
 #include "MovementComponent.h"
 #include "Animation2DComponent.H"
 #include "Render2DComponent.h"
+#include "PlayerController.h"
 
 void dae::BurpCommand::Execute(float)
 {
-	// spawn bubble
-	GameEvent::Dispatch<OnBurp>(GetGameObject());
+	GetGameObject()->GetComponent<PlayerController>()->Attack();
 }
 

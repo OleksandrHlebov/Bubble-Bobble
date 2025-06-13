@@ -21,10 +21,10 @@ namespace dae
 			, AbilityPtr		{ std::move(abilityPtr) }
 			{}
 		const float Speed;
-		const std::pair<std::string, int> WalkingTextureAnim;
-		const std::pair<std::string, int> TrappedTextureAnim;
-		const std::pair<std::string, int> DeadTextureAnim;
-		const std::pair<std::string, int> TreatTextureValue;
-		const std::unique_ptr<Ability> AbilityPtr;
+		const std::pair<std::string, int>	WalkingTextureAnim;
+		const std::pair<std::string, int>	TrappedTextureAnim;
+		const std::pair<std::string, int>	DeadTextureAnim;
+		const std::pair<std::string, int>	TreatTextureValue;
+		std::unique_ptr<Ability>			AbilityPtr;
 	};
 }

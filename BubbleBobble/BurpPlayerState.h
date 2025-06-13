@@ -7,7 +7,7 @@ namespace dae
 	class BurpPlayerState final : public PlayerState
 	{
 	public:
-		BurpPlayerState(GameObject* player) : PlayerState(player) {}
+		BurpPlayerState(const PlayerType& type, GameObject* player) : PlayerState(type, player) {}
 		~BurpPlayerState() = default;
 		
 		BurpPlayerState(const BurpPlayerState&) 				= delete;
@@ -22,8 +22,6 @@ namespace dae
 		void OnExit() override;
 
 	private:
-		inline static const std::string m_BurpPath[]{ "Textures/Bub_burp.png", "Textures/Bob_burp.png" };
-
 		float m_Timer{};
 		inline static const float DELAY{ 0.3f };
 	};

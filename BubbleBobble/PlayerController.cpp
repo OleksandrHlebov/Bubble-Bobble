@@ -11,12 +11,13 @@
 #include "SDL_scancode.h"
 #include "Helpers.h"
 
-dae::PlayerController::PlayerController(bool useGamepad, GameObject* owner)
+dae::PlayerController::PlayerController(PlayerType&& type, bool useGamepad, GameObject* owner)
 	: Controller(owner, useGamepad)
-	, m_PlayerState{ std::make_unique<PlayerState>(owner) } 
+	, m_Type		{ std::move(type) }
+	, m_PlayerState	{ std::make_unique<PlayerState>(m_Type, owner) } 
 	{}
 
-dae::PlayerController::PlayerController(GameObject* owner) : PlayerController(true, owner)
+dae::PlayerController::PlayerController(PlayerType&& type, GameObject* owner) : PlayerController(std::move(type), true, owner)
 {
 }
 
@@ -43,7 +44,6 @@ void dae::PlayerController::Start()
 
 	using std::placeholders::_1;
 	GameEvent::Bind("OnHealthChanged", &m_HealthChangedHandler);
-	GameEvent::Bind("OnBurp", &m_BurpHandler);
 }
 
 void dae::PlayerController::Update(float deltaTime)
@@ -58,8 +58,12 @@ void dae::PlayerController::End()
 {
 	using std::placeholders::_1;
 	GameEvent::UnBind("OnHealthChanged", &m_HealthChangedHandler);
-	GameEvent::UnBind("OnBurp", &m_BurpHandler);
 	m_PlayerState->OnExit();
+}
+
+void dae::PlayerController::Attack()
+{
+	dae::TransitionState<PlayerState>(m_PlayerState, std::make_unique<BurpPlayerState>(m_Type, this->GetOwner()));
 }
 
 void dae::PlayerController::HandleHealthChange(GameEvent* event)
@@ -68,15 +72,6 @@ void dae::PlayerController::HandleHealthChange(GameEvent* event)
 	if (onHealthChanged->HealthComponent->GetOwner() == this->GetOwner() && onHealthChanged->Delta < 0)
 	{
 		m_PlayerState->ForceAllowTransition();
-		dae::TransitionState<PlayerState>(m_PlayerState, std::make_unique<DyingPlayerState>(this->GetOwner()));
-	}
-}
-
-void dae::PlayerController::HandleBurp(GameEvent* event)
-{
-	OnBurp* onBurp = static_cast<OnBurp*>(event);
-	if (onBurp->Object == this->GetOwner())
-	{
-		dae::TransitionState<PlayerState>(m_PlayerState, std::make_unique<BurpPlayerState>(this->GetOwner()));
+		dae::TransitionState<PlayerState>(m_PlayerState, std::make_unique<DyingPlayerState>(m_Type, this->GetOwner()));
 	}
 }

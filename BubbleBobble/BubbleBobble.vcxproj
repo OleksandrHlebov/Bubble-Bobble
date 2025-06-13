@@ -91,6 +91,7 @@
     <ClCompile Include="AudioHandler.cpp" />
     <ClCompile Include="BoulderRolling.cpp" />
     <ClCompile Include="Brain.cpp" />
+    <ClCompile Include="BubbleBlowing.cpp" />
     <ClCompile Include="BubbleBobble.cpp" />
     <ClCompile Include="BubbleComponent.cpp" />
     <ClCompile Include="BurpCommand.cpp" />
@@ -124,6 +125,7 @@
     <ClInclude Include="AudioHandler.h" />
     <ClInclude Include="BoulderRolling.h" />
     <ClInclude Include="Brain.h" />
+    <ClInclude Include="BubbleBlowing.h" />
     <ClInclude Include="BubbleComponent.h" />
     <ClInclude Include="BurpCommand.h" />
     <ClInclude Include="BurpPlayerState.h" />
@@ -134,6 +136,7 @@
     <ClInclude Include="GameInstanceComponent.h" />
     <ClInclude Include="Helpers.h" />
     <ClInclude Include="PickupComponent.h" />
+    <ClInclude Include="PlayerType.h" />
     <ClInclude Include="SpawnFruitCommand.h" />
     <ClInclude Include="TrappedAIState.h" />
     <ClInclude Include="WalkingAIState.h" />

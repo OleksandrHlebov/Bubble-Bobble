@@ -8,7 +8,7 @@ namespace dae
 	class DyingPlayerState final : public PlayerState
 	{
 	public:
-		DyingPlayerState(GameObject* player) : PlayerState(player) {}
+		DyingPlayerState(const PlayerType& type, GameObject* player) : PlayerState(type, player) {}
 		~DyingPlayerState() = default;
 		
 		DyingPlayerState(const DyingPlayerState&) 				= delete;
@@ -23,8 +23,6 @@ namespace dae
 		void OnExit() override;
 
 	private:
-		inline static const std::string m_DyingPath[]{ "Textures/Bub_dying.png", "Textures/Bob_dying.png" };
-
 		Animation2DComponent* m_AnimComponent;
 	};
 }
