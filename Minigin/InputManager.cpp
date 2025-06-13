@@ -6,6 +6,7 @@
 #include "ImguiRenderer.h"
 #include <numeric>
 #include <iostream>
+#include <algorithm>
 
 bool dae::InputManager::ProcessInput(float deltaTime)
 {
