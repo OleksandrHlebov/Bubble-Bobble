@@ -1,1 +1,7 @@
-Data/Textures/Level/Tile_1.png;Data/Level/Layout.csv;
+Textures/Level/Tile_1.png;Data/Level/1/Layout.csv
+Count;TypePath
+2;Data/Enemy/Zen.csv
+50;20
+100;20
+1;Data/Enemy/Maita.csv
+150;20

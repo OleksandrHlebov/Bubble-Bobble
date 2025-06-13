@@ -36,6 +36,7 @@
 #include "Ability.h"
 #include "BubbleBlowing.h"
 #include "MenuComponent.h"
+#include <array>
 #pragma endregion Components
 
 void dae::ReadLevelLayout(const std::string& path, std::vector<bool>& destination)
@@ -186,17 +187,29 @@ void dae::CreateScene(const std::string& path, GameMode gameMode)
 {
 	auto scene = SceneManager::GetInstance().CreateScene("1");
 
-	auto gameInstance = scene->CreateGameObject()->AddComponent<LevelInstance>();
-
 	auto audioHandler = scene->CreateGameObject();
 	audioHandler->AddComponent<AudioHandler>();
+
+	std::ifstream levelInfo{ path };
+	if (!levelInfo)
+	{
+		throw std::runtime_error("failed to open level info file " + path);
+	}
+
+	std::string tileTexturePath;
+	std::string layoutPath;
+	std::string element;
+	std::getline(levelInfo, element);
+	std::stringstream line{ element };
+	std::getline(line, tileTexturePath, ';');
+	std::getline(line, layoutPath);
 
 	auto levelGrid = scene->CreateGameObject();
 	levelGrid->SetRenderPriority(RenderPriority::Background);
 	GridComponent* grid = levelGrid->AddComponent<GridComponent>(28, 37, glm::ivec2{ Minigin::GetGameWidth(), Minigin::GetGameHeight() });
-	grid->SetTileTexture(ResourceManager::GetInstance().LoadTexture(path));
+	grid->SetTileTexture(ResourceManager::GetInstance().LoadTexture(tileTexturePath));
 
-	grid->LoadLayoutFromFile(path);
+	grid->LoadLayoutFromFile(layoutPath);
 	//grid->EnableColumn(0);
 	//grid->EnableColumn(1);
 	//grid->EnableColumn(36);
@@ -255,29 +268,58 @@ void dae::CreateScene(const std::string& path, GameMode gameMode)
 		break;
 	}
 
-	auto zen = scene->CreateGameObject();
-	zen->SetLocalPosition(glm::vec3{ 50.f, 20.f, .0f });
-	auto zenRender = zen->AddComponent<Render2DComponent>();
-	zenRender->SetTexture("Textures/Zen_walking.png");
-	zen->AddComponent<Brain>(gameInstance->GetZenType());
-	zen->AddComponent<Animation2DComponent>(ANIMATION_FRAMETIME);
-	zen->AddComponent<MovementComponent>()->Speed = 75.f;
-	{
-		const int framesInTexture{ 2 };
-		const glm::vec2 zenSize{ glm::vec2{ zenRender->GetDimensions() } *glm::vec2(1.f / framesInTexture, 1.f) };
-		zen->AddComponent<Collision2DComponent>(true)->SetSize(zenSize);
-	}
+	auto gameInstance = scene->CreateGameObject()->AddComponent<LevelInstance>();
 
-	auto maita = scene->CreateGameObject();
-	maita->SetLocalPosition(glm::vec3{ 150.f, 20.f, .0f });
-	auto maitaRender = maita->AddComponent<Render2DComponent>();
-	maitaRender->SetTexture("Textures/Maita_walking.png");
-	maita->AddComponent<Brain>(gameInstance->GetMaitaType());
-	maita->AddComponent<Animation2DComponent>(ANIMATION_FRAMETIME);
-	maita->AddComponent<MovementComponent>()->Speed = 50.f;
+	std::getline(levelInfo, element); // skip description: count, type path
+	while (std::getline(levelInfo, element))
 	{
-		const int framesInTexture{ 2 };
-		const glm::vec2 maitaSize{ glm::vec2{ maitaRender->GetDimensions() } *glm::vec2(1.f / framesInTexture, 1.f) };
-		maita->AddComponent<Collision2DComponent>(true)->SetSize(maitaSize);
+		line = std::stringstream{ element };
+
+		std::getline(line, element, ';');
+		int enemyCount{ std::stoi(element) };
+		std::getline(line, element);
+		std::string typePath{ element };
+		if (std::ifstream typeInfo{ typePath })
+		{
+			float speed;
+			std::getline(typeInfo, element);
+			speed = std::stof(element);
+			std::array<std::pair<std::string, int>, 4> props;
+			for (auto& prop : props)
+			{
+				std::getline(typeInfo, element);
+				line = std::stringstream{ element };
+				std::getline(line, prop.first, ';');
+				std::getline(line, element);
+				prop.second = std::stoi(element);
+			}
+			auto [walking, trapped, dead, treat] = std::move(props);
+			std::string ability;
+			std::getline(typeInfo, ability);
+
+			const AIType& type = gameInstance->AddType(speed, std::move(walking), std::move(trapped), std::move(dead), std::move(treat), ability);
+
+			for (int index{}; index < enemyCount; ++index)
+			{
+				std::getline(levelInfo, element);
+				line = std::stringstream{ element };
+				glm::vec2 pos{};
+				std::getline(line, element, ';');
+				pos.x = std::stof(element);
+				std::getline(line, element);
+				pos.y = std::stof(element);
+				auto enemy = scene->CreateGameObject();
+				enemy->SetLocalPosition(glm::vec3{ pos, .0f });
+				auto enemyRender = enemy->AddComponent<Render2DComponent>();
+				enemyRender->SetTexture(type.WalkingTextureAnim.first);
+				enemy->AddComponent<Brain>(type);
+				enemy->AddComponent<Animation2DComponent>(ANIMATION_FRAMETIME);
+				enemy->AddComponent<MovementComponent>()->Speed = speed;
+				const glm::vec2 enemySize{ glm::vec2{ enemyRender->GetDimensions() } *glm::vec2(1.f / type.WalkingTextureAnim.second, 1.f) };
+				enemy->AddComponent<Collision2DComponent>(true)->SetSize(enemySize);
+			}
+		}
+		else
+			throw std::runtime_error("failed to open " + typePath);
 	}
 }

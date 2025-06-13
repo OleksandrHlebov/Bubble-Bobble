@@ -73,7 +73,7 @@ void load()
 						{
 							if (input.y)
 							{
-								CreateScene("Data/Level/1/Layout.csv", GameMode::Solo);
+								CreateScene("Data/Level/1/LevelInfo.csv", GameMode::Solo);
 								sceneManager.LoadScene("1");
 							}
 						});
@@ -81,7 +81,7 @@ void load()
 						{
 							if (input.y)
 							{
-								CreateScene("Data/Level/1/Layout.csv", GameMode::Duo);
+								CreateScene("Data/Level/1/LevelInfo.csv", GameMode::Duo);
 								sceneManager.LoadScene("1");
 							}
 						});
@@ -89,7 +89,7 @@ void load()
 						{
 							if (input.y)
 							{
-								CreateScene("Data/Level/1/Layout.csv", GameMode::Versus);
+								CreateScene("Data/Level/1/LevelInfo.csv", GameMode::Versus);
 								sceneManager.LoadScene("1");
 							}
 						});
