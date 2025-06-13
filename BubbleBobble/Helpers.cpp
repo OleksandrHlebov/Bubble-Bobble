@@ -31,7 +31,7 @@
 #include "GridComponent.h"
 #include "Collision2DComponent.h"
 #include "RenderPriorities.h"
-#include "GameInstanceComponent.h"
+#include "LevelInstanceComponent.h"
 #include "PlayerType.h"
 #include "Ability.h"
 #include "BubbleBlowing.h"
@@ -186,7 +186,7 @@ void dae::CreateScene(const std::string& path, GameMode gameMode)
 {
 	auto scene = SceneManager::GetInstance().CreateScene("1");
 
-	auto gameInstance = scene->CreateGameObject()->AddComponent<GameInstance>();
+	auto gameInstance = scene->CreateGameObject()->AddComponent<LevelInstance>();
 
 	auto audioHandler = scene->CreateGameObject();
 	audioHandler->AddComponent<AudioHandler>();

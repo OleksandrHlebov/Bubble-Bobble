@@ -205,7 +205,7 @@
     <ClInclude Include="WalkingAIState.h">
       <Filter>Game\AI\States</Filter>
     </ClInclude>
-    <ClInclude Include="GameInstanceComponent.h">
+    <ClInclude Include="LevelInstanceComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="Brain.h">

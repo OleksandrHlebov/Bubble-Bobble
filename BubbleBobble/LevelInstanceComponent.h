@@ -6,19 +6,19 @@
 namespace dae
 {
 	struct GameEvent;
-	class GameInstance final : public Component
+	class LevelInstance final : public Component
 	{
 	public:
-		GameInstance() = delete;
-		GameInstance(GameObject* owner) : Component(owner)
+		LevelInstance() = delete;
+		LevelInstance(GameObject* owner) : Component(owner)
 		{
 		}
-		~GameInstance() = default;
+		~LevelInstance() = default;
 
-		GameInstance(const GameInstance&) = delete;
-		GameInstance(GameInstance&&) noexcept = delete;
-		GameInstance& operator=(const GameInstance&) = delete;
-		GameInstance& operator=(GameInstance&&) noexcept = delete;
+		LevelInstance(const LevelInstance&) = delete;
+		LevelInstance(LevelInstance&&) noexcept = delete;
+		LevelInstance& operator=(const LevelInstance&) = delete;
+		LevelInstance& operator=(LevelInstance&&) noexcept = delete;
 
 		const AIType& GetZenType() { return m_ZenType; }
 		const AIType& GetMaitaType() { return m_MaitaType; }

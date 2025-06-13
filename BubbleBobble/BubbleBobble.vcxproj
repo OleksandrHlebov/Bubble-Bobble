@@ -136,7 +136,7 @@
     <ClInclude Include="DeadAIState.h" />
     <ClInclude Include="DyingPlayerState.h" />
     <ClInclude Include="FallingPlayerState.h" />
-    <ClInclude Include="GameInstanceComponent.h" />
+    <ClInclude Include="LevelInstanceComponent.h" />
     <ClInclude Include="Helpers.h" />
     <ClInclude Include="MenuComponent.h" />
     <ClInclude Include="MenuNavigationCommand.h" />
