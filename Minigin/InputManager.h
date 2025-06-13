@@ -22,6 +22,8 @@ namespace dae
 		Gamepad* GetGamepadByPlayerIndex(uint32_t index);
 		Gamepad* GetFirstAvailableGamepad();
 
+		void FlushGamepadLinks();
+
 		void RemoveInputAction(InputAction* inputAction);
 
 		template<typename CommandType>

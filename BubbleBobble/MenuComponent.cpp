@@ -29,7 +29,7 @@ void dae::MenuComponent::ProcessInput(const glm::ivec3& input)
 
 		m_SelectedIndex += increment;
 		if (m_SelectedIndex < 0)
-			m_SelectedIndex = static_cast<int>(std::ssize(m_Delegates));
+			m_SelectedIndex = static_cast<int>(std::ssize(m_Delegates) - 1);
 		m_SelectedIndex %= std::ssize(m_Delegates);
 
 		GameObject* nextButton = m_ButtonObjects[m_SelectedIndex];

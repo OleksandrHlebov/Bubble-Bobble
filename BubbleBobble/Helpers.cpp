@@ -62,7 +62,7 @@ void dae::CreatePlayer0(Scene* scene, bool usesGamepad)
 {
 	auto font = ResourceManager::GetInstance().LoadFont("arcade-legacy.otf", 8);
 	auto player0 = scene->CreateGameObject();
-	player0->SetLocalPosition(glm::vec3{ 30.f, 160.f, .0f });
+	player0->SetLocalPosition(glm::vec3{ 30.f, 200.f, .0f });
 	auto player0Render = player0->AddComponent<Render2DComponent>();
 	player0Render->SetTexture("Textures/Bub_idle.png");
 	{
@@ -103,7 +103,7 @@ void dae::CreatePlayer1(Scene* scene)
 {
 	auto font = ResourceManager::GetInstance().LoadFont("arcade-legacy.otf", 8);
 	auto player0 = scene->CreateGameObject();
-	player0->SetLocalPosition(glm::vec3{ 30.f, 160.f, .0f });
+	player0->SetLocalPosition(glm::vec3{ 50.f, 200.f, .0f });
 	auto player0Render = player0->AddComponent<Render2DComponent>();
 	player0Render->SetTexture("Textures/Bub_idle.png");
 	{
@@ -145,7 +145,7 @@ void dae::CreatePlayerAsMaita(Scene* scene)
 	auto font = ResourceManager::GetInstance().LoadFont("arcade-legacy.otf", 8);
 
 	auto playableMaita = scene->CreateGameObject();
-	playableMaita->SetLocalPosition(glm::vec3{ 30.f, 160.f, .0f });
+	playableMaita->SetLocalPosition(glm::vec3{ 200.f, 200.f, .0f });
 	auto playableMaitaRender = playableMaita->AddComponent<Render2DComponent>();
 	playableMaitaRender->SetTexture("Textures/Maita_idle.png");
 	{
@@ -246,6 +246,7 @@ void dae::CreateScene(const std::string& path, GameMode gameMode)
 	case GameMode::Versus:
 		CreatePlayer0(scene, InputManager::GetInstance().GetGamepadCount() > 1);
 		CreatePlayerAsMaita(scene);
+		return;
 		break;
 	default:
 	case GameMode::Solo:

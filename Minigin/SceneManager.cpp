@@ -1,5 +1,7 @@
 #include "SceneManager.h"
 #include "Scene.h"
+#include "GameEvent.h"
+#include "InputManager.h"
 
 void dae::SceneManager::Update(float deltaTime)
 {

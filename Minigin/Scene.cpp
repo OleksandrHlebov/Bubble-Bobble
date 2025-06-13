@@ -6,6 +6,7 @@
 #include "Collision2DComponent.h"
 #include "MathHelpers.h"
 #include "Minigin.h"
+#include "InputManager.h"
 
 using namespace dae;
 
@@ -102,7 +103,7 @@ void Scene::End()
 
 uint32_t Scene::AddPlayer()
 {
-	return m_PlayerCount++;
+	return ++m_PlayerCount;
 }
 
 void Scene::RemoveCollider(Collision2DComponent* collider)

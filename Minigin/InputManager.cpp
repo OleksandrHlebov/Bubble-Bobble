@@ -53,7 +53,7 @@ bool dae::InputManager::ProcessInput(float deltaTime)
 		}
 	}
 
-	for (uint32_t index{}; index < GetGamepadCount(); ++index)
+	for (uint32_t index{}; index < m_Gamepads.size(); ++index)
 	{
 		Gamepad* gamepad = &m_Gamepads[index];
 		if (!gamepad->IsConnected())
@@ -195,7 +195,7 @@ bool dae::InputManager::ProcessInput(float deltaTime)
 
 dae::InputManager::InputManager()
 {
-	for (uint32_t index{}; index < GetGamepadCount(); ++index)
+	for (uint32_t index{}; index < m_Gamepads.size(); ++index)
 	{
 		Gamepad* gamepad = &m_Gamepads[index];
 		CopyMemory(gamepad->GetPreviousState(), gamepad->GetCurrentState(), sizeof(XINPUT_STATE));
@@ -247,6 +247,14 @@ dae::Gamepad* dae::InputManager::GetFirstAvailableGamepad()
 			return &gamepad;
 	}
 	return nullptr;
+}
+
+void dae::InputManager::FlushGamepadLinks()
+{
+	for (Gamepad& gamepad : m_Gamepads)
+	{
+		gamepad.AssignToPlayer(std::numeric_limits<uint32_t>::max());
+	}
 }
 
 void dae::InputManager::RemoveInputAction(InputAction* inputAction)

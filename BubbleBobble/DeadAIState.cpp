@@ -1,6 +1,7 @@
 #include "DeadAIState.h"
 #include "GameObject.h"
 #include "Animation2DComponent.h"
+#include "TileComponent.h"
 
 void dae::DeadAIState::OnEnter()
 {
@@ -50,11 +51,16 @@ void dae::DeadAIState::HandleLanding(GameEvent* event)
 		if (isResultOfOwnSweep)
 		{
 			if (auto movement = GetCharacter()->GetComponent<MovementComponent>())
-				if (overlapEvent->Overlap.y && overlapEvent->Overlap.x >= overlapEvent->Overlap.y && movement->GetVelocity().y > FLT_EPSILON)
+			{
+				if (auto tile = overlapEvent->Second->GetComponent<TileComponent>())
 				{
-					GetCharacter()->GetComponent<Animation2DComponent>()->Stop();
-					GameEvent::UnBind("OnOverlap", &m_OverlapHandler);
+					if (!tile->HasTileAbove() && overlapEvent->Overlap.y && overlapEvent->Overlap.x >= overlapEvent->Overlap.y && movement->GetVelocity().y > FLT_EPSILON)
+					{
+						GetCharacter()->GetComponent<Animation2DComponent>()->Stop();
+						GameEvent::UnBind("OnOverlap", &m_OverlapHandler);
+					}
 				}
+			}
 		}
 	}
 }

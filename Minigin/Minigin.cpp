@@ -96,13 +96,13 @@ dae::Minigin::~Minigin()
 
 void dae::Minigin::Run(const std::function<void()>& load)
 {
-	load();
-
 	auto& renderer = Renderer::GetInstance();
 	auto& sceneManager = SceneManager::GetInstance();
 	auto& input = InputManager::GetInstance();
 	auto& resourceManager = ResourceManager::GetInstance();
 	auto& eventDispatcher = EventDispatcher::GetInstance();
+
+	load();
 
 	sceneManager.Start();
 

@@ -39,7 +39,7 @@ void dae::PlayerController::Start()
 	Keybind moveRight	{ (usingGamepad) ? Keybind(Gamepad::Button::DPadRight)	: Keybind(SDL_SCANCODE_D) };
 	Keybind moveLeft	{ (usingGamepad) ? Keybind(Gamepad::Button::DPadLeft)	: Keybind(SDL_SCANCODE_A) };
 	Keybind moveUp		{ (usingGamepad) ? Keybind(Gamepad::Button::DPadUp)		: Keybind(SDL_SCANCODE_W) };
-	Keybind moveDown	{ (usingGamepad) ? Keybind(Gamepad::Button::DPadLeft)	: Keybind(SDL_SCANCODE_S) };
+	Keybind moveDown	{ (usingGamepad) ? Keybind(Gamepad::Button::DPadDown)	: Keybind(SDL_SCANCODE_S) };
 	Keybind damageSelf	{ (usingGamepad) ? Keybind(Gamepad::Button::B)			: Keybind(SDL_SCANCODE_C) };
 	Keybind burp		{ (usingGamepad) ? Keybind(Gamepad::Button::X)			: Keybind(SDL_SCANCODE_Z) };
 	Keybind jump		{ (usingGamepad) ? Keybind(Gamepad::Button::A)			: Keybind(SDL_SCANCODE_X) };

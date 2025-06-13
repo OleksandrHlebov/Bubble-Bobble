@@ -57,6 +57,7 @@ void load()
 	AudioLocator::GetService()->SetMasterVolume(.4f);
 	SceneManager& sceneManager = SceneManager::GetInstance();
 	auto font = ResourceManager::GetInstance().LoadFont("arcade-legacy.otf", 8);
+	InputManager& inputManager = InputManager::GetInstance();
 
 	// menu
 	{
@@ -64,9 +65,9 @@ void load()
 		
 		GameObject* menuObject = scene->CreateGameObject();
 		menuObject->SetLocalPosition(glm::vec3{ 100.f, 60.f, .0f });
-		menuObject->AddComponent<PlayerController>(false);
-		for (int index{}; index < InputManager::GetInstance().GetGamepadCount(); ++index)
+		for (int index{}; index < inputManager.GetGamepadCount(); ++index)
 			menuObject->AddComponent<PlayerController>(true);
+		menuObject->AddComponent<PlayerController>(false);
 		auto menu = menuObject->AddComponent<MenuComponent>(font);
 		menu->AddButton("1 player", [&sceneManager](const glm::ivec2& input)
 						{
