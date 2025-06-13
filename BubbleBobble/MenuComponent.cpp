@@ -11,7 +11,7 @@ void dae::MenuComponent::AddButton(const std::string& label, std::function<void(
 	m_ButtonObjects.emplace_back(GetOwner()->GetScene()->CreateGameObject());
 	GameObject* button = m_ButtonObjects.back();
 	button->AttachTo(parent);
-	button->SetLocalPosition(glm::vec3{ .0f, m_Margin, .0f });
+	button->SetLocalPosition(glm::vec3{ (m_IsHorizontal) * m_Margin, (!m_IsHorizontal) * m_Margin, .0f });
 	button->AddComponent<Render2DComponent>();
 	auto textComp = button->AddComponent<TextComponent>(m_Font);
 	textComp->SetText(label);

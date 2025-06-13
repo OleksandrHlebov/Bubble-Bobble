@@ -27,7 +27,7 @@ namespace dae
 		void SetColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 
 		void SetText(const std::string& text);
-		std::string GetText() const;
+		const std::string& GetText() const;
 
 		void SetFont(std::shared_ptr<Font> font);
 		std::shared_ptr<Font> GetFont();

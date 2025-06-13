@@ -32,7 +32,7 @@ void TextComponent::SetColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
 	SetColor({ r, g, b, a });
 }
 
-std::string TextComponent::GetText() const
+const std::string& TextComponent::GetText() const
 {
 	return m_Text;
 }

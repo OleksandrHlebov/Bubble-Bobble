@@ -109,20 +109,25 @@ void load()
 			menuObject->AddComponent<PlayerController>(true);
 		menuObject->AddComponent<PlayerController>(false);
 		auto menu = menuObject->AddComponent<MenuComponent>(font, true);
-		menu->AddButton("_", [&sceneManager](GameObject*, const glm::ivec2& input)
-						{
-							if (input.x)
+		for (int index{}; index < 5; ++index)
+			menu->AddButton("_", [&sceneManager](GameObject* button, const glm::ivec2& input)
 							{
-
-							}
-							if (input.y)
-							{
-								for (int index{}; index < LEVELS_AVAILABLE; ++index)
-									CreateScene("Data/Level/" + std::to_string(index) + "/LevelInfo.csv", std::to_string(index), GameMode::Solo);
-								sceneManager.LoadScene("0");
-							}
-						});
-
+								if (input.x)
+								{
+									auto textComp = button->GetComponent<TextComponent>();
+									char character = textComp->GetText()[0] - static_cast<char>(input.x);
+									if (character < 'A')
+										character = 'Z';
+									if (character > 'Z')
+										character = 'A';
+									textComp->SetText(std::string(1, character));
+								}
+								if (input.y)
+								{
+									// something with leaderboard	
+									sceneManager.LoadScene("Leaderboard");
+								}
+							});
 	}
 }
 
