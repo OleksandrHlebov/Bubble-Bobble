@@ -10,7 +10,7 @@
 
 void dae::BubbleBlowing::ExecuteOn(GameObject* gameObject)
 {
-	const uint32_t playerIndex = gameObject->GetComponent<PlayerController>()->GetPlayerIndex();
+	const uint32_t playerIndex = gameObject->GetComponent<PlayerController>()->GetPlayerIndex() % static_cast<uint32_t>(std::size(m_BubbleAnim));
 	auto bubble = gameObject->GetScene()->CreateGameObject();
 	auto render = bubble->AddComponent<Render2DComponent>();
 	auto [path, frames] = m_BubbleAnim[playerIndex];

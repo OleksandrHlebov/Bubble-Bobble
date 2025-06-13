@@ -21,7 +21,6 @@ public:
 	GamepadImplementation& operator=(const GamepadImplementation&) 	 	= delete;
 	GamepadImplementation& operator=(GamepadImplementation&&) noexcept 	= delete;
 
-	static uint32_t GetCount() { return m_Count; }
 	uint32_t GetDeviceIndex() const { return m_DeviceIndex; }
 	uint32_t GetPlayerIndex() const { return m_PlayerIndex; }
 	void AssignToPlayer(uint32_t index) { m_PlayerIndex = index; }
@@ -60,11 +59,6 @@ dae::Gamepad::Gamepad(bool)
 dae::Gamepad::~Gamepad()
 {
 
-}
-
-uint32_t dae::Gamepad::GetCount()
-{
-	return GamepadImplementation::GetCount();
 }
 
 uint32_t dae::Gamepad::GetDeviceIndex() const

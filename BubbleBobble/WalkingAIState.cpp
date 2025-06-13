@@ -22,6 +22,7 @@ void dae::WalkingAIState::OnEnter()
 	m_MovementComponent = GetCharacter()->GetComponent<MovementComponent>();
 	m_MovementComponent->Speed = GetType().Speed;
 	m_MovementComponent->SetEnabled(true);
+	m_RenderComponent->Flip(m_Direction.x < 0);
 }
 
 std::unique_ptr<dae::AIState> dae::WalkingAIState::Update(float deltaTime)

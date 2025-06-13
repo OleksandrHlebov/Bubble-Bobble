@@ -5,6 +5,7 @@
 #include <array>
 #include "Gamepad.h"
 #include "InputAction.h"
+#include <stack>
 
 namespace dae
 {
@@ -57,8 +58,12 @@ namespace dae
 		// list to not invalidate references on push back
 		std::list<InputAction> m_InputActions;
 
+		std::stack<InputAction*> m_InputActionsToRemove;
+
 		inline static const int GAMEPADS_SUPPORTED{ 4 };
 
 		std::array<Gamepad, GAMEPADS_SUPPORTED> m_Gamepads;
+		bool m_BlockInputActionRemoval{ true };
+
 	};
 }

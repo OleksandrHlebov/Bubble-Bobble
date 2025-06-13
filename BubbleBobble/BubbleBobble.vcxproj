@@ -141,6 +141,7 @@
     <ClInclude Include="MenuComponent.h" />
     <ClInclude Include="MenuNavigationCommand.h" />
     <ClInclude Include="PickupComponent.h" />
+    <ClInclude Include="PlayerInMenuState.h" />
     <ClInclude Include="PlayerType.h" />
     <ClInclude Include="SpawnFruitCommand.h" />
     <ClInclude Include="TrappedAIState.h" />

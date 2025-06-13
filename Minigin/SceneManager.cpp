@@ -28,8 +28,14 @@ void dae::SceneManager::ClearPendingDelete()
 
 void dae::SceneManager::LoadScene(const std::string& name)
 {
+	GameEvent::Dispatch<OnSceneChangeRequested>(name);
+}
+
+void dae::SceneManager::LoadScene_Impl(GameEvent* event)
+{
+	auto change = static_cast<OnSceneChangeRequested*>(event);
 	m_CurrentScene->End();
-	m_CurrentScene = m_Scenes[name].get();
+	m_CurrentScene = m_Scenes[change->Name].get();
 	m_CurrentScene->Start();
 }
 
@@ -48,5 +54,6 @@ dae::Scene* dae::SceneManager::CreateScene(const std::string& name)
 
 void dae::SceneManager::Start()
 {
+	GameEvent::Bind("OnSceneChangeRequested", &m_SceneChangeHandler);
 	m_CurrentScene->Start();
 }

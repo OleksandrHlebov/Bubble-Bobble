@@ -12,6 +12,7 @@ namespace dae
 	{
 	public:
 		PlayerController() = delete;
+		PlayerController(bool useGamepad, GameObject* owner);
 		PlayerController(PlayerType&& type, GameObject* owner);
 		PlayerController(PlayerType&& type, bool useGamepad, GameObject* owner);
 		virtual ~PlayerController();

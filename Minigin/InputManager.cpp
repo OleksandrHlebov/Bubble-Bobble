@@ -9,6 +9,7 @@
 
 bool dae::InputManager::ProcessInput(float deltaTime)
 {
+	m_BlockInputActionRemoval = true;
 	SDL_Event e;
 	while (SDL_PollEvent(&e)) {
 		if (e.type == SDL_QUIT) {
@@ -181,6 +182,13 @@ bool dae::InputManager::ProcessInput(float deltaTime)
 		}
 	}
 
+	m_BlockInputActionRemoval = false;
+	while (!m_InputActionsToRemove.empty())
+	{
+		InputAction* ia = m_InputActionsToRemove.top();
+		std::erase(m_InputActions, ia);
+		m_InputActionsToRemove.pop();
+	}
 	return true;
 }
 
@@ -214,7 +222,7 @@ dae::InputManager::~InputManager()
 
 size_t dae::InputManager::GetGamepadCount()
 {
-	return m_Gamepads.size();
+	return std::count_if(m_Gamepads.begin(), m_Gamepads.end(), [](const Gamepad& gamepad){ return gamepad.IsConnected(); });
 }
 
 dae::Gamepad* dae::InputManager::GetGamepadByPlayerIndex(uint32_t index)
@@ -242,5 +250,10 @@ dae::Gamepad* dae::InputManager::GetFirstAvailableGamepad()
 
 void dae::InputManager::RemoveInputAction(InputAction* inputAction)
 {
+	if (m_BlockInputActionRemoval)
+	{
+		m_InputActionsToRemove.push(inputAction);
+		return;
+	}
 	std::erase(m_InputActions, inputAction);
 }

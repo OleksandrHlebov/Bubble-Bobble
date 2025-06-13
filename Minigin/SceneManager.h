@@ -3,6 +3,7 @@
 #include <memory>
 #include <unordered_map>
 #include "Singleton.h"
+#include "GameEvent.h"
 
 namespace dae
 {
@@ -22,8 +23,19 @@ namespace dae
 		void ClearPendingDelete();
 
 		void LoadScene(const std::string& name);
+		void LoadScene_Impl(GameEvent*);
 
 	private:
+		struct OnSceneChangeRequested final : public GameEvent
+		{
+			OnSceneChangeRequested(const std::string& name)
+				: GameEvent("OnSceneChangeRequested", true)
+				, Name{ name }
+				{}
+			const std::string Name;
+		};
+		EventHandler m_SceneChangeHandler{ std::bind(&SceneManager::LoadScene_Impl, this, std::placeholders::_1) };
+
 		SceneManager();
 		friend class Singleton<SceneManager>;
 		std::unordered_map<std::string, std::unique_ptr<Scene>> m_Scenes;

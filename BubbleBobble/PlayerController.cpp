@@ -11,12 +11,20 @@
 #include "SDL_scancode.h"
 #include "Helpers.h"
 #include "MenuNavigationCommand.h"
+#include "PlayerInMenuState.h"
 
 dae::PlayerController::PlayerController(PlayerType&& type, bool useGamepad, GameObject* owner)
 	: Controller(owner, useGamepad)
 	, m_Type		{ std::move(type) }
 	, m_PlayerState	{ std::make_unique<PlayerState>(m_Type, owner) } 
 	{}
+
+dae::PlayerController::PlayerController(bool useGamepad, GameObject* owner)
+	: Controller(owner, useGamepad)
+	, m_PlayerState{ std::make_unique<PlayerInMenuState>(m_Type, owner) }
+{
+
+}
 
 dae::PlayerController::PlayerController(PlayerType&& type, GameObject* owner) : PlayerController(std::move(type), true, owner)
 {
@@ -41,7 +49,7 @@ void dae::PlayerController::Start()
 
 	m_IADamageSelf	= CreateInputAction<DamageCommand>(damageSelf, BindTrigger::Pressed, GetControlledObject(), 1);
 	m_IABurp		= CreateInputAction<BurpCommand>(burp, BindTrigger::Pressed, GetControlledObject());
-	m_IAJump		= CreateInputAction<JumpCommand>(jump, BindTrigger::Released, GetControlledObject());
+	m_IAJump		= CreateInputAction<JumpCommand>(jump, BindTrigger::Pressed, GetControlledObject());
 
 	m_IAMenuLeft	= CreateInputAction<MenuNavigationCommand>(moveLeft, BindTrigger::Pressed, GetControlledObject(), glm::ivec3{ -1, 0, 0 });
 	m_IAMenuRight	= CreateInputAction<MenuNavigationCommand>(moveRight, BindTrigger::Pressed, GetControlledObject(), glm::ivec3{ 1, 0, 0 });

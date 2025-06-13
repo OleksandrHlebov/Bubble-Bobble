@@ -126,8 +126,8 @@ void dae::Minigin::Run(const std::function<void()>& load)
 			sceneManager.FixedUpdate(FIXED_UPDATE_TIME);
 			lag -= FIXED_UPDATE_TIME;
 		}
-		eventDispatcher.HandleDispatchedEvents();
 		renderer.Render();
+		eventDispatcher.HandleDispatchedEvents();
 
 		sceneManager.ClearPendingDelete();
 

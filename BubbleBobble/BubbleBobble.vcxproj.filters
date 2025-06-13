@@ -250,6 +250,9 @@
     <ClInclude Include="MenuNavigationCommand.h">
       <Filter>Commands</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerInMenuState.h">
+      <Filter>Game\PlayerState</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="JumpingPlayerState.h">

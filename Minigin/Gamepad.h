@@ -70,12 +70,11 @@ namespace dae
 		Gamepad& operator=(const Gamepad&) = delete;
 		Gamepad& operator=(Gamepad&&) noexcept = delete;
 
-		static uint32_t GetCount();
 		uint32_t GetDeviceIndex() const;
 		uint32_t GetPlayerIndex() const;
 		void AssignToPlayer(uint32_t index);
 
-		bool IsConnected() { return m_IsConnected; }
+		bool IsConnected() const { return m_IsConnected; }
 
 #ifdef _DEBUG
 		glm::vec2 DEBUG_GetLeftThumbInput();

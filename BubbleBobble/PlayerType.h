@@ -8,6 +8,7 @@ namespace dae
 {
 	struct PlayerType final
 	{
+		PlayerType() = default;
 		explicit PlayerType(std::pair<std::string, int> idle
 							, std::pair<std::string, int> walking
 							, std::pair<std::string, int> jumping

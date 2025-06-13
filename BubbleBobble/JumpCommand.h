@@ -21,7 +21,8 @@ namespace dae
 		void Execute(float) override
 		{
 			MovementComponent* movement = GetGameObject()->GetComponent<MovementComponent>();
-			movement->Jump();
+			if (movement)
+				movement->Jump();
 		}
 
 	private:

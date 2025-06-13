@@ -7,6 +7,13 @@ namespace dae { class Scene; }
 
 namespace dae
 {
+	enum class GameMode
+	{
+		Solo,
+		Duo,
+		Versus
+	};
+
 	template<typename StateType>
 	bool TransitionState(std::unique_ptr<StateType>& owningState, std::unique_ptr<StateType> newState)
 	{
@@ -21,6 +28,10 @@ namespace dae
 	}
 	void ReadLevelLayout(const std::string& path, std::vector<bool>& destination);
 
-	void CreatePlayer0(Scene* scene, float animationFrameTime);
-	void CreatePlayerAsMaita(Scene* scene, float animationFrameTime);
+	inline static const float ANIMATION_FRAMETIME{ .16f };
+
+	void CreatePlayer0(Scene* scene, bool usesGamepad);
+	void CreatePlayer1(Scene* scene);
+	void CreatePlayerAsMaita(Scene* scene);
+	void CreateScene(const std::string& path, GameMode gameMode);
 }
