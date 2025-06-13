@@ -18,7 +18,7 @@ namespace dae
 
 		GameObject* GetControlledObject() { return GetOwner(); }
 
-		Gamepad* GetGamepad() { return m_Gamepad.get(); }
+		Gamepad* GetGamepad() { return m_Gamepad; }
 
 		uint32_t GetPlayerIndex() { return m_PlayerIndex; };
 
@@ -26,7 +26,7 @@ namespace dae
 		Controller(GameObject* owner, bool usesGamepad = false);
 
 	private:
-		std::unique_ptr<Gamepad> m_Gamepad{};
+		Gamepad* m_Gamepad{};
 
 		uint32_t m_PlayerIndex;
 	};

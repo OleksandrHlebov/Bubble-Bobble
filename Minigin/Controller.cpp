@@ -7,7 +7,12 @@ dae::Controller::Controller(GameObject* owner, bool usesGamepad /*= false*/)
 {
 	if (usesGamepad)
 	{
-		m_Gamepad = std::make_unique<Gamepad>();
-		InputManager::GetInstance().AddGamepad(m_Gamepad.get());
+		if (Gamepad* gamepad = InputManager::GetInstance().GetGamepadByPlayerIndex(m_PlayerIndex))
+		{
+			m_Gamepad = gamepad;
+			return;
+		}
+		m_Gamepad = InputManager::GetInstance().GetFirstAvailableGamepad();
+		m_Gamepad->AssignToPlayer(m_PlayerIndex);
 	}
 }

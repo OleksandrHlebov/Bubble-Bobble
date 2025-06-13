@@ -137,6 +137,9 @@
     <ClCompile Include="BoulderComponent.cpp">
       <Filter>Components\Source</Filter>
     </ClCompile>
+    <ClCompile Include="MenuComponent.cpp">
+      <Filter>Components\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerController.h">
@@ -240,6 +243,12 @@
     </ClInclude>
     <ClInclude Include="BoulderComponent.h">
       <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuNavigationCommand.h">
+      <Filter>Commands</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

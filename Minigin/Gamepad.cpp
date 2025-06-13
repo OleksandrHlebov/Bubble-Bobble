@@ -1,7 +1,9 @@
 #include "Gamepad.h"
 #define WIN32_LEAN_AND_MEAN
+#define NOMINMAX
 #include <windows.h>
 #include <Xinput.h>
+#include <limits>
 
 uint32_t dae::operator|(Gamepad::Button left, Gamepad::Button right)
 {
@@ -20,7 +22,9 @@ public:
 	GamepadImplementation& operator=(GamepadImplementation&&) noexcept 	= delete;
 
 	static uint32_t GetCount() { return m_Count; }
-	uint32_t GetIndex() { return m_Index; }
+	uint32_t GetDeviceIndex() { return m_DeviceIndex; }
+	uint32_t GetPlayerIndex() { return m_PlayerIndex; }
+	void AssignToPlayer(uint32_t index) { m_PlayerIndex = index; }
 
 	XINPUT_STATE* GetCurrentState() { return &m_CurrentState; }
 	XINPUT_STATE* GetPreviousState() { return &m_PreviousState; }
@@ -37,7 +41,8 @@ public:
 
 private:
 	inline static uint32_t m_Count{};
-	uint32_t m_Index;
+	uint32_t m_DeviceIndex;
+	uint32_t m_PlayerIndex{ std::numeric_limits<uint32_t>::max() };
 	XINPUT_STATE m_CurrentState{};
 	XINPUT_STATE m_PreviousState{};
 
@@ -62,9 +67,19 @@ uint32_t dae::Gamepad::GetCount()
 	return GamepadImplementation::GetCount();
 }
 
-uint32_t dae::Gamepad::GetIndex()
+uint32_t dae::Gamepad::GetDeviceIndex()
 {
-	return m_ImplementationPtr->GetIndex();
+	return m_ImplementationPtr->GetDeviceIndex();
+}
+
+uint32_t dae::Gamepad::GetPlayerIndex()
+{
+	return m_ImplementationPtr->GetPlayerIndex();
+}
+
+void dae::Gamepad::AssignToPlayer(uint32_t index)
+{
+	m_ImplementationPtr->AssignToPlayer(index);
 }
 
 #ifdef _DEBUG

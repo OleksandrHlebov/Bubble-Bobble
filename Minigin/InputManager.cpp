@@ -51,9 +51,11 @@ bool dae::InputManager::ProcessInput(float deltaTime)
 		}
 	}
 
-	for (uint32_t index{}; index < GetInstance().GetGamepadCount(); ++index)
+	for (uint32_t index{}; index < GetGamepadCount(); ++index)
 	{
-		Gamepad* gamepad = GetInstance().GetGamepadByIndex(index);
+		Gamepad* gamepad = &m_Gamepads[index];
+		if (!gamepad->IsConnected())
+			continue;
 		XINPUT_STATE* currentState  = (XINPUT_STATE*)gamepad->GetCurrentState();
 		XINPUT_STATE* previousState = (XINPUT_STATE*)gamepad->GetPreviousState();
 
@@ -179,11 +181,11 @@ bool dae::InputManager::ProcessInput(float deltaTime)
 	return true;
 }
 
-void dae::InputManager::Init()
+dae::InputManager::InputManager()
 {
-	for (uint32_t index{}; index < GetInstance().GetGamepadCount(); ++index)
+	for (uint32_t index{}; index < GetGamepadCount(); ++index)
 	{
-		Gamepad* gamepad = GetInstance().GetGamepadByIndex(index);
+		Gamepad* gamepad = &m_Gamepads[index];
 		CopyMemory(gamepad->GetPreviousState(), gamepad->GetCurrentState(), sizeof(XINPUT_STATE));
 		ZeroMemory(gamepad->GetCurrentState(), sizeof(XINPUT_STATE));
 		DWORD dwResult = XInputGetState(index, (XINPUT_STATE*)gamepad->GetCurrentState());
@@ -204,9 +206,6 @@ void dae::InputManager::Init()
 	}
 }
 
-dae::InputManager::InputManager()
-{}
-
 dae::InputManager::~InputManager()
 {}
 
@@ -215,14 +214,21 @@ size_t dae::InputManager::GetGamepadCount()
 	return m_Gamepads.size();
 }
 
-dae::Gamepad* dae::InputManager::GetGamepadByIndex(uint32_t index)
+dae::Gamepad* dae::InputManager::GetGamepadByPlayerIndex(uint32_t index)
 {
-	return m_Gamepads[index];
+	if (index >= m_Gamepads.size())
+		return nullptr;
+	return &m_Gamepads[index];
 }
 
-void dae::InputManager::AddGamepad(Gamepad* gamepad)
+dae::Gamepad* dae::InputManager::GetFirstAvailableGamepad()
 {
-	m_Gamepads.push_back(gamepad);
+	for (Gamepad& gamepad : m_Gamepads)
+	{
+		if (gamepad.GetPlayerIndex() < m_Gamepads.size())
+			return &gamepad;
+	}
+	return nullptr;
 }
 
 void dae::InputManager::RemoveInputAction(InputAction* inputAction)

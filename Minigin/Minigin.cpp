@@ -104,7 +104,6 @@ void dae::Minigin::Run(const std::function<void()>& load)
 	auto& resourceManager = ResourceManager::GetInstance();
 	auto& eventDispatcher = EventDispatcher::GetInstance();
 
-	input.Init();
 	sceneManager.Start();
 
 	bool doContinue = true;

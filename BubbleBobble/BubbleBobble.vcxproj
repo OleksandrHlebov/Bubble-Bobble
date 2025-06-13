@@ -102,6 +102,7 @@
     <ClCompile Include="DyingPlayerState.cpp" />
     <ClCompile Include="FallingPlayerState.cpp" />
     <ClCompile Include="Helpers.cpp" />
+    <ClCompile Include="MenuComponent.cpp" />
     <ClCompile Include="PickupComponent.cpp" />
     <ClCompile Include="PlayerController.cpp" />
     <ClCompile Include="GridComponent.cpp" />
@@ -137,6 +138,8 @@
     <ClInclude Include="FallingPlayerState.h" />
     <ClInclude Include="GameInstanceComponent.h" />
     <ClInclude Include="Helpers.h" />
+    <ClInclude Include="MenuComponent.h" />
+    <ClInclude Include="MenuNavigationCommand.h" />
     <ClInclude Include="PickupComponent.h" />
     <ClInclude Include="PlayerType.h" />
     <ClInclude Include="SpawnFruitCommand.h" />

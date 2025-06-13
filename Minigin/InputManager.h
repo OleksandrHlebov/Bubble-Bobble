@@ -2,7 +2,7 @@
 #include "Singleton.h"
 #include <memory>
 #include <list>
-#include <vector>
+#include <array>
 #include "Gamepad.h"
 #include "InputAction.h"
 
@@ -15,14 +15,11 @@ namespace dae
 		InputManager();
 		~InputManager();
 
-		void Init();
-
 		bool ProcessInput(float deltaTime);
 		
 		size_t GetGamepadCount();
-		Gamepad* GetGamepadByIndex(uint32_t index);
-
-		void AddGamepad(Gamepad* gamepad);
+		Gamepad* GetGamepadByPlayerIndex(uint32_t index);
+		Gamepad* GetFirstAvailableGamepad();
 
 		void RemoveInputAction(InputAction* inputAction);
 
@@ -60,7 +57,8 @@ namespace dae
 		// list to not invalidate references on push back
 		std::list<InputAction> m_InputActions;
 
+		inline static const int GAMEPADS_SUPPORTED{ 4 };
 
-		std::vector<Gamepad*> m_Gamepads;
+		std::array<Gamepad, GAMEPADS_SUPPORTED> m_Gamepads;
 	};
 }
