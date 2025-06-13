@@ -134,10 +134,6 @@ void dae::CreatePlayer1(Scene* scene)
 	healthDisplay->AddComponent<TextComponent>(font);
 	healthDisplay->AddComponent<HealthDisplay>()->TrackHealth(player0);
 	auto score = scene->CreateGameObject();
-	score->AttachTo(UI);
-	score->SetLocalPosition(glm::vec3(.0f, 12.f, .0f));
-	score->AddComponent<Render2DComponent>();
-	score->AddComponent<TextComponent>(font);
 	score->AddComponent<Score>()->TrackGameObject(player0);
 }
 

@@ -1,3 +1,4 @@
+#include "BubbleBobble.h"
 #include "Score.h"
 #include "TextComponent.h"
 #include "GameObject.h"
@@ -12,16 +13,15 @@ void dae::Score::HandleScoreChange(GameEvent* gameEvent)
 {
 	auto pickup = static_cast<PickupComponent::OnPickup*>(gameEvent);
 	
-	if (pickup->Player == m_TrackedGameObject)
-	{
-		m_Score += pickup->Value;
-		UpdateScore();
-	}
+	m_Score += pickup->Value;
+	BubbleBobble::Highscore += pickup->Value;
+	UpdateScore();
 }
 
 void dae::Score::Start()
 {
 	GameEvent::Bind("OnPickup", &m_ScoreChangeHandler);
+	m_Score = BubbleBobble::Highscore;
 	UpdateScore();
 }
 

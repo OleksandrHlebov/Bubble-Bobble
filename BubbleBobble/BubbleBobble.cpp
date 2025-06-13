@@ -75,6 +75,7 @@ void load()
 						{
 							if (input.y)
 							{
+								Highscore = 0;
 								for (int index{}; index < LEVELS_AVAILABLE; ++index)
 									CreateScene("Data/Level/" + std::to_string(index) + "/LevelInfo.csv", std::to_string(index), GameMode::Solo);
 								sceneManager.LoadScene("0");
@@ -124,10 +125,23 @@ void load()
 								}
 								if (input.y)
 								{
-									// something with leaderboard	
+									// something with leaderboard
 									sceneManager.LoadScene("Leaderboard");
 								}
 							});
+	}
+
+	// leaderboard
+	{
+
+		auto scene = sceneManager.CreateScene("Leaderboard");
+		GameObject* menuObject = scene->CreateGameObject();
+		menuObject->SetLocalPosition(glm::vec3{ 100.f, 60.f, .0f });
+		for (int index{}; index < inputManager.GetGamepadCount(); ++index)
+			menuObject->AddComponent<PlayerController>(true);
+		menuObject->AddComponent<PlayerController>(false);
+		auto menu = menuObject->AddComponent<MenuComponent>(font, true);
+		menu;
 	}
 }
 
