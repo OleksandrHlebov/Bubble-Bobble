@@ -194,6 +194,7 @@ void dae::CreateScene(const std::string& path, GameMode gameMode)
 	auto levelGrid = scene->CreateGameObject();
 	levelGrid->SetRenderPriority(RenderPriority::Background);
 	GridComponent* grid = levelGrid->AddComponent<GridComponent>(28, 37, glm::ivec2{ Minigin::GetGameWidth(), Minigin::GetGameHeight() });
+	grid->SetTileTexture(ResourceManager::GetInstance().LoadTexture(path));
 
 	grid->LoadLayoutFromFile(path);
 	//grid->EnableColumn(0);

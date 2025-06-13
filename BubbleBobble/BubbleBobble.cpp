@@ -37,7 +37,7 @@
 #include "GridComponent.h"
 #include "Collision2DComponent.h"
 #include "RenderPriorities.h"
-#include "GameInstanceComponent.h"
+#include "LevelInstanceComponent.h"
 #include "PlayerType.h"
 #include "Ability.h"
 #include "BubbleBlowing.h"
