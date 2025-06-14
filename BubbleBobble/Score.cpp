@@ -12,9 +12,11 @@ void dae::Score::TrackGameObject(GameObject* gameObject)
 void dae::Score::HandleScoreChange(GameEvent* gameEvent)
 {
 	auto pickup = static_cast<PickupComponent::OnPickup*>(gameEvent);
-	
-	m_Score = BubbleBobble::Highscore += pickup->Value;
-	UpdateScore();
+	if (pickup->Player == m_TrackedGameObject)
+	{
+		m_Score = BubbleBobble::Highscore += pickup->Value;
+		UpdateScore();
+	}
 }
 
 void dae::Score::Start()
