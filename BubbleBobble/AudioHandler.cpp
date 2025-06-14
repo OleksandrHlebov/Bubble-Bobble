@@ -8,8 +8,6 @@
 
 dae::AudioHandler::AudioHandler(GameObject* owner) : Component(owner)
 {
-	GameEvent::Bind("OnJump", &m_JumpHandler);
-	GameEvent::Bind("OnHealthChanged", &m_DamageHandler);
 }
 
 void dae::AudioHandler::HandleJumpingSound(GameEvent* event)
@@ -30,4 +28,10 @@ void dae::AudioHandler::End()
 {
 	GameEvent::UnBind("OnJump", &m_JumpHandler);
 	GameEvent::UnBind("OnHealthChanged", &m_DamageHandler);
+}
+
+void dae::AudioHandler::Start()
+{
+	GameEvent::Bind("OnJump", &m_JumpHandler);
+	GameEvent::Bind("OnHealthChanged", &m_DamageHandler);
 }

@@ -16,6 +16,7 @@ void dae::DeadAIState::OnEnter()
 	movement->SetEnabled(true);
 	movement->Launch(glm::vec3{ .0f, -1.f, .0f }, m_LaunchStrength);
 	movement->InAirSlowdownPercent = .0f;
+	m_CanTransition = false;
 }
 
 std::unique_ptr<dae::AIState> dae::DeadAIState::Update(float deltaTime)

@@ -23,6 +23,8 @@ namespace dae
 
 		void End() override;
 
+		void Start() override;
+
 	private:
 		Sound m_JumpSFX{ "Data/SFX/jump.wav" };
 		Sound m_Damaged{ "Data/SFX/damaged.wav" };
