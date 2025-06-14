@@ -1,18 +1,26 @@
-# Minigin
-
-Minigin is a very small project using [SDL2](https://www.libsdl.org/) and [glm](https://github.com/g-truc/glm) for 2D c++ game projects. It is in no way a game engine, only a barebone start project where everything sdl related has been set up. It contains glm for vector math, to aleviate the need to write custom vector and matrix classes.
+# [Minigin](https://github.com/OleksandrHlebov/Bubble-Bobble)
 
 [![Build Status](https://github.com/avadae/minigin/actions/workflows/msbuild.yml/badge.svg)](https://github.com/avadae/msbuild/actions)
 [![GitHub Release](https://img.shields.io/github/v/release/avadae/minigin?logo=github&sort=semver)](https://github.com/avadae/minigin/releases/latest)
 
-# Goal
+This is an engine based on Minigin template made for programming 4 assignment at DAE.
 
-Minigin can/may be used as a start project for the exam assignment in the course [Programming 4](https://youtu.be/j96Oh6vzhmg) at DAE. In that assignment students need to recreate a popular 80's arcade game with a game engine they need to program themselves. During the course we discuss several game programming patterns, using the book '[Game Programming Patterns](https://gameprogrammingpatterns.com/)' by [Robert Nystrom](https://github.com/munificent) as reading material. 
+The game I was assigned to implement is Bubble Bobble.
 
-# Disclaimer
+# Specifics
+The engine contains all of the standard assignment requirements. Here are some specific design choices that I have made.
 
-Minigin is, despite perhaps the suggestion in its name, **not** a game engine. It is just a very simple sdl2 ready project with some of the scaffolding in place to get started. None of the patterns discussed in the course are used yet (except singleton which use we challenge during the course). It is up to the students to implement their own vision for their engine, apply patterns as they see fit, create their game as efficient as possible.
+## Event dispatcher
+The engine utilises event dispatching system that takes an EventHandler and allows for decoupled game event handling with a base GameEvent class that can be inherited from.
 
-# Use
+## Collision system
+The engine provides the user with a collision system based on 2D AABB colliders. Those can be achieved by adding Collision2DComponent to an object 
+and subscribing to OnOverlap event to react to collisions and resolve them as needed. The dynamic and static collisions are separated, allowing for checking the collisions only of moving objects and only after they moved.
+In addition to that there are utility functions such as TraceSegment or TraceRect that can be useful for detecting a collision(s) at any given moment in any direction, of any object collision type.
 
-Either download the latest release of this project and compile/run in visual studio or, since students need to have their work on github too, they can use this repository as a template (see the "Use this template" button at the top right corner). There is no point in forking this project.
+## Animation 2D
+The engine has implemented an Animation2DComponent which allows for easy utilisation of textures with multiple frames by providing the starting frame, last frame, total amount of frames in the animation and
+ if it should loop for a certain amount of times.
+
+## Custom keybind
+The engine provides the user with own keybind struct, that can be used for input bindings for either gamepad(uses own implementation) or keyboard(uses sdl scancodes).
