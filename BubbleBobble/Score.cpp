@@ -13,8 +13,7 @@ void dae::Score::HandleScoreChange(GameEvent* gameEvent)
 {
 	auto pickup = static_cast<PickupComponent::OnPickup*>(gameEvent);
 	
-	m_Score += pickup->Value;
-	BubbleBobble::Highscore += pickup->Value;
+	m_Score = BubbleBobble::Highscore += pickup->Value;
 	UpdateScore();
 }
 
