@@ -8,20 +8,19 @@
 #include "Animation2DComponent.H"
 #include "Render2DComponent.h"
 #include <cassert>
+#include "PlayerController.h"
+#include "Health.h"
 
 void dae::BubbleComponent::Update(float deltaTime)
 {
-	const float modifier{ Speed * deltaTime * (GetOwner()->GetWorldPosition().y > m_MinY) };
-	GetOwner()->GetComponent<Transform>()->Move(glm::vec3{ m_Direction, .0f } * modifier, true);
+	if (!m_IsAboutToPop)
+	{
+		const float modifier{ Speed * deltaTime * (GetOwner()->GetWorldPosition().y > m_MinY) };
+		GetOwner()->GetComponent<Transform>()->Move(glm::vec3{ m_Direction, .0f } *modifier, true);
+	}
 	if (m_LifeTimer >= m_Lifetime)
 	{
-		Animation2DComponent* animComp = GetOwner()->GetComponent<Animation2DComponent>();
-		assert(animComp->GetTotalFrames() == 7);
-		GetOwner()->GetComponent<Collision2DComponent>()->Delete();
-		animComp->PlayCurrent(5, 6, animComp->GetTotalFrames(), false);
-		GameEvent::Bind("OnAnimationFinished", &m_DestructionHandler);
-		m_LifeTimer -= m_Lifetime;
-		m_IsAboutToPop = true;
+		Pop();
 	}
 	m_LifeTimer += deltaTime * (!m_IsAboutToPop);
 }
@@ -77,6 +76,14 @@ void dae::BubbleComponent::HandleDynamicOverlap(GameEvent* event)
 				if (brain->TrapInBubble())
 					GetOwner()->Delete();
 			}
+			if (PlayerController* controller = other->GetComponent<PlayerController>())
+			{
+				if (controller->IsHostile())
+				{
+					other->GetComponent<Health>()->ApplyHealth(-1);
+					Pop();
+				}
+			}
 			if (other->GetComponent<BubbleComponent>())
 			{
 				auto [selfMin, selfMax] = selfCollider->GetBounds();
@@ -124,7 +131,6 @@ void dae::BubbleComponent::HandleEndOfLifecycle(GameEvent* event)
 
 void dae::BubbleComponent::Start()
 {
-	using std::placeholders::_1;
 	GameEvent::Bind("OnOverlap", &m_StaticOverlapHandler);
 	GameEvent::Bind("OnOverlap", &m_DynamicOverlapHandler);
 	GameEvent::Bind("OnAnimationFinished", &m_AnimationFinishedHandler);
@@ -132,11 +138,21 @@ void dae::BubbleComponent::Start()
 
 void dae::BubbleComponent::End()
 {
-	using std::placeholders::_1;
 	GameEvent::UnBind("OnOverlap", &m_StaticOverlapHandler);
 	GameEvent::UnBind("OnOverlap", &m_DynamicOverlapHandler);
 	GameEvent::UnBind("OnAnimationFinished", &m_AnimationFinishedHandler);
 	GameEvent::UnBind("OnAnimationFinished", &m_DestructionHandler);
+}
+
+void dae::BubbleComponent::Pop()
+{
+	Animation2DComponent* animComp = GetOwner()->GetComponent<Animation2DComponent>();
+	assert(animComp->GetTotalFrames() == 7);
+	GetOwner()->GetComponent<Collision2DComponent>()->Delete();
+	animComp->PlayCurrent(5, 6, animComp->GetTotalFrames(), false);
+	GameEvent::Bind("OnAnimationFinished", &m_DestructionHandler);
+	m_LifeTimer -= m_Lifetime;
+	m_IsAboutToPop = true;
 }
 
 void dae::BubbleComponent::StartGoingUp()

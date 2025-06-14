@@ -158,7 +158,7 @@ void dae::CreatePlayerAsMaita(Scene* scene)
 			{ "Textures/Maita_walking.png"	, 2 },
 			std::make_unique<BoulderRolling>()
 		};
-		playableMaita->AddComponent<PlayerController>(std::move(type), true);
+		playableMaita->AddComponent<PlayerController>(std::move(type), true)->MakeHostile();
 	}
 	playableMaita->AddComponent<Animation2DComponent>(ANIMATION_FRAMETIME);
 	playableMaita->AddComponent<MovementComponent>()->Speed = 50.f;
@@ -249,6 +249,7 @@ void dae::CreateScene(const std::string& path, const std::string& name, GameMode
 	player1Controls->AddComponent<Render2DComponent>();
 	player1Controls->AddComponent<TextComponent>(font)->SetText("AD, Z burp, X jump, C damage");
 
+	auto gameInstance = scene->CreateGameObject()->AddComponent<LevelInstance>();
 	switch (gameMode)
 	{
 	case GameMode::Duo:
@@ -265,8 +266,6 @@ void dae::CreateScene(const std::string& path, const std::string& name, GameMode
 		CreatePlayer0(scene, InputManager::GetInstance().GetGamepadCount() > 0);
 		break;
 	}
-
-	auto gameInstance = scene->CreateGameObject()->AddComponent<LevelInstance>();
 
 	int totalEnemyCount{};
 

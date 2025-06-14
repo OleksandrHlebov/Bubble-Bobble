@@ -25,7 +25,7 @@ dae::PlayerController::PlayerController(bool useGamepad, GameObject* owner)
 	: Controller(owner, useGamepad)
 	, m_PlayerState{ std::make_unique<PlayerInMenuState>(m_Type, owner) }
 {
-
+	m_PlayerState->OnEnter();
 }
 
 dae::PlayerController::PlayerController(PlayerType&& type, GameObject* owner) : PlayerController(std::move(type), true, owner)

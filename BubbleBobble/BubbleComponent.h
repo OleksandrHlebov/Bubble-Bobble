@@ -30,6 +30,7 @@ namespace dae
 		void Start() override;
 
 		void End() override;
+		void Pop();
 
 		float Speed{ 75.f };
 

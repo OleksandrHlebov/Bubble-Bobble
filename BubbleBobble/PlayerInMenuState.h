@@ -16,6 +16,7 @@ namespace dae
 
 		void OnEnter() override
 		{
+			m_CanTransition = false;
 		}
 
 		std::unique_ptr<PlayerState> Update(float) override

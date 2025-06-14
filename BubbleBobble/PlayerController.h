@@ -30,6 +30,8 @@ namespace dae
 
 		void Attack();
 
+		void MakeHostile() { m_IsHostile = true; }
+		bool IsHostile() { return m_IsHostile; }
 		void HandleHealthChange(GameEvent*);
 
 	private:
@@ -55,5 +57,6 @@ namespace dae
 
 		PlayerType m_Type;
 		std::unique_ptr<PlayerState> m_PlayerState;
+		bool m_IsHostile{};
 	};
 }
