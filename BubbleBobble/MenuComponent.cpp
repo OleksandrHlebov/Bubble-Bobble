@@ -3,7 +3,7 @@
 #include "GameObject.h"
 #include "TextComponent.h"
 
-void dae::MenuComponent::AddButton(const std::string& label, std::function<void(GameObject*, const glm::ivec2&)> inputHandler)
+dae::GameObject* dae::MenuComponent::AddButton(const std::string& label, std::function<void(GameObject*, const glm::ivec2&)> inputHandler)
 {
 	SDL_Color& currentColor{ (m_ButtonObjects.empty()) ? m_SelectedColor : m_InActiveColor };
 	GameObject* parent = (m_ButtonObjects.empty()) ? GetOwner() : m_ButtonObjects.back();
@@ -16,6 +16,15 @@ void dae::MenuComponent::AddButton(const std::string& label, std::function<void(
 	auto textComp = button->AddComponent<TextComponent>(m_Font);
 	textComp->SetText(label);
 	textComp->SetColor(currentColor);
+
+	return button;
+}
+
+dae::GameObject* dae::MenuComponent::AddButton(const std::string& label, std::function<void(GameObject*, const glm::ivec2&)> inputHandler, std::function<void(GameObject*)> onStart)
+{
+	GameObject* button = AddButton(label, inputHandler);
+	m_OnStartDelegates.emplace_back(button, onStart);
+	return button;
 }
 
 void dae::MenuComponent::ProcessInput(const glm::ivec3& input)
@@ -39,4 +48,10 @@ void dae::MenuComponent::ProcessInput(const glm::ivec3& input)
 	}
 
 	m_Delegates[m_SelectedIndex](m_ButtonObjects[m_SelectedIndex], {((m_IsHorizontal) ? input.y : input.x), input.z});
+}
+
+void dae::MenuComponent::Start()
+{
+	for (auto& [object, func] : m_OnStartDelegates)
+		func(object);
 }

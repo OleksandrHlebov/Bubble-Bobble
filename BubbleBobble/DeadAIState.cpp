@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "Animation2DComponent.h"
 #include "TileComponent.h"
+#include "AIType.h"
 
 void dae::DeadAIState::OnEnter()
 {
@@ -36,6 +37,7 @@ void dae::DeadAIState::HandleMorphingIntoFruit(GameEvent* event)
 	{
 		m_SpawnCommand.Execute(.0f);
 		GameEvent::UnBind("OnAnimationFinished", &m_MorphingHandler);
+		GameEvent::Dispatch<OnEnemyDeath>();
 		GetCharacter()->Delete();
 	}
 }

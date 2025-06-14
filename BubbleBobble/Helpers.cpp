@@ -37,6 +37,8 @@
 #include "BubbleBlowing.h"
 #include "MenuComponent.h"
 #include <array>
+#include "BubbleBobble.h"
+#include <algorithm>
 #pragma endregion Components
 
 void dae::ReadLevelLayout(const std::string& path, std::vector<bool>& destination)
@@ -266,13 +268,15 @@ void dae::CreateScene(const std::string& path, const std::string& name, GameMode
 
 	auto gameInstance = scene->CreateGameObject()->AddComponent<LevelInstance>();
 
+	int totalEnemyCount{};
+
 	std::getline(levelInfo, element); // skip description: count, type path
 	while (std::getline(levelInfo, element))
 	{
 		line = std::stringstream{ element };
 
 		std::getline(line, element, ';');
-		int enemyCount{ std::stoi(element) };
+		int enemyCount{ totalEnemyCount += std::stoi(element) };
 		std::getline(line, element);
 		std::string typePath{ element };
 		if (std::ifstream typeInfo{ typePath })
@@ -319,5 +323,44 @@ void dae::CreateScene(const std::string& path, const std::string& name, GameMode
 		}
 		else
 			throw std::runtime_error("failed to open " + typePath);
+		gameInstance->SetEnemies(totalEnemyCount);
 	}
+}
+
+void dae::SaveHighScore(const std::string& name)
+{
+	if (std::ofstream leaderboard{ "Data/Leaderboard.csv", std::ios::app })
+	{
+		leaderboard << std::endl << name << ';' << BubbleBobble::Highscore;
+	}
+	else
+		throw std::runtime_error("couldn't open leaderboard");
+}
+
+std::array<std::pair<std::string, int>, 5> dae::LoadHighestScores()
+{
+	if (std::ifstream leaderboard{ "Data/Leaderboard.csv" })
+	{
+		std::string element;
+		std::vector<std::pair<std::string, int>> allscores;
+		std::getline(leaderboard, element); // skip empty line
+		while (std::getline(leaderboard, element))
+		{
+			std::stringstream line{ element };
+			std::string name;
+			std::getline(line, name, ';');
+			std::getline(line, element);
+			int score{ std::stoi(element) };
+			allscores.emplace_back(name, score);
+		}
+		std::sort(allscores.begin(), allscores.end(), 
+				  [](const auto& a, const auto& b)
+				  { return a.second > b.second; });
+		std::array<std::pair<std::string, int>, 5> output;
+		output.fill({ "name", 0 });
+		std::copy_n(allscores.begin(), std::min(allscores.size(), output.size()), output.begin());
+		return std::move(output);
+	}
+	else
+		throw std::runtime_error("couldn't open leaderboard");
 }

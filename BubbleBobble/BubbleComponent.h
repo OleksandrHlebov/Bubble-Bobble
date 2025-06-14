@@ -43,7 +43,7 @@ namespace dae
 		glm::vec2 m_Direction;
 		const float m_Lifetime	{ 4.f };
 		float m_LifeTimer		{  };
-		const float m_MinY		{ 50.f };
+		const float m_MinY		{ 20.f };
 		bool m_IsAboutToPop		{};
 	};
 }

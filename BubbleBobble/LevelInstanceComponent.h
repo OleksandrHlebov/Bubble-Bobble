@@ -4,6 +4,7 @@
 #include "BoulderRolling.h"
 #include "GameEvent.h"
 #include <unordered_map>
+#include "Helpers.h"
 
 namespace dae
 {
@@ -32,11 +33,15 @@ namespace dae
 			return *m_Types.emplace_back(std::make_unique<AIType>(speed, walking, trapped, dead, treat, m_DefinedAbilities[ability].get()));
 		}
 
+		void SetEnemies(int amount) { m_AmountOfEnemies = amount; }
 		void Start() override;
 
 		void End() override;
 
 		void HandleDeath(GameEvent*);
+		void HandleEnemyDeath(GameEvent*);
+
+		void Update(float deltaTime) override;
 
 		//const AIType& GetZenType() { return m_ZenType; }
 		//const AIType& GetMaitaType() { return m_MaitaType; }
@@ -46,6 +51,11 @@ namespace dae
 		std::vector<std::unique_ptr<AIType>> m_Types;
 
 		EventHandler m_DeathHandler{ std::bind(&LevelInstance::HandleDeath, this, std::placeholders::_1) };
+		EventHandler m_EnemyDeathHandler{ std::bind(&LevelInstance::HandleEnemyDeath, this, std::placeholders::_1) };
+		const float m_EndDelay{ 4.f };
+		float m_EndTimer{};
+		int m_AmountOfEnemies{};
+		bool m_StartedEndSequence{};
 
 		//AIType m_ZenType{ 50
 		//				, std::make_pair("Textures/Zen_walking.png", 2)

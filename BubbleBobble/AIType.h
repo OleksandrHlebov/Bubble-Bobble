@@ -2,9 +2,16 @@
 #include <string>
 #include <memory>
 #include "Ability.h"
+#include "GameEvent.h"
 
 namespace dae
 {
+	struct OnEnemyDeath final : public GameEvent
+	{
+		OnEnemyDeath()
+			: GameEvent("OnEnemyDeath", true)
+			{}
+	};
 	struct AIType
 	{
 		explicit AIType(float speed

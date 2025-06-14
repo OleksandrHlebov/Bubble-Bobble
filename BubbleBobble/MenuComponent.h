@@ -28,13 +28,19 @@ namespace dae
 		MenuComponent& operator=(const MenuComponent&) 	 	= delete;
 		MenuComponent& operator=(MenuComponent&&) noexcept 	= delete;
 
-		void AddButton(const std::string& label, std::function<void(GameObject*, const glm::ivec2&)> inputHandler);
+		GameObject* AddButton(const std::string& label, std::function<void(GameObject*, const glm::ivec2&)> inputHandler);
+		GameObject* AddButton(const std::string& label, std::function<void(GameObject*, const glm::ivec2&)> inputHandler, std::function<void(GameObject*)> onStart);
+
+		std::vector<GameObject*>& GetButtons() { return m_ButtonObjects; } 
 
 		void ProcessInput(const glm::ivec3& input);
+
+		void Start() override;
 
 	private:
 		const float m_Margin{ 12.f };
 		std::vector<std::function<void(GameObject*, const glm::ivec2&)>> m_Delegates;
+		std::vector<std::pair<GameObject*, std::function<void(GameObject*)>>> m_OnStartDelegates;
 		std::vector<GameObject*> m_ButtonObjects;
 		std::shared_ptr<Font> m_Font;
 

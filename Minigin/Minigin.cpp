@@ -112,33 +112,40 @@ void dae::Minigin::Run(const std::function<void()>& load)
 	float unloadResorcesTimer{};
 	while (doContinue)
 	{
-		const auto currentTime = std::chrono::steady_clock::now();
-		const float deltaTime = std::min(std::chrono::duration<float>(currentTime - lastTime).count(), DELTA_TIME_CAP);
-
-		lastTime = currentTime;
-		lag += deltaTime;
-		unloadResorcesTimer += deltaTime;
-
-		doContinue = input.ProcessInput(deltaTime);
-		sceneManager.Update(deltaTime);
-		while (lag >= FIXED_UPDATE_TIME)
+		try
 		{
-			sceneManager.FixedUpdate(FIXED_UPDATE_TIME);
-			lag -= FIXED_UPDATE_TIME;
+			const auto currentTime = std::chrono::steady_clock::now();
+			const float deltaTime = std::min(std::chrono::duration<float>(currentTime - lastTime).count(), DELTA_TIME_CAP);
+
+			lastTime = currentTime;
+			lag += deltaTime;
+			unloadResorcesTimer += deltaTime;
+
+			doContinue = input.ProcessInput(deltaTime);
+			sceneManager.Update(deltaTime);
+			while (lag >= FIXED_UPDATE_TIME)
+			{
+				sceneManager.FixedUpdate(FIXED_UPDATE_TIME);
+				lag -= FIXED_UPDATE_TIME;
+			}
+			renderer.Render();
+			eventDispatcher.HandleDispatchedEvents();
+
+			sceneManager.ClearPendingDelete();
+
+			if (unloadResorcesTimer >= RESOURCES_UNLOAD_TIME)
+			{
+				resourceManager.UnloadUnusedResources();
+				unloadResorcesTimer = 0.f;
+			}
+
+			std::chrono::nanoseconds newDeltaTime{ currentTime - std::chrono::steady_clock::now() };
+
+			std::this_thread::sleep_for(newDeltaTime + std::chrono::milliseconds(MS_PER_FRAME));
 		}
-		renderer.Render();
-		eventDispatcher.HandleDispatchedEvents();
-
-		sceneManager.ClearPendingDelete();
-
-		if (unloadResorcesTimer >= RESOURCES_UNLOAD_TIME)
+		catch (std::exception&& e)
 		{
-			resourceManager.UnloadUnusedResources();
-			unloadResorcesTimer = 0.f;
+			std::cerr << e.what() << std::endl;
 		}
-
-		std::chrono::nanoseconds newDeltaTime{ currentTime - std::chrono::steady_clock::now() };
-
-		std::this_thread::sleep_for(newDeltaTime + std::chrono::milliseconds(MS_PER_FRAME));
 	}
 }

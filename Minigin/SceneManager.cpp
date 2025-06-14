@@ -28,29 +28,31 @@ void dae::SceneManager::ClearPendingDelete()
 	m_CurrentScene->ClearPendingDelete();
 }
 
-void dae::SceneManager::LoadScene(const std::string& name)
+bool dae::SceneManager::LoadScene(const std::string& name)
 {
 	if (!m_Scenes.contains(name))
 	{
 		std::cout << "scene not found name: " << name << std::endl;
-		return;
+		return false;
 	}
 	GameEvent::Dispatch<OnSceneChangeRequested>(name);
+	return true;
 }
 
-void dae::SceneManager::LoadScene(int id)
+bool dae::SceneManager::LoadScene(int id)
 {
 	if (m_CurrentScene->GetID() == id)
-		return;
+		return false;
 	for (auto& [name, scene] : m_Scenes)
 	{
 		if (scene->GetID() == id)
 		{
 			GameEvent::Dispatch<OnSceneChangeRequested>(name);
-			return;
+			return true;
 		}
 	}
 	std::cout << "scene not found id: " << id << std::endl;
+	return false;
 }
 
 void dae::SceneManager::LoadScene_Impl(GameEvent* event)

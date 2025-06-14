@@ -34,4 +34,6 @@ namespace dae
 	void CreatePlayer1(Scene* scene);
 	void CreatePlayerAsMaita(Scene* scene);
 	void CreateScene(const std::string& path, const std::string& name, GameMode gameMode);
+	void SaveHighScore(const std::string& name);
+	std::array<std::pair<std::string, int>, 5> LoadHighestScores();
 }

@@ -11,6 +11,15 @@ namespace dae
 	class SceneManager final : public Singleton<SceneManager>
 	{
 	public:
+		struct OnSceneChangeRequested final : public GameEvent
+		{
+			OnSceneChangeRequested(const std::string& name)
+				: GameEvent("OnSceneChangeRequested", true)
+				, Name{ name }
+			{
+			}
+			const std::string Name;
+		};
 		~SceneManager();
 
 		Scene* CreateScene(const std::string& name);
@@ -22,21 +31,13 @@ namespace dae
 		void RenderUI() const;
 		void ClearPendingDelete();
 
-		void LoadScene(const std::string& name);
-		void LoadScene(int id);
+		bool LoadScene(const std::string& name);
+		bool LoadScene(int id);
 		void LoadScene_Impl(GameEvent*);
 
 		Scene* GetCurrent() { return m_CurrentScene; }
 
 	private:
-		struct OnSceneChangeRequested final : public GameEvent
-		{
-			OnSceneChangeRequested(const std::string& name)
-				: GameEvent("OnSceneChangeRequested", true)
-				, Name{ name }
-				{}
-			const std::string Name;
-		};
 		EventHandler m_SceneChangeHandler{ std::bind(&SceneManager::LoadScene_Impl, this, std::placeholders::_1) };
 
 		SceneManager();
