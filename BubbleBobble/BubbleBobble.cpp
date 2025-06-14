@@ -59,6 +59,8 @@ void load()
 #endif
 	AudioLocator::Provide(std::move(service));
 	AudioLocator::GetService()->SetMasterVolume(.4f);
+	static Sound mainTheme{ "Data/SFX/MainTheme.ogg", -1, true };
+	AudioLocator::GetService()->Play(&mainTheme);
 	SceneManager& sceneManager = SceneManager::GetInstance();
 	auto font = ResourceManager::GetInstance().LoadFont("arcade-legacy.otf", 8);
 	InputManager& inputManager = InputManager::GetInstance();

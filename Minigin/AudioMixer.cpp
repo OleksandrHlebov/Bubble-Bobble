@@ -43,6 +43,21 @@ namespace dae
 														  m_SoundQueue.pop();
 														  queueLock.unlock();
 
+														  if (sound->IsMusic())
+														  {
+															  if (m_CurrentMusic.second)
+																  Mix_FreeMusic(m_CurrentMusic.second);
+															  m_CurrentMusic.first = sound;
+															  m_CurrentMusic.second = Mix_LoadMUS(sound->GetPath().c_str());
+															  if (!m_CurrentMusic.second)
+															  {
+																  std::cerr << "failed to open music " << sound->GetPath() << " " << Mix_GetError() << std::endl;
+															  }
+															  Mix_VolumeMusic(static_cast<int8_t>(sound->GetVolume() * m_Volume * MIX_MAX_VOLUME));
+															  Mix_PlayMusic(m_CurrentMusic.second, sound->GetLoops());
+															  continue;
+														  }
+
 														  std::unique_lock channelGuard{ m_ChannelMutex };
 														  int channel = -1;
 														  Mix_Chunk* chunk{ nullptr };
@@ -59,7 +74,7 @@ namespace dae
 														  // then load it
 														  if (!chunk)
 														  {
-															  chunk = Mix_LoadWAV(("Data/" + sound->GetPath()).c_str());
+															  chunk = Mix_LoadWAV((sound->GetPath()).c_str());
 
 															  if (!chunk)
 															  {
@@ -67,7 +82,7 @@ namespace dae
 																  return;
 															  }
 														  }
-														  channel = Mix_PlayChannel(channel, chunk, 0);
+														  channel = Mix_PlayChannel(channel, chunk, sound->GetLoops());
 														  Mix_Volume(channel, static_cast<int8_t>(sound->GetVolume() * MIX_MAX_VOLUME));
 														  if (m_ChannelChunks.contains(channel))
 														  {
@@ -176,6 +191,8 @@ namespace dae
 		{
 			volume = std::clamp(volume, .0f, 1.f);
 			Mix_MasterVolume(static_cast<int8_t>(volume * MIX_MAX_VOLUME));
+			if (m_CurrentMusic.second)
+				Mix_VolumeMusic(static_cast<int8_t>(m_CurrentMusic.first->GetVolume() * volume * MIX_MAX_VOLUME));
 			m_Volume = volume;
 		}
 
@@ -202,6 +219,7 @@ namespace dae
 		std::queue<Sound*> m_SoundQueue;
 		std::map<size_t, int> m_SoundChannels{};
 		std::mutex m_QueueMutex{};
+		std::pair<Sound*, Mix_Music*> m_CurrentMusic{};
 
 		float m_Volume{ 1.f };
 	};
