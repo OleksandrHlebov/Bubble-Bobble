@@ -2,6 +2,7 @@
 
 [![Build Status](https://github.com/avadae/minigin/actions/workflows/msbuild.yml/badge.svg)](https://github.com/avadae/msbuild/actions)
 [![GitHub Release](https://img.shields.io/github/v/release/avadae/minigin?logo=github&sort=semver)](https://github.com/avadae/minigin/releases/latest)
+![bubble_bobble_gameplay](https://github.com/user-attachments/assets/7ecfa7e3-8362-49c0-be00-b644bcf01676)
 
 This is an engine based on Minigin template made for programming 4 assignment at DAE.
 
