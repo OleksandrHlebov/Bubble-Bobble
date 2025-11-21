@@ -52,7 +52,7 @@ namespace dae
 
 		Keybind GetKeybind() { return m_Keybind; }
 
-		bool operator==(const InputAction* right)
+		bool operator==(const InputAction* right) const
 		{
 			return this == right;
 		}
